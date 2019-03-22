@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="shortcut icon" href="../img/logo.png">
+    <link rel="stylesheet" type="text/css" href="../css/styles.css">
+    <title>สมัครสมาชิก</title>
+
+</head>
+
+<body>
+    <script>
+        var idText, postText, telText, email, password, cfpassword, name, lastname, date, address, tumbon, aumper, city, sex
+        var flag = true;
+        function isNumber(e) {
+            e = e || window.event;
+            var charCode = e.which ? e.which : e.keyCode;
+            idLength = e.key
+            return /\d/.test(String.fromCharCode(charCode));
+        }
+        function checkEmail() {
+            var re = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+            if (re.test(document.getElementById("email").value)) {
+                email = document.getElementById("email").value;
+                document.getElementById("email").style.border = "";
+            } else {
+                flag = false;
+                document.getElementById("email").style.border = "2px solid red";
+            }
+        }
+        function checkPassword() {
+            password = document.getElementById("password").value;
+            cfpassword = document.getElementById("cfpassword").value;
+            if (password === cfpassword) {
+                document.getElementById("password").style.border = "";
+                document.getElementById("cfpassword").style.border = "";
+            } else {
+                document.getElementById("password").style.border = "2px solid red";
+                document.getElementById("cfpassword").style.border = "2px solid red";
+            }
+        }
+        function cancel() {
+            window.location.href = "../ล็อกอิน.html";
+        }
+        function submit() {
+            idText = document.getElementById('id').value;
+            postText = document.getElementById("post").value;
+            telText = document.getElementById("tel").value;
+            name = document.getElementById("name").value;
+            lastname = document.getElementById("lastname").value;
+            date = document.getElementById("datepicker").value;
+            address = document.getElementById("address").value;
+            tumbon = document.getElementById("tumbon").value;
+            aumper = document.getElementById("aumper").value;
+            city = document.getElementById("city").value;
+            sex = document.getElementById("sex").value;
+
+            if (idText !== undefined && postText !== undefined && telText !== undefined && email !== undefined
+                && password !== undefined && name !== undefined && lastname !== undefined && date !== undefined
+                && address !== undefined && tumbon !== undefined && aumper !== undefined && city !== undefined
+                && sex !== undefined) {
+                alert("เรียบร้อย")
+                window.location.reload();
+            } else {
+                alert("กรุณาใส่ข้อมูลให้ครบทุกช่อง")
+            }
+
+            if (flag === false) {
+                alert("กรุณาใส่ Email ให้ถูกต้อง")
+            }
+            if (password !== cfpassword) {
+                alert("password ไม่ตรงกัน")
+            }
+
+        }
+    </script>
+    <div class="card container-registration"><br>
+        <center>
+            <h1>สมัครสมาชิก</h1>
+        </center>
+        <div class="row">
+            <div class="col">
+                <div>ชื่อ <input class="input-registration" type="text" maxlength="20" id="name">
+                </div>
+                <br>
+                <div>
+                    วัน/เดือน/ปี เกิด
+                    <input type="date" id="datepicker" class="input-registration" class="input-registration">
+                </div><br>
+                <div>เลขประจำตัวประชาชน <input class="input-registration" type="text" id="id" maxlength="13"
+                        onkeypress="return isNumber(event);">
+                </div><br>
+                <div>Email <input class="input-registration" type="text" id="email" onchange="checkEmail()"
+                        maxlength="20">
+                </div><br>
+                <div>Username <input class="input-registration" type="text" maxlength="20" id="username">
+                </div><br>
+                <div>Password <input class="input-registration" type="password" id="password" onchange="checkPassword()"
+                        maxlength="20">
+                </div><br>
+                <div>Confirmpassword <input class="input-registration" type="password" id="cfpassword"
+                        onchange="checkPassword()" maxlength="20">
+                </div><br>
+                <div>ที่อยู่ <input class="input-registration" type="text" maxlength="30" id="address">
+                </div><br>
+                <div>ตำบล <input class="input-registration" type="text" maxlength="20" id="tumbon">
+                </div><br>
+                <div>อำเภอ <input class="input-registration" type="text" maxlength="20" id="aumper">
+                </div><br>
+                <div>จังหวัด <input class="input-registration" type="text" maxlength="20" id="city">
+                </div><br>
+                <div>รหัสไปรษณีย์ <input class="input-registration" type="text" id="post" maxlength="5"
+                        onkeypress="return isNumber(event);">
+                </div><br>
+                <div>เบอร์โทรศัพท์ <input class="input-registration" type="text" id="tel" maxlength="10"
+                        onkeypress="return isNumber(event);">
+                </div><br>
+            </div>
+            <div class="col">
+                <div>นามสกุล <input class="input-registration" type="text" maxlength="20" id="lastname">
+                </div><br>
+                <div class="row">
+                    &nbsp;&nbsp;&nbsp;
+                    เพศ &NonBreakingSpace;
+                    <div style="margin-left: 21%; width: 272px">
+                        <select class="selection" id="sex">
+                            <option value="ชาย">ชาย</option>
+                            <option value="หญิง">หญิง</option>
+                            <option value="อื่นๆ">อื่นๆ</option>
+                        </select>
+                    </div>
+                </div>
+                <br>
+                <div class="row" style="margin-bottom: 20px ">
+                    &nbsp;&nbsp;&nbsp;
+                    แผนก &NonBreakingSpace;
+                    <div style="margin-left: 19%; width: 272px">
+                        <select class="selection" id="sex">
+                            <option value="ขายรถ">ขาย</option>
+                            <option value="ซื้อรถ">ซื้อ</option>
+                            <option value="เดินทะเบียน">เดินทะเบียน</option>
+                            <option value="ซ่อม">ซ่อม</option>
+                        </select>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="row" style="margin-left:30%">
+            <button class="buttonIce buttonIce1" style="width:20%" onclick="submit()">ตกลง</button>
+            &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+            <button class="buttonIce buttonIce1" style="width:20%" onclick="cancel()">ยกเลิก</button>
+        </div><br>
+    </div>
+</body>
+
+
+
+</html>
