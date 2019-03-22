@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
+        integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="../css/styles.css">
+    <link rel="shortcut icon" href="../img/logo.png" />
+    <title>หน้าหลัก</title>
+</head>
+<body>
+
+    <div class="navbar">
+        <a href="./หน้าหลัก.html">
+          <img src="../img/logo.png" width="45" height="18">
+        </a>
+        <a class="active">หน้าหลัก</a>
+        <a href="./ซื้อรถ.html">ซื้อรถ</a>
+        <a href="./หน้าขาย1.html">ขายรถ</a>
+        <a href="./เดินทะเบียน.html">ทะเบียน</a>
+        <a href="./จัดการพนักงาน.html">จัดการพนักงาน</a>
+        <a href="./ข้อมูลซ่อมรถ.html">ซ่อม</a>
+        <a href="./ค้นหาลูกค้า.html">ลูกค้า</a>
+
+        <div class="nav-right">
+            <div class="dropdown">
+                <button class="dropbtn"> 
+                <a id="Username"><i class="fa fa-fw fa-user"></i>Username</a>
+                </button>
+                <div class="dropdown-content">
+                    <a href="../ล็อกอิน.html">ออกจากระบบ</a>
+                </div>
+              </div> 
+        </div>
+      </div>
+<br>
+      <div class="containerTao">
+          <div class="rowTao">
+            <div class="column">
+              <div class="cardTao">
+                <a class="buttonTao" onclick="window.location.href='./ซื้อรถ.html'">
+              <img src="../img/btnBuy.png" alt="menu" width="120px">
+            <span>ซื้อรถ </span></a>
+          </div>
+        </div>
+          <div class="column">
+              <div class="cardTao">
+                  <a class="buttonTao" onclick="window.location.href='./หน้าขาย1.html'">
+              <img src="../img/btnSell.png" alt="menu" width="120px">
+            <span>ขายรถ </span></a>
+          </div>
+          </div>
+          
+          <div class="column">
+              <div class="cardTao">
+                  <a class="buttonTao" onclick="window.location.href='./เดินทะเบียน.html'">
+              <img src="../img/btnNumer.png" alt="menu" width="120px">
+            <span>ทะเบียน </span></a>
+          </div>
+          </div>
+          </div>
+          <div class="rowTao">
+            <div class="column">
+                <div class="cardTao">
+                    <a class="buttonTao" onclick="window.location.href='./ค้นหารถ.html'">
+              <img src="../img/btnCar.png" alt="menu" width="120px">
+            <span>ข้อมูลรถ </span></a>
+          </div>
+          </div>
+
+          <div class="column">
+              <div class="cardTao">
+                  <a class="buttonTao" onclick="window.location.href='./ข้อมูลซ่อมรถ.html'">
+              <img src="../img/btnFix.png" alt="menu" width="120px">
+            <span>ซ่อม </span></a>
+          </div>
+          </div>
+
+          <div class="column">
+              <div class="cardTao">
+                  <a class="buttonTao" onclick="window.location.href='./ค้นหาลูกค้า.html'">
+              <img src="../img/btnCustomer.png" alt="menu" width="120px">
+            <span>ข้อมูลลูกค้า </span></a>
+          </div>
+          </div>
+        </div>
+
+          <div class="rowTao">
+              <div class="column">
+                  <div class="cardTao">
+                      <a class="buttonTao" onclick="window.location.href='./ค้นหาพนักงาน.html'">
+              <img src="../img/btnEmployee.png" alt="menu" width="120px">
+            <span>จัดการพนักงาน </span></a>
+          </div>
+            </div>
+          </div>
+          </div>
+  <br>
+        <footer class="footer">
+            <p>
+              <strong>&nbsp;&copy; 2018 - Project</strong> by SourceSoft</a>
+            </p>
+        </footer>
+
+        <script src="../node_modules/axios/dist/axios.min.js"></script>
+        <script>
+                window.onload = function() {
+                    document.getElementById("Username").innerHTML = localStorage.getItem("storageUsername");
+                } 
+                </script>
+</body>
+</html>

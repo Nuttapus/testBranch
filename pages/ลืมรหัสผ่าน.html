@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="shortcut icon" href="../img/logo.png" />
+    <title>ลืมรหัสผ่าน</title>
+</head>
+
+<script>
+    function checkEmail() {
+        var re = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+        if (re.test(document.getElementById("email").value)) {
+            alert("ส่งข้อมูลสำเร็จ");
+        } else {
+            flag = false;
+            alert("กรุณากรอก Email ให้ถูกต้อง");
+        }
+    }
+</script>
+
+<body class="body-forgetpassword">
+    <form>
+        <div class="card-forgetpassword">
+            <div class="container-forgetpassword">
+                <img src="../img/Logo.png" alt="Avatar" style="width:30%"><br>
+                <p>ลืมรหัสผ่าน</p>
+                <input class="input-forgetpassword " type="text" id="email" placeholder="Email">
+                <br>
+                <br>
+                <input class="buttonIce buttonIce1" id="submit" onclick='checkEmail()' type="submit" value="ยืนยัน">
+                <input class="buttonIce buttonIce1" style="width: 120px"onclick="window.history.back()" value="ยกเลิก">
+            </div>
+        </div>
+
+        </div>
+        </div>
+    </form>
+</body>
+
+
+</html>

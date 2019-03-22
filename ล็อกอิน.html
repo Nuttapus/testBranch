@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="./css/styles.css">
+    <link rel="shortcut icon" href="./img/logo.png" />
+    <title>เข้าสู่ระบบ</title>
+</head>
+
+<body class="body-login">
+    <script src="./node_modules/axios/dist/axios.min.js"></script>
+    <script>
+        var check = false;
+        var name = "";
+        var department = "";
+        function checkLogin() {
+            var arrayEmployee = [];
+            var checkUsername;
+            var checkPassword
+            checkUsername = document.getElementById("username").value;
+            checkPassword = document.getElementById("password").value;
+            axios.get("http://localhost:4001/checkLogin").then((res) => {
+                arrayEmployee = res.data;
+                for(i=0;i<arrayEmployee.data.length;i++){
+                    if (checkUsername == arrayEmployee.data[i].username && checkPassword == arrayEmployee.data[i].password) {
+                        this.check = true;
+                        this.name = arrayEmployee.data[i].name;
+                        this.department = arrayEmployee.data[i].department;
+                        break;
+                    }else {
+                        this.check = false;
+                    }
+                }
+                gotoMain();
+            });
+        }
+
+        function gotoMain(){
+            if(check == true){
+                alert("เข้าสู่ระบบเสร็จสิ้น")
+                console.log(this.name+" "+this.department);
+                localStorage.setItem("storageUsername",this.name);  
+                localStorage.setItem("storageDepartment",this.department);  
+                window.location.href="./pages/หน้าหลัก.html";
+
+            }else {
+                alert("เข้าสู่ระบบใหม่อีกครั้ง")
+            }       
+        }
+        function Register(){
+            window.location.href="./pages/สมัครสมาชิก.html";
+        }
+    </script>
+    <div class="card-login">
+        <div class="container-login">
+            <img src="./img/Logo.png" alt="Avatar" style="width:30%"><br><br>
+            <input class="input-login" type="text" id="username" placeholder="Username" name="uname"><br><br>
+            <input class="input-login" type="password" id="password" placeholder="Password" name="password"><br>
+            <a class="forgotpassword-login" href="./pages/ลืมรหัสผ่าน.html">ลืมรหัสผ่าน</a></span><br><br>
+            <button class="buttonIce buttonIce1" id="submit" onclick='checkLogin()' style="width: 120px">เข้าสู่ระบบ</button>
+            <button class="buttonIce buttonIce1" type="submit" onclick="Register()">สมัครสมาชิก</button>
+            
+        </div>
+    </div>
+
+    </div>
+    </div>
+
+</body>
+
+
+</html>
