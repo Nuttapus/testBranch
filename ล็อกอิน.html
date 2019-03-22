@@ -5,12 +5,45 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="./css/styles.css">
+    <link rel="stylesheet" href="./node_modules/bulma/css/bulma.min.css" class="rel">
+    <link rel="stylesheet" href="./node_modules/bulma-divider/dist/css/bulma-divider.min.css" class="rel">
+    <link rel="stylesheet" href="./node_modules/@fortawesome/fontawesome-free/css/all.css" class="rel">
     <link rel="shortcut icon" href="./img/logo.png" />
     <title>เข้าสู่ระบบ</title>
+
+    <style>
+        html,
+        body {
+            font-family: 'Open Sans', serif;
+            font-size: 14px;
+            font-weight: 300;
+        }
+
+        .hero.is-success {
+            background: #F2F6FA;
+        }
+
+        .hero .nav,
+        .hero.is-success .nav {
+            -webkit-box-shadow: none;
+            box-shadow: none;
+        }
+
+        input {
+            font-weight: 300;
+        }
+
+        p {
+            font-weight: 700;
+        }
+
+        p.subtitle {
+            padding-top: 1rem;
+        }
+    </style>
 </head>
 
-<body class="body-login">
+<body>
     <script src="./node_modules/axios/dist/axios.min.js"></script>
     <script>
         var check = false;
@@ -19,18 +52,18 @@
         function checkLogin() {
             var arrayEmployee = [];
             var checkUsername;
-            var checkPassword
+            var checkPassword;
             checkUsername = document.getElementById("username").value;
             checkPassword = document.getElementById("password").value;
-            axios.get("http://localhost:4001/checkLogin").then((res) => {
+            axios.get("http://localhost:4001/getEmployee").then((res) => {
                 arrayEmployee = res.data;
-                for(i=0;i<arrayEmployee.data.length;i++){
+                for (i = 0; i < arrayEmployee.data.length; i++) {
                     if (checkUsername == arrayEmployee.data[i].username && checkPassword == arrayEmployee.data[i].password) {
                         this.check = true;
                         this.name = arrayEmployee.data[i].name;
                         this.department = arrayEmployee.data[i].department;
                         break;
-                    }else {
+                    } else {
                         this.check = false;
                     }
                 }
@@ -38,38 +71,81 @@
             });
         }
 
-        function gotoMain(){
-            if(check == true){
+        function gotoMain() {
+            if (check == true) {
                 alert("เข้าสู่ระบบเสร็จสิ้น")
-                console.log(this.name+" "+this.department);
-                localStorage.setItem("storageUsername",this.name);  
-                localStorage.setItem("storageDepartment",this.department);  
-                window.location.href="./pages/หน้าหลัก.html";
+                console.log(this.name + " " + this.department);
+                localStorage.setItem("storageUsername", this.name);
+                localStorage.setItem("storageDepartment", this.department);
+                window.location.href = "./pages/หน้าหลัก.html";
 
-            }else {
+            } else {
                 alert("เข้าสู่ระบบใหม่อีกครั้ง")
-            }       
+            }
         }
-        function Register(){
-            window.location.href="./pages/สมัครสมาชิก.html";
+        function gotoRegister() {
+            window.location.href = "./pages/สมัครสมาชิก.html";
+        }
+
+        function gotoForgotPassword() {
+            window.location.href = "./pages/ลืมรหัสผ่าน.html";
         }
     </script>
-    <div class="card-login">
-        <div class="container-login">
-            <img src="./img/Logo.png" alt="Avatar" style="width:30%"><br><br>
-            <input class="input-login" type="text" id="username" placeholder="Username" name="uname"><br><br>
-            <input class="input-login" type="password" id="password" placeholder="Password" name="password"><br>
-            <a class="forgotpassword-login" href="./pages/ลืมรหัสผ่าน.html">ลืมรหัสผ่าน</a></span><br><br>
-            <button class="buttonIce buttonIce1" id="submit" onclick='checkLogin()' style="width: 120px">เข้าสู่ระบบ</button>
-            <button class="buttonIce buttonIce1" type="submit" onclick="Register()">สมัครสมาชิก</button>
-            
+
+    <section class="hero is-success is-fullheight">
+        <div class="hero-body">
+            <div class="container has-text-centered">
+                <div class="column is-4 is-offset-4">
+                    <img src="./img/logo.png" width="250px">
+                    <div class="is-divider"></div>
+
+                    <form>
+                        <div class="field">
+                            <div class="control has-icons-left has-icons-right">
+                                <input class="input is-large" type="text" placeholder="ชื่อผู้ใช้" id="username">
+                                <span class="icon is-small is-left">
+                                    <i class="fas fa-user"></i>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <div class="control has-icons-left has-icons-right">
+                                <input class="input is-large" type="password" placeholder="รหัสผ่าน" id="password">
+                                <span class="icon is-small is-left">
+                                    <i class="fas fa-key"></i>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <div class="control">
+                                <p class="has-text-grey has-text-right">
+                                    <a href="./pages/ลืมรหัสผ่าน.html" type="submit"
+                                        onclick="gotoForgotPassword()">ลืมรหัสผ่าน</a>
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <div class="control">
+                                <div class="columns">
+                                    <div class="column">
+                                        <a class="button is-primary is-large is-fullwidth" type="submit"
+                                            onclick="gotoRegister()">สมัครสมาชิก</a>
+                                    </div>
+                                    <div class="column">
+                                        <a class="button is-info is-large is-fullwidth" type="submit"
+                                            onclick="checkLogin()">เข้าสู่ระบบ</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
-    </div>
-
-    </div>
-    </div>
-
+    </section>
 </body>
-
 
 </html>
