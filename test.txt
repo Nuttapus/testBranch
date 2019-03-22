@@ -1,9 +1,12 @@
 testbranch
 
-taochiz edit 1 2 3
+add oopawqs
 
+<<<<<<< HEAD
+=======
 test by ken
 
 test by ken
 
 testttttttttttttttttttttttttttttttttttttttttt
+>>>>>>> master
