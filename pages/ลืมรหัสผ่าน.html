@@ -49,6 +49,8 @@
         var checkUsername;
         var checkEmail;
         function checkValue() {
+            checkUsername = true;
+            checkEmail = true
             var arrayEmployee = [];
             var username = document.getElementById("username").value;
             var email = document.getElementById("email").value;
@@ -58,27 +60,24 @@
                 for (i = 0; i < arrayEmployee.data.length; i++) {
                     if (username == arrayEmployee.data[i].username) {
                         this.checkUsername = false;
-                        if (email == arrayEmployee.data[i].Email) {
-                            this.checkEmail = false;
-                            var password = arrayEmployee.data[i].password;
-                            alert("รหัสผ่าน:" + password);
-                            break;
-                        } else {
-                            this.checkEmail = true;
-                        }
-                    } else {
-                        this.checkUsername = true;
                     }
+                    if (username == arrayEmployee.data[i].username && email == arrayEmployee.data[i].email) {
+                        this.checkEmail = false;
+                        this.checkUsername = false;
+                        var password = arrayEmployee.data[i].password;
+                        alert("รหัสผ่าน: " + password);
+                    }
+
                 }
                 showMsg();
             });
         }
 
-        function showMsg(){
-            if(this.checkUsername){
+        function showMsg() {
+            if (this.checkUsername) {
                 alert("ชื่อผู้ใช้ไม่ถูกต้อง")
             }
-            if(this.checkEmail){
+            if (this.checkEmail) {
                 alert("อีเมลไม่ถูกต้อง")
             }
         }
