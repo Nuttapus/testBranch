@@ -12,7 +12,7 @@ app.use(bodyParser.json())
 app.use(cors({ origin: true }))
 
 
-app.get('/checkLogin', (req, res) => {
+app.get('/getEmployee', (req, res) => {
     mongoClient.connect(url, (err, client) => {
         const db = client.db(dbName)
         db.collection('MST_Employee').find({}).toArray(function (err, result) {
