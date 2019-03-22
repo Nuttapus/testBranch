@@ -5,41 +5,135 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../node_modules/bulma/css/bulma.min.css" class="rel">
+    <link rel="stylesheet" href="../node_modules/bulma-divider/dist/css/bulma-divider.min.css" class="rel">
+    <link rel="stylesheet" href="../node_modules/@fortawesome/fontawesome-free/css/all.css" class="rel">
     <link rel="shortcut icon" href="../img/logo.png" />
     <title>ลืมรหัสผ่าน</title>
+
+    <style>
+        html,
+        body {
+            font-family: 'Open Sans', serif;
+            font-size: 14px;
+            font-weight: 300;
+        }
+
+        .hero.is-success {
+            background: #F2F6FA;
+        }
+
+        .hero .nav,
+        .hero.is-success .nav {
+            -webkit-box-shadow: none;
+            box-shadow: none;
+        }
+
+        input {
+            font-weight: 300;
+        }
+
+        p {
+            font-weight: 700;
+        }
+
+        p.subtitle {
+            padding-top: 1rem;
+        }
+    </style>
 </head>
 
-<script>
-    function checkEmail() {
-        var re = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
-        if (re.test(document.getElementById("email").value)) {
-            alert("ส่งข้อมูลสำเร็จ");
-        } else {
-            flag = false;
-            alert("กรุณากรอก Email ให้ถูกต้อง");
-        }
-    }
-</script>
+<body>
+    <script src="../node_modules/axios/dist/axios.min.js"></script>
+    <script>
+        var checkUsername;
+        var checkEmail;
+        function checkValue() {
+            var arrayEmployee = [];
+            var username = document.getElementById("username").value;
+            var email = document.getElementById("email").value;
 
-<body class="body-forgetpassword">
-    <form>
-        <div class="card-forgetpassword">
-            <div class="container-forgetpassword">
-                <img src="../img/Logo.png" alt="Avatar" style="width:30%"><br>
-                <p>ลืมรหัสผ่าน</p>
-                <input class="input-forgetpassword " type="text" id="email" placeholder="Email">
-                <br>
-                <br>
-                <input class="buttonIce buttonIce1" id="submit" onclick='checkEmail()' type="submit" value="ยืนยัน">
-                <input class="buttonIce buttonIce1" style="width: 120px"onclick="window.history.back()" value="ยกเลิก">
+            axios.get("http://localhost:4001/getEmployee").then((res) => {
+                arrayEmployee = res.data;
+                for (i = 0; i < arrayEmployee.data.length; i++) {
+                    if (username == arrayEmployee.data[i].username) {
+                        this.checkUsername = false;
+                        if (email == arrayEmployee.data[i].Email) {
+                            this.checkEmail = false;
+                            var password = arrayEmployee.data[i].password;
+                            alert("รหัสผ่าน:" + password);
+                            break;
+                        } else {
+                            this.checkEmail = true;
+                        }
+                    } else {
+                        this.checkUsername = true;
+                    }
+                }
+                showMsg();
+            });
+        }
+
+        function showMsg(){
+            if(this.checkUsername){
+                alert("ชื่อผู้ใช้ไม่ถูกต้อง")
+            }
+            if(this.checkEmail){
+                alert("อีเมลไม่ถูกต้อง")
+            }
+        }
+
+        function gotoLogin() {
+            window.history.back();
+        }
+    </script>
+    <section class="hero is-success is-fullheight">
+        <div class="hero-body">
+            <div class="container has-text-centered">
+                <div class="column is-4 is-offset-4">
+                    <img src="../img/logo.png" width="250px">
+                    <div class="is-divider"></div>
+
+                    <label class="label is-large">ลืมรหัสผ่าน</label>
+
+                    <form>
+                        <div class="field">
+                            <div class="control has-icons-left has-icons-right">
+                                <input class="input is-large" type="text" placeholder="ชื่อผู้ใช้" id="username">
+                                <span class="icon is-small is-left">
+                                    <i class="fas fa-user"></i>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <div class="control has-icons-left has-icons-right">
+                                <input class="input is-large" type="email" placeholder="อีเมล" id="email">
+                                <span class="icon is-small is-left">
+                                    <i class="fas fa-envelope"></i>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <div class="control">
+                                <div class="columns">
+                                    <div class="column">
+                                        <a class="button is-info is-large is-fullwidth" type="submit"
+                                            onclick="checkValue()">ยืนยัน</a>
+                                    </div>
+                                    <div class="column">
+                                        <a class="button is-dark is-large is-fullwidth" type="submit"
+                                            onclick="gotoLogin()">ยกเลิก</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
-
-        </div>
-        </div>
-    </form>
+    </section>
 </body>
-
 
 </html>
