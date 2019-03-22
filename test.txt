@@ -1,12 +1,9 @@
 testbranch
-
+kuyraia
 add oopawqs
 
-<<<<<<< HEAD
-=======
 test by ken
 
 test by ken
 
 testttttttttttttttttttttttttttttttttttttttttt
->>>>>>> master
