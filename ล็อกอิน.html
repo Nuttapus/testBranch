@@ -54,9 +54,11 @@
             var arrayEmployee = [];
             var checkUsername;
             var checkPassword;
+            var data = { type: "login"}
             checkUsername = document.getElementById("username").value;
             checkPassword = document.getElementById("password").value;
-            axios.get("http://localhost:4001/getEmployee").then((res) => {
+            
+            axios.post("http://localhost:4001/get", data).then((res) => {
                 arrayEmployee = res.data;
                 for (i = 0; i < arrayEmployee.data.length; i++) {
                     if (checkUsername == arrayEmployee.data[i].username && checkPassword == arrayEmployee.data[i].password) {
