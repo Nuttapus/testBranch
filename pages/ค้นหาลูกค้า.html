@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="../node_modules/bulma/css/bulma.min.css" class="rel">
+    <link rel="stylesheet" href="../node_modules/bulma-divider/dist/css/bulma-divider.min.css" class="rel">
+    <link rel="stylesheet" href="../node_modules/@fortawesome/fontawesome-free/css/all.css" class="rel">
+    <link rel="shortcut icon" href="../img/logo.png" />
+    <title>ลูกค้า</title>
+</head>
+
+<body>
+    <nav class="navbar is-info" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+            <a class="navbar-item" href="#">
+                <img src="../img/logo.png" width="112" height="28">
+            </a>
+
+            <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
+                data-target="navbarBasicExample">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
+        </div>
+
+        <div id="navbarBasicExample" class="navbar-menu">
+            <div class="navbar-start">
+                <a class="navbar-item" href="./หน้าหลัก.html">หน้าหลัก</a>
+                <a class="navbar-item" href="./ซื้อรถ.html">ซื้อรถ</a>
+                <a class="navbar-item" href="./หน้าขาย1.html">ขายรถ</a>
+                <a class="navbar-item" href="./เดินทะเบียน.html">ทะเบียน</a>
+                <a class="navbar-item" href="./จัดการพนักงาน.html">จัดการพนักงาน</a>
+                <a class="navbar-item" href="./ข้อมูลซ่อมรถ.html">ซ่อม</a>
+                <a class="navbar-item is-active" href="./ค้นหาลูกค้า.html">ลูกค้า</a>
+
+            </div>
+            <div class="navbar-end">
+                <div class="navbar-item has-dropdown is-hoverable">
+                    <a class="navbar-link" id="name">
+                        <i class="fa fa-fw fa-user"></i> &nbsp; ชื่อผู้ใช้
+                    </a>
+
+                    <div class="navbar-dropdown">
+                        <a class="navbar-item" href="../ล็อกอิน.html">
+                            ออกจากระบบ
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <br>
+
+    <div class="container">
+        <h1 class="title has-text-centered"> ข้อมูลลูกค้า </h1>
+        <form>
+            <div class="columns">
+                <div class="column">
+                    <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                            <label class="label">ชื่อ</label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <p class="control is-expanded">
+                                    <input class="input" type="text" placeholder="ตัวอย่าง: บรรชา">
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                            <label class="label">นามสกุล</label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <p class="control is-expanded">
+                                    <input class="input" type="text" placeholder="ตัวอย่าง: จิตอ่อน">
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="columns">
+                <div class="column">
+                    <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                            <label class="label">เลขบัตรประชาชน</label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <p class="control is-expanded">
+                                    <input class="input" type="text" placeholder="ตัวอย่าง: 1200123456789">
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                            <label class="label">เบอร์โทรศัพท์</label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <p class="control is-expanded">
+                                    <input class="input" type="text" placeholder="ตัวอย่าง: 0809788877">
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="columns">
+                <div class="column">
+                    <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                            <label class="label">อายุ</label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <p class="control is-expanded">
+                                    <input class="input" type="text" placeholder="ตัวอย่าง: 25">
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                            <label class="label">ที่อยู่</label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <p class="control is-expanded">
+                                    <input class="input" type="text"
+                                        placeholder="ตัวอย่าง: 191 หมู่ 7 อ.เมือง ต.แสนสุข จ.ชลบุรี">
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="columns">
+                <div class="column">
+                    <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                            <label class="label">เพศ</label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <p class="control is-expanded">
+                                    <input class="input" type="text" placeholder="ตัวอย่าง: ชาย หญิง อื่นๆ">
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                            <label class="label">ประเภทลูกค้า</label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <p class="control is-expanded">
+                                    <span class="select is-fullwidth">
+                                        <select>
+                                            <option selected>ซื้อ</option>
+                                            <option>ขาย</option>
+                                            <option>ซ่อม</option>
+                                        </select>
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="buttons is-right">
+                <a class="button is-info is-outlined" onclick="submit()">ยืนยัน</a>
+                <a class="button is-info is-outlined" onclick="cancel()">ยกเลิก</a>
+            </div>
+        </form>
+        <br>
+        <table class="table table is-bordered has-text-centered" id="employeeList">
+            <thead>
+                <tr>
+                    <th>id</th>
+                    <th>ชื่อ</th>
+                    <th>นามสกุล</th>
+                    <th>วัน/เดือน/ปี เกิด</th>
+                    <th>เลขประจำตัวประชาชน</th>
+                    <th>เพศ</th>
+                    <th>Email</th>
+                    <th>Username</th>
+                    <th>Password</th>
+                    <th>ที่อยู่</th>
+                    <th>ตำบล</th>
+                    <th>อำเภอ</th>
+                    <th>จังหวัด</th>
+                    <th>รหัสไปรษณีย์</th>
+                    <th>เบอร์โทรศัพท์</th>
+                    <th>แผนก</th>
+                    <th>จัดการพนักงาน</th>
+                </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+    </div>
+
+    <footer class="footer">
+        <div class="content has-text-centered">
+            <p>
+                <strong>&nbsp;&copy; 2018 - Project</strong> by SourceSoft</a>
+            </p>
+        </div>
+    </footer>
+</body>
+
+</html>
