@@ -5,9 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="./node_modules/bulma/css/bulma.min.css" class="rel">
-    <link rel="stylesheet" href="./node_modules/bulma-divider/dist/css/bulma-divider.min.css" class="rel">
-    <link rel="stylesheet" href="./node_modules/@fortawesome/fontawesome-free/css/all.css" class="rel">
+    <link rel="stylesheet" href="./node_modules/bulma/css/bulma.min.css" >
     <link rel="shortcut icon" href="./img/logo.png" />
     <title>เข้าสู่ระบบ</title>
 
@@ -54,9 +52,11 @@
             var arrayEmployee = [];
             var checkUsername;
             var checkPassword;
+            var data = { type: "login"}
             checkUsername = document.getElementById("username").value;
             checkPassword = document.getElementById("password").value;
-            axios.get("http://localhost:4001/getEmployee").then((res) => {
+
+            axios.post("http://localhost:4001/get", data).then((res) => {
                 arrayEmployee = res.data;
                 for (i = 0; i < arrayEmployee.data.length; i++) {
                     if (checkUsername == arrayEmployee.data[i].username && checkPassword == arrayEmployee.data[i].password) {

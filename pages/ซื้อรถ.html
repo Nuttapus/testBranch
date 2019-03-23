@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" href="../node_modules/bulma/css/bulma.min.css">
+  <link rel="shortcut icon" href="../img/logo.png" />
+  <title>ซื้อรถ</title>
+</head>
+
+<body>
+  <script src="../node_modules/axios/dist/axios.min.js"></script>
+  <script>
+    var employee
+    window.onload = function () {
+      var getName = localStorage.getItem("storageName");
+      var getLastName = localStorage.getItem("storageLastName");
+      var getDepartment = localStorage.getItem("storageDepartment");
+      document.getElementById("name").innerHTML = `<i class="fa fa-fw fa-user"></i> &nbsp;` + getName + " " + getLastName;
+      employee =  getName + " " + getLastName;
+    }
+    var priceBuy = 0, priceTravel = 0, priceAgent = 0, priceVat = 0;
+    var brand, model, idCar;
+
+    function isNumber(e) {
+            e = e || window.event;
+            var charCode = e.which ? e.which : e.keyCode;
+            idLength = e.key
+            return /\d/.test(String.fromCharCode(charCode));
+    }
+    function cancel() {
+      window.location.reload()
+    }
+    function setValueTravel() {
+      priceTravel = document.getElementById("costTravel").value;
+    }
+    function setValueBuy() {
+      priceBuy = document.getElementById("cost").value;
+    }
+    function setValueVat() {
+      priceVat = document.getElementById("vat").value;
+    }
+    function setValueAgent() {
+      priceAgent = document.getElementById("commission").value;
+    }
+
+    function submit() {
+      brand = document.getElementById("brand").value;
+      model = document.getElementById("model").value;
+      idCar = document.getElementById("carNumber").value;
+      var total;
+      if (brand !== "" && model !== "" && idCar !== "") {
+        if (priceVat === undefined || priceVat === 0) {
+          total = Number(priceTravel) + Number(priceBuy) + Number(priceAgent);
+          document.getElementById("total").value = total;
+          //window.location.href = "./สัญญาซื้อขาย.html";
+          var data = {
+            type: "buy",
+            brand: brand,
+            model: model,
+            machineNumber: idCar,
+            purchasePrice: priceBuy,
+            picture: "sdfsdf.jpg",
+            transportationCost: priceTravel,
+            commission: priceAgent,
+            namePartner: document.getElementById("agent").value,
+            vat: priceVat,
+            total: total,
+            name_MST_Employee: employee
+          };
+          // axios.post("http://localhost:4001/insert", data).then((res) => {
+          //   console.log(data)
+          // });
+        } else {
+          var tax = (Number(priceTravel) + Number(priceBuy) + Number(priceAgent)) * 0.7;
+          total = Number(priceTravel) + Number(priceBuy) + Number(priceAgent) + Number(tax);
+          //window.location.href = "./สัญญาซื้อขาย.html";
+          document.getElementById("total").value = total;
+          var data = {
+            type: "buy",
+            brand: brand,
+            model: model,
+            machineNumber: idCar,
+            purchasePrice: priceBuy,
+            picture: "sdfsdf.jpg",
+            transportationCost: priceTravel,
+            commission: priceAgent,
+            namePartner: document.getElementById("agent").value,
+            vat: priceVat,
+            total: total,
+            name_MST_Employee: employee
+          };
+          // axios.post("http://localhost:4001/insert", data).then((res) => {
+          //   console.log(res.data.status)
+          // });
+        }
+      } else {
+        alert("กรุณาใส่ข้อมูลให้ครบทุกช่อง")
+      }
+    }
+  </script>
+  <nav class="navbar is-info" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="#">
+        <img src="../img/logo.png" width="112" height="28">
+      </a>
+
+      <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
+        data-target="navbarBasicExample">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
+    </div>
+
+    <div id="navbarBasicExample" class="navbar-menu">
+      <div class="navbar-start">
+        <a class="navbar-item" href="./หน้าหลัก.html">หน้าหลัก</a>
+        <a class="navbar-item" href="./ซื้อรถ.html">ซื้อรถ</a>
+        <a class="navbar-item" href="./หน้าขาย1.html">ขายรถ</a>
+        <a class="navbar-item" href="./เดินทะเบียน.html">ทะเบียน</a>
+        <a class="navbar-item" href="./จัดการพนักงาน.html">จัดการพนักงาน</a>
+        <a class="navbar-item" href="./ข้อมูลซ่อมรถ.html">ซ่อม</a>
+        <a class="navbar-item" href="./ค้นหาลูกค้า.html">ลูกค้า</a>
+
+      </div>
+      <div class="navbar-end">
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" id="name">
+            <i class="fa fa-fw fa-user"></i> &nbsp; ชื่อผู้ใช้
+          </a>
+
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="../ล็อกอิน.html">
+              ออกจากระบบ
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <br>
+  <div class="container">
+    <center>
+      <h1 class="title"> ซื้อรถ </h1>
+    </center>
+    <br> <br> <br>
+    <div style="margin-left: 20%; margin-right: 25%; ">
+      <div class="field is-horizontal">
+        <div class="field-label is-normal">
+          <label class="label">ยี่ห้อ:</label>
+        </div>
+        <div class="field-body">
+          <div class="field">
+            <div class="control">
+              <input class="input " type="text" placeholder="ยี่ห้อ" id="brand">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="field is-horizontal">
+        <div class="field-label is-normal">
+          <label class="label">รุ่น:</label>
+        </div>
+        <div class="field-body">
+          <div class="field">
+            <div class="control">
+              <input class="input " type="text" placeholder="รุ่น" id="model">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="field is-horizontal">
+        <div class="field-label is-normal">
+          <label class="label">เลขตัวถัง:</label>
+        </div>
+        <div class="field-body">
+          <div class="field">
+            <div class="control">
+              <input class="input " type="text" placeholder="เลขตัวถัง" id="carNumber">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="field is-horizontal">
+        <div class="field-label is-normal">
+          <label class="label">ราคาซื้อ:</label>
+        </div>
+        <div class="field-body">
+          <div class="field">
+            <div class="control">
+              <input class="input " type="text" placeholder="ราคาซื้อ" id="cost" onkeypress="return isNumber(event);" onchange="setValueBuy()">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="field is-horizontal">
+        <div class="field-label is-normal">
+          <label class="label">รูปภาพ:</label>
+        </div>
+        <div class="field-body">
+          <div class="field">
+            <div class="control">
+              <img id="pic1" src="http://placehold.it/180" alt="Image preview..."
+                style="max-width: 200px; max-height: 200px" />
+              <img id="pic2" src="http://placehold.it/180" alt="Image preview..."
+                style="max-width: 200px; max-height: 200px" />
+              <img id="pic3" src="http://placehold.it/180" alt="Image preview..."
+                style="max-width: 200px; max-height: 200px" />
+              <img id="pic4" src="http://placehold.it/180" alt="Image preview..."
+                style="max-width: 200px; max-height: 200px" />
+              <img id="pic5" src="http://placehold.it/180" alt="Image preview..."
+                style="max-width: 200px; max-height: 200px" />
+              <img id="pic6" src="http://placehold.it/180" alt="Image preview..."
+                style="max-width: 200px; max-height: 200px" />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="field is-horizontal">
+        <div class="field-label is-normal">
+          <label class="label">ค่าเดินทาง:</label>
+        </div>
+        <div class="field-body">
+          <div class="field">
+            <div class="control">
+              <input class="input " type="text" placeholder="ค่าเดินทาง" id="costTravel" onkeypress="return isNumber(event);"onchange="setValueTravel()">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="field is-horizontal">
+        <div class="field-label is-normal">
+          <label class="label">ค่านายหน้า:</label>
+        </div>
+        <div class="field-body">
+          <div class="field">
+            <div class="control">
+              <input class="input " type="text" placeholder="ค่านายหน้า" id="commission" onkeypress="return isNumber(event);" onchange="setValueAgent()">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="field is-horizontal">
+        <div class="field-label is-normal">
+          <label class="label">ชื่อนายหน้า:</label>
+        </div>
+        <div class="field-body">
+          <div class="field">
+            <div class="control">
+              <input class="input " type="text" placeholder="ชื่อนายหน้า" id="agent">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="field is-horizontal">
+        <div class="field-label is-normal">
+          <label class="label">Vat</label>
+        </div>
+        <div class="field-body">
+          <div class="field ">
+            <p class="control ">
+              <span class="select is-fullwidth">
+                <select required id="vat" onchange="setValueVat()">
+                  <option disabled selected hidden>เลือก... </option>
+                  <option value="0">ไม่มี</option>
+                  <option value="7">มี</option>
+                </select>
+              </span>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="field is-horizontal">
+        <div class="field-label is-normal">
+          <label class="label">ราคารวม:</label>
+        </div>
+        <div class="field-body">
+          <div class="field">
+            <div class="control">
+              <input class="input " type="text" placeholder="ราคารวม" id="total" onkeypress="return isNumber(event);" disabled>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br /><br /><br />
+  <div class="buttons is-right" style="margin-right: 15%">
+    <a class="button is-info is-outlined" style="width:10%" onclick="submit()">ตกลง</a>
+    <a class="button is-info is-outlined" style="width:10%" onclick="cancel()">ยกเลิก</a>
+  </div>
+  <br>
+  <footer class="footer">
+    <div class="content has-text-centered">
+      <p>
+        <strong>&nbsp;&copy; 2018 - Project</strong> by SourceSoft</a>
+      </p>
+    </div>
+  </footer>
+
+
+
+</body>
+
+</html>

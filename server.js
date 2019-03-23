@@ -12,55 +12,57 @@ app.use(bodyParser.json())
 app.use(cors({ origin: true }))
 
 
-app.get('/getEmployee', (req, res) => {
+app.post('/get', (req, res) => {
     mongoClient.connect(url, (err, client) => {
-        const db = client.db(dbName)
-        db.collection('MST_Employee').find({}).toArray(function (err, result) {
-            if (err) throw err;
-            res.json({ data: result })
-            client.close();
-        });
+        console.log(req.body.type)
+        if (req.body.type === "login") {
+            const db = client.db(dbName)
+            db.collection('MST_Employee').find({}).toArray(function (err, result) {
+                if (err) throw err;
+                res.json({ data: result })
+                client.close();
+            });
+        }
     })
 })
 
-app.post('/setEmployee', (req, res) => {
+app.post('/insert', (req, res) => {
     mongoClient.connect(url, (err, client) => {
         const db = client.db(dbName)
-        db.collection('MST_Employee').find({}).toArray(function (err, result) {
-            var count = result.length
-            count += 1
-            db.collection('MST_Employee').findOne({ username: req.body.username }, (err, result1) => {
-                const newUser = {
-                    "ID_MST_Employee": "e"+count,
-                    "name": req.body.name,
-                    "lastname": req.body.lastname,
-                    "birthday": req.body.date,
-                    "idCardNumber": req.body.id,
-                    "sex": req.body.sex,
-                    "email": req.body.email,
-                    "username": req.body.username,
-                    "password": req.body.password,
-                    "address": req.body.address,
-                    "tambon": req.body.tumbon,
-                    "amphoe": req.body.aumphoe,
-                    "city": req.body.city,
-                    "postcode": req.body.post,
-                    "tel": req.body.mobile,
-                    "department": req.body.department
-                }
-                if (result1 === null) {
-                    db.collection('MST_Employee').insertOne(newUser, (err, result2) => {
-                        if (err) throw err
+        if (req.body.type === "buy") {
+            db.collection('TRN_Buy').find({}).toArray(function (err, result) {
+                var count = result.length
+                count += 1
+                db.collection('TRN_Buy').findOne({ ID_TRN_Buy: req.body.ID_TRN_Buy }, (err, result) => {
+                    if (err) throw err
+                    console.log(result)
+                    if (result === null) {
+                        const newBuy = {
+                            ID_TRN_Buy: "buy" + count,
+                            brand: req.body.brand,
+                            model: req.body.model,
+                            machineNumber: req.body.machineNumber,
+                            purchasePrice: req.body.purchasePrice,
+                            picture: req.body.picture,
+                            transportationCost: req.body.transportationCost,
+                            commission: req.body.commission,
+                            namePartner: req.body.namePartner,
+                            vat: req.body.vat,
+                            total: req.body.total,
+                            name_MST_Employee: req.body.name_MST_Employee
+                        };
+                        db.collection('TRN_Buy').insertOne(newBuy, (err, result) => {
+                            if (err) throw err
+                            client.close()
+                            res.json({ status: true })
+                        })
+                    } else {
+                        res.json({ status: false })
                         client.close()
-                        res.json({ status: true })
-                    })
-                } else {
-                    res.json({ status: false })
-                    client.close()
-                }
-
-            });
-        });
+                    }
+                })
+            })
+        }
     })
 })
 app.listen(port, () => {
