@@ -1,221 +1,254 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-    <title>จัดการพนักงาน</title>
-    <link rel="stylesheet" href="../node_modules/bulma/css/bulma.min.css" class="rel">
-    <link rel="stylesheet" href="../node_modules/bulma-divider/dist/css/bulma-divider.min.css" class="rel">
-    <link rel="stylesheet" href="../node_modules/@fortawesome/fontawesome-free/css/all.css" class="rel">
-    <link rel="shortcut icon" href="../img/logo.png" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="shortcut icon" href="../img/logo.png">
+    <link rel="stylesheet" href="../node_modules/bulma/css/bulma.min.css">
+    <title>สมัครสมาชิก</title>
+
 </head>
 
 <body>
+    <script src="../node_modules/axios/dist/axios.min.js"></script>
     <script>
-        var selectedRow = null
-
-
-        function onFormSubmit() {
-            if (validate()) {
-                var formData = readFormData();
-                if (selectedRow == null)
-                    insertNewRecord(formData);
-                else
-                    updateRecord(formData);
-                resetForm();
-            }
+        window.onload = function () {
+            var getName = localStorage.getItem("storageName");
+            var getLastName = localStorage.getItem("storageLastName");
+            var getDepartment = localStorage.getItem("storageDepartment");
+            document.getElementById("navName").innerHTML = `<i class="fa fa-fw fa-user"></i> &nbsp;` + getName + " " + getLastName;
         }
-
-        function readFormData() {
-            var formData = {};
-            formData["name"] = document.getElementById("name").value;
-            formData["lastname"] = document.getElementById("lastname").value;
-            formData["datepicker"] = document.getElementById("datepicker").value;
-            formData["sex"] = document.getElementById("sex").value;
-            formData["id"] = document.getElementById("id").value;
-            formData["email"] = document.getElementById("email").value;
-            formData["username"] = document.getElementById("username").value;
-            formData["password"] = document.getElementById("password").value;
-            formData["address"] = document.getElementById("address").value;
-            formData["tumbon"] = document.getElementById("tumbon").value;
-            formData["aumper"] = document.getElementById("aumper").value;
-            formData["city"] = document.getElementById("city").value;
-            formData["post"] = document.getElementById("post").value;
-            formData["tel"] = document.getElementById("tel").value;
-
-            return formData;
-        }
-
-        function insertNewRecord(data) {
-            var table = document.getElementById("employeeList").getElementsByTagName('tbody')[0];
-            var newRow = table.insertRow(table.length);
-            cell1 = newRow.insertCell(0);
-            cell1.innerHTML = data.name;
-            cell2 = newRow.insertCell(1);
-            cell2.innerHTML = data.lastname;
-            cell3 = newRow.insertCell(2);
-            cell3.innerHTML = data.datepicker;
-            cell4 = newRow.insertCell(3);
-            cell4.innerHTML = data.sex;
-            cell5 = newRow.insertCell(4);
-            cell5.innerHTML = data.id;
-            cell6 = newRow.insertCell(5);
-            cell6.innerHTML = data.email;
-            cell7 = newRow.insertCell(6);
-            cell7.innerHTML = data.username;
-            cell8 = newRow.insertCell(7);
-            cell8.innerHTML = data.password;
-            cell9 = newRow.insertCell(8);
-            cell9.innerHTML = data.address;
-            cell10 = newRow.insertCell(9);
-            cell10.innerHTML = data.tumbon;
-            cell11 = newRow.insertCell(10);
-            cell11.innerHTML = data.aumper;
-            cell12 = newRow.insertCell(11);
-            cell12.innerHTML = data.city;
-            cell13 = newRow.insertCell(12);
-            cell13.innerHTML = data.post;
-            cell14 = newRow.insertCell(13);
-            cell14.innerHTML = data.tel;
-            cell15 = newRow.insertCell(14);
-            cell15.innerHTML = `<a onClick="openForm();onEdit(this)">Edit</a>
-                       <a onClick="onDelete(this)">Delete</a>`;
-        }
-
-        function resetForm() {
-            document.getElementById("name").value = "";
-            document.getElementById("lastname").value = "";
-            document.getElementById("datepicker").value = "";
-            document.getElementById("sex").value = "";
-            document.getElementById("id").value = "";
-            document.getElementById("email").value = "";
-            document.getElementById("username").value = "";
-            document.getElementById("password").value = "";
-            document.getElementById("address").value = "";
-            document.getElementById("tumbon").value = "";
-            document.getElementById("aumper").value = "";
-            document.getElementById("city").value = "";
-            document.getElementById("post").value = "";
-            document.getElementById("tel").value = "";
-            selectedRow = null;
-        }
-
-        function onEdit(td) {
-            selectedRow = td.parentElement.parentElement;
-            document.getElementById("name").value = selectedRow.cells[0].innerHTML;
-            document.getElementById("lastname").value = selectedRow.cells[1].innerHTML;
-            document.getElementById("datepicker").value = selectedRow.cells[2].innerHTML;
-            document.getElementById("sex").value = selectedRow.cells[3].innerHTML;
-            document.getElementById("id").value = selectedRow.cells[4].innerHTML;
-            document.getElementById("email").value = selectedRow.cells[5].innerHTML;
-            document.getElementById("username").value = selectedRow.cells[6].innerHTML;
-            document.getElementById("password").value = selectedRow.cells[7].innerHTML;
-            document.getElementById("address").value = selectedRow.cells[8].innerHTML;
-            document.getElementById("tumbon").value = selectedRow.cells[9].innerHTML;
-            document.getElementById("aumper").value = selectedRow.cells[10].innerHTML;
-            document.getElementById("city").value = selectedRow.cells[11].innerHTML;
-            document.getElementById("post").value = selectedRow.cells[12].innerHTML;
-            document.getElementById("tel").value = selectedRow.cells[13].innerHTML;
-        }
-        function updateRecord(formData) {
-            selectedRow.cells[0].innerHTML = formData.name;
-            selectedRow.cells[1].innerHTML = formData.lastname;
-            selectedRow.cells[2].innerHTML = formData.datepicker;
-            selectedRow.cells[3].innerHTML = formData.sex;
-            selectedRow.cells[4].innerHTML = formData.id;
-            selectedRow.cells[5].innerHTML = formData.email;
-            selectedRow.cells[6].innerHTML = formData.username;
-            selectedRow.cells[7].innerHTML = formData.password;
-            selectedRow.cells[8].innerHTML = formData.address;
-            selectedRow.cells[9].innerHTML = formData.tumbon;
-            selectedRow.cells[10].innerHTML = formData.aumper;
-            selectedRow.cells[11].innerHTML = formData.city;
-            selectedRow.cells[12].innerHTML = formData.post;
-            selectedRow.cells[13].innerHTML = formData.tel;
-        }
-
-        function onDelete(td) {
-            if (confirm('Are you sure to delete this record ?')) {
-                row = td.parentElement.parentElement;
-                document.getElementById("employeeList").deleteRow(row.rowIndex);
-            }
-        }
-        function openForm() {
-            document.getElementById("myForm").style.display = "block";
-            resetForm()
-        }
-        function closeForm() {
-            document.getElementById("myForm").style.display = "none";
-            resetForm()
-        }
+        var idText, postText, telText, email, password, cfpassword, name, lastname, date, address, tumbon, aumper, city, sex, department, username
+        var flag = true;
+        var idDB;
         function isNumber(e) {
             e = e || window.event;
             var charCode = e.which ? e.which : e.keyCode;
             idLength = e.key
             return /\d/.test(String.fromCharCode(charCode));
         }
+
+
         function checkEmail() {
             var re = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
             if (re.test(document.getElementById("email").value)) {
                 email = document.getElementById("email").value;
                 document.getElementById("email").style.border = "";
+                document.getElementById("pEmail").style.display = "none";
             } else {
                 flag = false;
                 document.getElementById("email").style.border = "2px solid red";
+                document.getElementById("pEmail").style.display = "block";
             }
         }
-
-        function validate() {
-            isValid = true;
-            if (document.getElementById("name").value == "") {
-                isValid = false;
-                alert("กรุณากรอกข้อมูลให้ครบ")
-            } else if (document.getElementById("lastname").value == "") {
-                isValid = false;
-                alert("กรุณากรอกข้อมูลให้ครบ")
-            } else if (document.getElementById("datepicker").value == "") {
-                isValid = false;
-                alert("กรุณากรอกข้อมูลให้ครบ")
-            } else if (document.getElementById("sex").value == "") {
-                isValid = false;
-                alert("กรุณากรอกข้อมูลให้ครบ")
-            } else if (document.getElementById("id").value == "") {
-                isValid = false;
-                alert("กรุณากรอกข้อมูลให้ครบ")
-            } else if (document.getElementById("email").value == "") {
-                isValid = false;
-                alert("กรุณากรอกข้อมูลให้ครบ")
-            } else if (document.getElementById("username").value == "") {
-                isValid = false;
-                alert("กรุณากรอกข้อมูลให้ครบ")
-            } else if (document.getElementById("password").value == "") {
-                isValid = false;
-                alert("กรุณากรอกข้อมูลให้ครบ")
-            } else if (document.getElementById("address").value == "") {
-                isValid = false;
-                alert("กรุณากรอกข้อมูลให้ครบ")
-            } else if (document.getElementById("tumbon").value == "") {
-                isValid = false;
-                alert("กรุณากรอกข้อมูลให้ครบ")
-            } else if (document.getElementById("aumper").value == "") {
-                isValid = false;
-                alert("กรุณากรอกข้อมูลให้ครบ")
-            } else if (document.getElementById("city").value == "") {
-                isValid = false;
-                alert("กรุณากรอกข้อมูลให้ครบ")
-            } else if (document.getElementById("post").value == "") {
-                isValid = false;
-                alert("กรุณากรอกข้อมูลให้ครบ")
-            } else if (document.getElementById("tel").tel == "") {
-                isValid = false;
-                alert("กรุณากรอกข้อมูลให้ครบ")
+        function checkPassword() {
+            password = document.getElementById("password").value;
+            cfpassword = document.getElementById("repassword").value;
+            if (password === cfpassword) {
+                document.getElementById("password").style.border = "";
+                document.getElementById("repassword").style.border = "";
+                document.getElementById("pPassword").style.display = "none";
             } else {
-                isValid = true;
-                alert("สำเร็จ")
+                document.getElementById("password").style.border = "2px solid red";
+                document.getElementById("repassword").style.border = "2px solid red";
+                document.getElementById("pPassword").style.display = "block";
             }
-            return isValid;
+        }
+        function cancel() {
+            window.location.reload();
         }
 
+        function selectData(td) {
+            selectedRow = td.parentElement.parentElement;
+            idDB = selectedRow.cells[0].innerHTML;
+            document.getElementById("name").value = selectedRow.cells[1].innerHTML;
+            document.getElementById("lastname").value = selectedRow.cells[2].innerHTML;
+            document.getElementById("datepicker").value = selectedRow.cells[3].innerHTML;
+            document.getElementById("id").value = selectedRow.cells[4].innerHTML;
+            document.getElementById("sex").value = selectedRow.cells[5].innerHTML;
+            document.getElementById("email").value = selectedRow.cells[6].innerHTML;
+            document.getElementById("username").value = selectedRow.cells[7].innerHTML;
+            document.getElementById("password").value = selectedRow.cells[8].innerHTML;
+            document.getElementById("address").value = selectedRow.cells[9].innerHTML;
+            document.getElementById("tumbon").value = selectedRow.cells[10].innerHTML;
+            document.getElementById("aumphoe").value = selectedRow.cells[11].innerHTML;
+            document.getElementById("city").value = selectedRow.cells[12].innerHTML;
+            document.getElementById("post").value = selectedRow.cells[13].innerHTML;
+            document.getElementById("mobile").value = selectedRow.cells[14].innerHTML;
+            document.getElementById("department").value = selectedRow.cells[15].innerHTML;
+
+            document.getElementById('update').style = "width:10%; display: block;"
+            document.getElementById('submit').style = "width:10%; display: none;"
+            document.getElementById('username').disabled = true;
+        }
+
+        function generate_table(a) {
+            var table = document.getElementById("employeeList");
+            console.log(a)
+            console.log("check length " + a.data.length)
+            for (var i = 0; i < a.data.length; i++) {
+                console.log("loop pass")
+                var newRow = table.insertRow(1)
+
+                var ID_MST_Employee = newRow.insertCell(0)
+                var name = newRow.insertCell(1)
+                var lastname = newRow.insertCell(2)
+                var birthday = newRow.insertCell(3)
+                var idCardNumber = newRow.insertCell(4)
+                var sex = newRow.insertCell(5)
+                var email = newRow.insertCell(6)
+                var username = newRow.insertCell(7)
+                var password = newRow.insertCell(8)
+                var address = newRow.insertCell(9)
+                var tambon = newRow.insertCell(10)
+                var amphoe = newRow.insertCell(11)
+                var city = newRow.insertCell(12)
+                var postcode = newRow.insertCell(13)
+                var tel = newRow.insertCell(14)
+                var department = newRow.insertCell(15)
+                var crud = newRow.insertCell(16)
+
+                ID_MST_Employee.innerHTML = a.data[i].ID_MST_Employee
+                name.innerHTML = a.data[i].name
+                lastname.innerHTML = a.data[i].lastname
+                birthday.innerHTML = a.data[i].birthday
+                idCardNumber.innerHTML = a.data[i].idCardNumber
+                sex.innerHTML = a.data[i].sex
+                email.innerHTML = a.data[i].email
+                username.innerHTML = a.data[i].username
+                password.innerHTML = a.data[i].password
+                address.innerHTML = a.data[i].address
+                tambon.innerHTML = a.data[i].tambon
+                amphoe.innerHTML = a.data[i].amphoe
+                city.innerHTML = a.data[i].city
+                postcode.innerHTML = a.data[i].postcode
+                tel.innerHTML = a.data[i].tel
+                department.innerHTML = a.data[i].department
+                crud.innerHTML = `<a class="button is-warning" onClick="selectData(this)">Edit</a>
+                          <a class="button is-danger" onClick="deleteData(this)">Delete</a>`;
+            }
+        }
+
+        function showData() {
+            var b = { type: "MST_Employee" }
+            axios.post("http://localhost:4001/get", b).then((res) => {
+                var a = []
+                a = res.data
+                generate_table(a)
+            })
+        }
+
+        function deleteRow(userDel) {
+            console.log(userDel)
+            var checkDelete = confirm("ต้องการจะลบข้อมูลนี้จริงๆหรือไม่")
+            var data = { username: userDel,type: "MST_Employee"}
+            if (checkDelete) {
+                if (userDel !== "") {
+                    axios.post("http://localhost:4001/delete", data).then((res) => {
+                        location.reload();
+                    })
+                } else {
+                    alert("กรุณาลองใหม่ภายหลัง")
+                }
+            } else {
+                console.log("cancle")
+            }
+        }
+
+        function deleteData(td) {
+            selectedRow = td.parentElement.parentElement;
+            var obj = selectedRow.cells[7].innerHTML;
+            deleteRow(obj)
+        }
+        function submit() {
+            idText = document.getElementById('id').value
+            username = document.getElementById('username').value;
+            postText = document.getElementById("post").value;
+            telText = document.getElementById("mobile").value;
+            name = document.getElementById("name").value;
+            lastname = document.getElementById("lastname").value;
+            date = document.getElementById("datepicker").value;
+            address = document.getElementById("address").value;
+            tumbon = document.getElementById("tumbon").value;
+            aumper = document.getElementById("aumphoe").value;
+            city = document.getElementById("city").value;
+            sex = document.getElementById("sex").value;
+            department = document.getElementById("department").value;
+            if (idText !== "" && username !== undefined && postText !== undefined && telText !== undefined && email !== undefined
+                && password !== undefined && name !== undefined && lastname !== undefined && date !== undefined
+                && address !== undefined && tumbon !== undefined && aumper !== undefined && city !== undefined
+                && sex !== undefined) {
+                var data = {
+                    username: username, password: password, email: email, name: name, lastname: lastname, address: address, tumbon: tumbon,
+                    aumphoe: aumper, city: city, sex: sex, department: department, post: postText, mobile: telText, date: date, id: idText,
+                    type: "MST_Employee"
+                }
+
+                if (password == cfpassword) {
+                    axios.post("http://localhost:4001/insert", data).then((res) => {
+                        if (res.data.status) {
+                            alert("สมัครสมาชิกเรียบร้อย")
+                            document.getElementById("username").style.border = "";
+                            document.getElementById("pId").style.display = "none";
+                            window.location.reload();
+                        } else {
+                            document.getElementById("username").style.border = "2px solid red";
+                            document.getElementById("pId").style.display = "block";
+                        }
+                    })
+                } else {
+                    alert("กรุณาใส่ Password ให้ถูกต้อง")
+                }
+            } else {
+                alert("กรุณาใส่ข้อมูลให้ครบทุกช่อง")
+            }
+        }
+
+        function update() {
+            idText = document.getElementById('id').value
+            username = document.getElementById('username').value;
+            postText = document.getElementById("post").value;
+            telText = document.getElementById("mobile").value;
+            name = document.getElementById("name").value;
+            lastname = document.getElementById("lastname").value;
+            date = document.getElementById("datepicker").value;
+            address = document.getElementById("address").value;
+            tumbon = document.getElementById("tumbon").value;
+            aumper = document.getElementById("aumphoe").value;
+            city = document.getElementById("city").value;
+            sex = document.getElementById("sex").value;
+            department = document.getElementById("department").value;
+
+            if (document.getElementById("password").value !== password) {
+                password = document.getElementById("password").value
+            }
+            if (document.getElementById("email").value !== email) {
+                email = document.getElementById("email").value
+            }
+            if (idText !== "" && username !== "" && postText !== "" && telText !== "" && email !== ""
+                && password !== "" && name !== "" && lastname !== "" && date !== ""
+                && address !== "" && tumbon !== "" && aumper !== "" && city !== ""
+                && sex !== "") {
+                var data = {
+                    username: username, password: password, email: email, name: name, lastname: lastname, address: address, tumbon: tumbon,
+                    aumphoe: aumper, city: city, sex: sex, department: department, post: postText, mobile: telText, date: date, id: idText,
+                    type: "MST_Employee", idDB: idDB
+                }
+                axios.post("http://localhost:4001/update", data).then((res) => {
+                    if (res.data.status) {
+                        alert("อัพเดตสำเร็จ")
+                        window.location.reload()
+                    }
+                })
+            } else {
+                alert("กรุณาใส่ข้อมูลให้ครบทุกช่อง....")
+            }
+        }
+        document.addEventListener("DOMContentLoaded", showData());
     </script>
+
     <nav class="navbar is-info" role="navigation" aria-label="main navigation">
         <div class="navbar-brand">
             <a class="navbar-item" href="#">
@@ -236,15 +269,15 @@
                 <a class="navbar-item" href="./ซื้อรถ.html">ซื้อรถ</a>
                 <a class="navbar-item" href="./หน้าขาย1.html">ขายรถ</a>
                 <a class="navbar-item" href="./เดินทะเบียน.html">ทะเบียน</a>
-                <a class="navbar-item is-active" href="./จัดการพนักงาน.html">จัดการพนักงาน</a>
+                <a class="navbar-item" href="./จัดการพนักงาน.html">จัดการพนักงาน</a>
                 <a class="navbar-item" href="./ข้อมูลซ่อมรถ.html">ซ่อม</a>
                 <a class="navbar-item" href="./ค้นหาลูกค้า.html">ลูกค้า</a>
 
             </div>
             <div class="navbar-end">
                 <div class="navbar-item has-dropdown is-hoverable">
-                    <a class="navbar-link" id="name">
-                        <i class="fa fa-fw fa-user"></i> ชื่อผู้ใช้
+                    <a class="navbar-link" id="navName">
+                        <i class="fa fa-fw fa-user"></i> &nbsp; ชื่อผู้ใช้
                     </a>
 
                     <div class="navbar-dropdown">
@@ -256,26 +289,263 @@
             </div>
         </div>
     </nav>
-
-    <br>
-    <div class="modal">
-            <div class="modal-background"></div>
-            <div class="modal-content">
-              <p class="image is-4by3">
-                <img src="https://bulma.io/images/placeholders/1280x960.png" alt="">
-              </p>
-            </div>
-            <button class="modal-close is-large" aria-label="close"></button>
-          </div>
     <div class="container">
-        <table class="table is-striped" id="employeeList">
+        <br />
+        <center>
+            <h1 class="title"> สมัครสมาชิก </h1>
+        </center>
+        <br /><br /><br />
+        <div class="columns">
+            <div class="column">
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">Username</label>
+                    </div>
+
+                    <div class="field-body">
+                        <div class="field">
+                            <div class="control">
+                                <input id="username" class="input" type="text" placeholder="username">
+                            </div>
+                            <p id="pId" class="help is-danger" style="display:none">
+                                username นี้มีผู้ใช้แล้ว
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">Password</label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field">
+                            <div class="control">
+                                <input id="password" class="input" type="password" placeholder="password"
+                                    onchange="checkPassword()">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">Re-Password</label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field">
+                            <div class="control">
+                                <input id="repassword" class="input" type="password" placeholder="re-password"
+                                    onchange="checkPassword()">
+                            </div>
+                            <p id="pPassword" class="help is-danger" style="display:none">
+                                password ไม่ตรงกัน
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                            <label class="label">Email</label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <div class="control">
+                                    <input id="email" class="input" type="text" placeholder="email"
+                                        onchange="checkEmail()">
+                                </div>
+                                <p id="pEmail" class="help is-danger" style="display:none">
+                                    อีเมลล์ไม่ถูกต้อง
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">ที่อยู่</label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field">
+                            <div class="control">
+                                <input id="address" class="input" type="text" placeholder="ที่อยู่">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">อำเภอ</label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field">
+                            <div class="control">
+                                <input id="aumphoe" class="input" type="text" placeholder="อำเภอ">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">เบอร์โทรศัพท์</label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field">
+                            <div class="control">
+                                <input id="mobile" class="input" type="text" placeholder="เบอร์โทรศัพท์" maxlength="10"
+                                    onkeypress="return isNumber(event);">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">แผนก</label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field ">
+                            <p class="control ">
+                                <span class="select is-fullwidth">
+                                    <select required id="department">
+                                        <option disabled selected hidden>เลือก... </option>
+                                        <option value="ขาย">ขาย</option>
+                                        <option value="ซื้อ">ซื้อ</option>
+                                        <option value="ช่าง">ช่าง</option>
+                                        <option value="ธุรการ">ธุรการ</option>
+                                        <option value="ประชาสัมพันธ์">ประชาสัมพันธ์</option>
+                                    </select>
+                                </span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="column">
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">ชื่อ</label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field">
+                            <div class="control">
+                                <input id="name" class="input" type="text" placeholder="ชื่อ">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">นามสกุล</label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field">
+                            <div class="control">
+                                <input id="lastname" class="input" type="text" placeholder="นามสกุล">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">วัน/เดือน/ปี</label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field">
+                            <div class="control">
+                                <input id="datepicker" class="input" type="date" placeholder="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">บัตรประชาชน</label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field">
+                            <div class="control">
+                                <input id="id" class="input" type="text" placeholder="เลขบัตรประชาชน" maxlength="13"
+                                    onkeypress="return isNumber(event);">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">ตำบล</label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field">
+                            <div class="control">
+                                <input id="tumbon" class="input" type="text" placeholder="ตำบล">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">จังหวัด</label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field">
+                            <div class="control">
+                                <input id="city" class="input" type="text" placeholder="จังหวัด">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">รหัสไปรษณีย์</label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field">
+                            <div class="control">
+                                <input id="post" class="input" type="text" placeholder="รหัสไปรษณีย์" maxlength="5"
+                                    onkeypress="return isNumber(event);">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">เพศ</label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field ">
+                            <p class="control ">
+                                <span class="select is-fullwidth">
+                                    <select required id="sex">
+                                        <option disabled selected hidden>เลือก... </option>
+                                        <option value="ชาย">ชาย</option>
+                                        <option value="หญิง">หญิง</option>
+                                        <option value="อื่นๆ">อื่นๆ</option>
+                                    </select>
+                                </span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br />
+        <div class="buttons  is-right">
+            <a class="button is-info is-outlined" style="width:10%; display: none;" onclick="update()"
+                id="update">แก้ไข</a>
+            <a class="button is-info is-outlined" style="width:10%" id="submit" onclick="submit()">เพิ่ม</a>
+            <a class="button is-info is-outlined" style="width:10%" onclick="cancel()">ยกเลิก</a>
+        </div>
+    </div>
+    <br>
+    <center>
+        <table class="table table is-bordered " id="employeeList">
             <thead>
                 <tr>
+                    <th>id</th>
                     <th>ชื่อ</th>
                     <th>นามสกุล</th>
                     <th>วัน/เดือน/ปี เกิด</th>
-                    <th>เพศ</th>
                     <th>เลขประจำตัวประชาชน</th>
+                    <th>เพศ</th>
                     <th>Email</th>
                     <th>Username</th>
                     <th>Password</th>
@@ -285,84 +555,17 @@
                     <th>จังหวัด</th>
                     <th>รหัสไปรษณีย์</th>
                     <th>เบอร์โทรศัพท์</th>
+                    <th>แผนก</th>
+                    <th>จัดการพนักงาน</th>
                 </tr>
             </thead>
             <tbody>
+
             </tbody>
         </table>
-        <br>
-        <button class="button" onclick="openForm()">กรอกข้อมูลพนักงาน</button>
-        <div class="form-popup" id="myForm">
-            <form onsubmit="event.preventDefault();onFormSubmit();">
-                <div>
-                    ชื่อ <input type="text" maxlength="20" id="name" class="inputIce">
-                </div>
-                <div>
-                    นามสกุล <input type="text" maxlength="20" id="lastname" class="inputIce">
-                </div>
-                <div>
-                    วัน/เดือน/ปี เกิด
-                    <input type="date" id="datepicker" class="inputIce">
-                </div>
-                <div>
-
-                    เพศ
-                    <div>
-                        <select id="sex" style="width: 460px" class="selectIce">
-                            <option value="ชาย">ชาย</option>
-                            <option value="หญิง">หญิง</option>
-                            <option value="อื่นๆ">อื่นๆ</option>
-                        </select>
-                    </div>
-                </div>
-                <div>เลขประจำตัวประชาชน <input class="inputIce" type="text" id="id" maxlength="13"
-                        onkeypress="return isNumber(event);">
-                </div>
-                <div>
-                    Email <input class="inputIce" type="text" id="email" onchange="checkEmail()" maxlength="20">
-                </div>
-                <div>
-                    Username <input class="inputIce" type="text" maxlength="20" id="username">
-                </div>
-                <div>
-                    Password <input class="inputIce" type="text" id="password" maxlength="20">
-                </div>
-                <div>
-                    แผนก
-                    <div>
-                        <select id="department" style="width: 460px" class="selectIce">
-                            <option value="ขายรถ">ขาย</option>
-                            <option value="ซื้อรถ">ซื้อ</option>
-                            <option value="เดินทะเบียน">เดินทะเบียน</option>
-                            <option value="ซ่อม">ซ่อม</option>
-                        </select>
-                    </div>
-                </div>
-                <div>ที่อยู่ <input class="inputIce" type="text" maxlength="30" id="address">
-                </div>
-                <div>ตำบล <input class="inputIce" type="text" maxlength="20" id="tumbon">
-                </div>
-                <div>อำเภอ <input class="inputIce" type="text" maxlength="20" id="aumper">
-                </div>
-                <div>จังหวัด <input class="inputIce" type="text" maxlength="20" id="city">
-                </div>
-                <div>รหัสไปรษณีย์ <input class="inputIce" type="text" id="post" maxlength="5"
-                        onkeypress="return isNumber(event);">
-                </div>
-                <div>เบอร์โทรศัพท์ <input class="inputIce" type="text" id="tel" maxlength="10"
-                        onkeypress="return isNumber(event);">
-                </div>
-                <div>
-                    <button class="buttonIce buttonIce1" type=" submit">Submit</button>
-                    <button class="buttonIce buttonIce1" type=" button"
-                        onclick="event.preventDefault();closeForm()">Close</button>
-                </div>
-
-        </div>
-        </form>
-
-    </div>
-    
+    </center>
 </body>
+
+
 
 </html>
