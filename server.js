@@ -14,7 +14,6 @@ app.use(cors({ origin: true }))
 
 app.post('/get', (req, res) => {
     mongoClient.connect(url, (err, client) => {
-        console.log(req.body.type)
         if (req.body.type === "login") {
             const db = client.db(dbName)
             db.collection('MST_Employee').find({}).toArray(function (err, result) {
@@ -23,13 +22,19 @@ app.post('/get', (req, res) => {
                 client.close();
             });
         } else if (req.body.type === "MST_Employee") {
-            mongoClient.connect(url, (err, client) => {
-                const db = client.db(dbName)
-                db.collection('MST_Employee').find({}).toArray(function (err, result) {
-                    if (err) throw err;
-                    res.json({ data: result })
-                    client.close();
-                });
+            const db = client.db(dbName)
+            db.collection('MST_Employee').find({}).toArray(function (err, result) {
+                if (err) throw err;
+                res.json({ data: result })
+                client.close();
+            })
+        } else if (req.body.type === "TRN_Sell") {
+            const db = client.db(dbName)
+            db.collection('TRN_Sell').find({}).toArray(function (err, result) {
+                if (err) throw err;
+                res.json({ data: result })
+                client.close();
+
             })
         }
     })
@@ -96,6 +101,108 @@ app.post('/insert', (req, res) => {
                     }
                     if (result1 === null) {
                         db.collection('MST_Employee').insertOne(newUser, (err, result2) => {
+                            if (err) throw err
+                            client.close()
+                            res.json({ status: true })
+                        })
+                    } else {
+                        res.json({ status: false })
+                        client.close()
+                    }
+
+                });
+            });
+        } else if (req.body.type === "MST_Registration") {
+            db.collection('MST_Registration').find({}).toArray(function (err, result) {
+                var count = result.length
+                count += 1
+                db.collection('MST_Registration').findOne({ registrationNumber: req.body.registrationNumber }, (err, result1) => {
+                    const newRegis = {
+                        "ID_MST_Registration": "rgt" + count,
+                        "registrationDate": req.body.registrationDate,
+                        "registrationNumber": req.body.registrationNumber,
+                        "province": req.body.province,
+                        "genre": req.body.genre,
+                        "type": req.body.type,
+                        "brand": req.body.brand,
+                        "model": req.body.model,
+                        "modelYear": req.body.modelYear,
+                        "color": req.body.color,
+                        "carNumber": req.body.carNumber,
+                        "address": req.body.address,
+                        "engineBand": req.body.engineBand,
+                        "engineNumber": req.body.engineNumber,
+                        "engineNumberAddress": req.body.engineNumberAddress,
+                        "fuel": req.body.fuel,
+                        "tankNumber": req.body.tankNumber,
+                        "quantity": req.body.quantity,
+                        "cc": req.body.cc,
+                        "horsePower": req.body.horsePower,
+                        "carWeight": req.body.carWeight,
+                        "payLoad": req.body.payLoad,
+                        "totalWeight": req.body.totalWeight,
+                        "seat": req.body.seat
+                    }
+                    if (result1 === null) {
+                        console.log("save")
+                        db.collection('MST_Registration').insertOne(newRegis, (err, result2) => {
+                            if (err) throw err
+                            client.close()
+                            res.json({ status: true })
+                        })
+                    } else {
+                        res.json({ status: false })
+                        client.close()
+                    }
+                });
+            });
+        } else if (req.body.type === "TRN_Repair") {
+            db.collection('TRN_Repair').find({}).toArray(function (err, result) {
+                var count = result.length
+                count += 1
+                db.collection('TRN_Repair').findOne({ ID_TRN_Repair: "r" + count }, (err, result1) => {
+
+                    const newRepair = {
+                        "ID_TRN_Repair": "r" + count,
+                        "brand": req.body.brand,
+                        "model": req.body.model,
+                        "machineNumber": req.body.machineNumber,
+                        "poinstsRepair": req.body.poinstsRepair,
+                        "pictureRepair": "",
+                        "nameEmployee": req.body.nameEmployee,
+                        "nameAppraise": req.body.nameAppraise,
+                        "nameTechnician": req.body.nameTechnician,
+                        "nameTester": req.body.nameTester,
+                        "name_MST_Employee": "ประหยุด จันอังคาร"
+                    }
+                    if (result1 === null) {
+                        db.collection('TRN_Repair').insertOne(newRepair, (err, result2) => {
+                            if (err) throw err
+                            client.close()
+                            res.json({ status: true })
+                        })
+                    } else {
+                        res.json({ status: false })
+                        client.close()
+                    }
+                });
+            });
+        } else if (req.body.type === "TRN_RepairDetail") {
+            db.collection('TRN_RepairDetail').find({}).toArray(function (err, result) {
+                var count = result.length
+                count += 1
+                db.collection('TRN_RepairDetail').findOne({ ID_TRN_RepairDetail: "rpd" + count }, (err, result1) => {
+                    const newDetail = {
+                        "ID_TRN_RepairDetail": "rpd" + count,
+                        "total": req.body.total,
+                        "among": req.body.among,
+                        "nameTechnician": req.body.nameTechnician,
+                        "nameTester": req.body.nameTester,
+                        "part": req.body.part,
+                        "ID_TRN_ListRepairDetail": "lrpd" + count
+                    }
+                    if (result1 === null) {
+                        db.collection('TRN_RepairDetail').insertOne(newDetail, (err, result2) => {
                             if (err) throw err
                             client.close()
                             res.json({ status: true })

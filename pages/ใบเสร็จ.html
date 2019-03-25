@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="../node_modules/bulma/css/bulma.min.css" class="rel">
+    <link rel="stylesheet" href="../node_modules/bulma-divider/dist/css/bulma-divider.min.css" class="rel">
+    <!-- <link rel="stylesheet" href="../node_modules/@fortawesome/fontawesome-free/css/all.css" class="rel"> -->
+    <link rel="shortcut icon" href="../img/logo.png" />
+    <title>ใบเสร็จรับเงิน</title>
+</head>
+
+<body>
+    <br>
+    <br>
+    <div class="container">
+        <div class="card">
+            <div class="card-content">
+                <h1 class="title has-text-centered"> ใบเสร็จรับเงิน </h1>
+                <p class="has-text-centered"> บริษัทโชคทวีออโต้เซล </p>
+                <br>
+                <div class="columns">
+                    <div class="column">
+                        <label class="label">เลขประจำตัวผู้เสียภาษีอากร</label>
+                        <div class="field-label is-normal">
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <div class="control">
+                                    <input class="input" type="text">
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="column">
+                        <label class="label">เลขที่ No.</label>
+                        <div class="field-label is-normal">
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <div class="control">
+                                    <input class="input" type="text">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="columns">
+                    <div class="column">
+                        <label class="label">ผู้ซื้อ BUYER</label>
+                        <div class="field-label is-normal">
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <div class="control">
+                                    <input class="input" type="text">
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="column">
+                        <label class="label">วันที่ DATE</label>
+                        <div class="field-label is-normal">
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <div class="control">
+                                    <input class="input" type="date">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="columns">
+                    <div class="column">
+                        <label class="label">ที่อยู่ ADDRESS</label>
+                        <div class="field-label is-normal">
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <div class="control">
+                                    <input class="input" type="text">
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="column">
+                        <label class="label">เลขประจำตัวประชาชน</label>
+                        <div class="field-label is-normal">
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <div class="control">
+                                    <input class="input" type="text">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <label class="label">เบอร์โทร TEL</label>
+                <div class="field-label is-normal">
+                </div>
+                <div class="field-body">
+                    <div class="field">
+                        <div class="control">
+                            <input class="input" type="text" style="width: 660px">
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="has-text-centered" style="margin-left:35%">
+                    <table class="table table is-bordered ">
+                        <thead>
+                            <tr>
+                                <th>ลำดับ</th>
+                                <th>รหัสสินค้า/รายระเอีดยด</th>
+                                <th>จำนวน</th>
+                                <th>ราคา/หน่วย</th>
+                                <th>จำนวนเงิน</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+                <br><br>
+                <label class="label">ชำระโดย PAID BY</label>
+                <br>
+
+                <label class="checkbox">
+                    <input type="checkbox"> เงินสด
+                </label>
+                <br>
+                <label class="checkbox">
+                    <input type="checkbox"> บัตรเครดิต
+                </label>
+                <div>
+                    <div class="card" style="margin-left:70%">
+                        <div class="card-content">
+
+                            <div class="level-left">
+                                <div class="level-item">
+                                    <p class="subtitle is-5">
+                                        <p>ราคารวมทั้งสิ้น</p>
+                                    </p>
+                                </div>
+                                <div class="level-item">
+                                    <div class="field has-addons">
+                                        <p class="control">
+
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="level-left">
+                                <div class="level-item">
+                                    <p class="subtitle is-5">
+                                        <p>ภาษีมูลค่าเพิ่ม</p>
+                                    </p>
+                                </div>
+                                <div class="level-item">
+                                    <div class="field has-addons">
+                                        <p class="control">
+
+                                        </p>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="level-left">
+                                <div class="level-item">
+                                    <p class="subtitle is-5">
+                                        <p>จำนวนเงินรวม</p>
+                                    </p>
+                                </div>
+                                <div class="level-item">
+                                    <div class="field has-addons">
+                                        <p class="control">
+
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="level-left">
+                    <div class="level-item">
+                        <p class="subtitle is-5">
+                            <p>จำนวนเงิน(ตัวอักษร)</p>
+                        </p>
+                    </div>
+                    <div class="level-item">
+                        <div class="field has-addons">
+                            <p class="control">
+                                ........................................................................................................................................................................................................
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="columns">
+                    <div class="column">
+                        <div class="field is-horizontal">
+                            <label class="label">ผู้ขาย</label>
+                            <div class="field-label is-normal">
+                            </div>
+                            <div class="field-body">
+                                <div class="field">
+                                    <div class="control">
+                                        .....................................
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="column">
+                        <div class="field is-horizontal">
+                            <label class="label">ผู้รับสินค้า</label>
+                            <div class="field-label is-normal">
+                            </div>
+                            <div class="field-body">
+                                <div class="field">
+                                    <div class="control">
+                                        .....................................
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="field is-horizontal">
+                            <label class="label">ผู้รับเงิน</label>
+                            <div class="field-label is-normal">
+                            </div>
+                            <div class="field-body">
+                                <div class="field">
+                                    <div class="control">
+                                        .....................................
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="columns">
+                    <div class="column">
+                        <div class="field is-horizontal">
+                            <label class="label">วันที่</label>
+                            <div class="field-label is-normal">
+                            </div>
+                            <div class="field-body">
+                                <div class="field">
+                                    <div class="control">
+                                        .......................................
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="column">
+                        <div class="field is-horizontal">
+                            <label class="label">วันที่</label>
+                            <div class="field-label is-normal">
+                            </div>
+                            <div class="field-body">
+                                <div class="field">
+                                    <div class="control">
+                                        .............................................
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="field is-horizontal">
+                            <label class="label">วันที่</label>
+                            <div class="field-label is-normal">
+                            </div>
+                            <div class="field-body">
+                                <div class="field">
+                                    <div class="control">
+                                        ..........................................
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+                <div class="buttons  is-right" style="margin-right:5%">
+                    <a class="button is-info is-outlined" style="width:10%">ตกลง</a>
+                    <a class="button is-info is-outlined" style="width:10%">ยกเลิก</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+</body>
+
+</html>
