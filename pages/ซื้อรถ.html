@@ -20,16 +20,16 @@
       var getLastName = localStorage.getItem("storageLastName");
       var getDepartment = localStorage.getItem("storageDepartment");
       document.getElementById("name").innerHTML = `<i class="fa fa-fw fa-user"></i> &nbsp;` + getName + " " + getLastName;
-      employee =  getName + " " + getLastName;
+      employee = getName + " " + getLastName;
     }
     var priceBuy = 0, priceTravel = 0, priceAgent = 0, priceVat = 0;
     var brand, model, idCar;
 
     function isNumber(e) {
-            e = e || window.event;
-            var charCode = e.which ? e.which : e.keyCode;
-            idLength = e.key
-            return /\d/.test(String.fromCharCode(charCode));
+      e = e || window.event;
+      var charCode = e.which ? e.which : e.keyCode;
+      idLength = e.key
+      return /\d/.test(String.fromCharCode(charCode));
     }
     function cancel() {
       window.location.reload()
@@ -51,12 +51,13 @@
       brand = document.getElementById("brand").value;
       model = document.getElementById("model").value;
       idCar = document.getElementById("carNumber").value;
+      priceBuy = document.getElementById("cost").value;
       var total;
       if (brand !== "" && model !== "" && idCar !== "") {
         if (priceVat === undefined || priceVat === 0) {
           total = Number(priceTravel) + Number(priceBuy) + Number(priceAgent);
           document.getElementById("total").value = total;
-          //window.location.href = "./สัญญาซื้อขาย.html";
+          window.location.href = "./สัญญาซื้อขาย.html";
           var data = {
             type: "buy",
             brand: brand,
@@ -71,13 +72,13 @@
             total: total,
             name_MST_Employee: employee
           };
-          // axios.post("http://localhost:4001/insert", data).then((res) => {
-          //   console.log(data)
-          // });
+          axios.post("http://localhost:4001/insert", data).then((res) => {
+            console.log(data)
+          });
         } else {
           var tax = (Number(priceTravel) + Number(priceBuy) + Number(priceAgent)) * 0.7;
           total = Number(priceTravel) + Number(priceBuy) + Number(priceAgent) + Number(tax);
-          //window.location.href = "./สัญญาซื้อขาย.html";
+          window.location.href = "./สัญญาซื้อขาย.html";
           document.getElementById("total").value = total;
           var data = {
             type: "buy",
@@ -93,14 +94,45 @@
             total: total,
             name_MST_Employee: employee
           };
-          // axios.post("http://localhost:4001/insert", data).then((res) => {
-          //   console.log(res.data.status)
-          // });
+          axios.post("http://localhost:4001/insert", data).then((res) => {
+            console.log(res.data.status)
+          });
         }
       } else {
         alert("กรุณาใส่ข้อมูลให้ครบทุกช่อง")
       }
     }
+    function showData() {
+
+      var getID = localStorage.getItem("sendID");
+      var data = { type: "car", ID_TRN_Sell: getID }
+
+      axios.post("http://localhost:4001/get", data).then((res) => {
+        var a = res.data
+        document.getElementById("brand").value = a.data.brand
+        document.getElementById("model").value = a.data.model
+        document.getElementById("carNumber").value = a.data.generateYear
+        document.getElementById("cost").value = a.data.salePrice
+
+
+        for (var i = 1; i <= 3; i++) {
+          var toAdd = document.createDocumentFragment();
+          var newDiv = document.createElement('img');
+          console.log(a.data.picture.pic)
+          toAdd.appendChild(newDiv);
+          if (i === 1) {
+            document.getElementById('pic1').src = a.data.picture.pic1;
+          } else if (i === 2) {
+            document.getElementById('pic2').src = a.data.picture.pic2;
+          } else {
+            document.getElementById('pic3').src = a.data.picture.pic3;
+          }
+        }
+      });
+    }
+    document.addEventListener("DOMContentLoaded", showData());
+
+
   </script>
   <nav class="navbar is-info" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
@@ -119,7 +151,7 @@
     <div id="navbarBasicExample" class="navbar-menu">
       <div class="navbar-start">
         <a class="navbar-item" href="./หน้าหลัก.html">หน้าหลัก</a>
-        <a class="navbar-item" href="./ซื้อรถ.html">ซื้อรถ</a>
+        <a class="navbar-item" href="./ค้นหารถ.html">ซื้อรถ</a>
         <a class="navbar-item" href="./หน้าขาย1.html">ขายรถ</a>
         <a class="navbar-item" href="./เดินทะเบียน.html">ทะเบียน</a>
         <a class="navbar-item" href="./จัดการพนักงาน.html">จัดการพนักงาน</a>
@@ -193,7 +225,8 @@
         <div class="field-body">
           <div class="field">
             <div class="control">
-              <input class="input " type="text" placeholder="ราคาซื้อ" id="cost" onkeypress="return isNumber(event);" onchange="setValueBuy()">
+              <input class="input " type="text" placeholder="ราคาซื้อ" id="cost" onkeypress="return isNumber(event);"
+                onchange="setValueBuy()">
             </div>
           </div>
         </div>
@@ -205,18 +238,14 @@
         <div class="field-body">
           <div class="field">
             <div class="control">
-              <img id="pic1" src="http://placehold.it/180" alt="Image preview..."
-                style="max-width: 200px; max-height: 200px" />
-              <img id="pic2" src="http://placehold.it/180" alt="Image preview..."
-                style="max-width: 200px; max-height: 200px" />
-              <img id="pic3" src="http://placehold.it/180" alt="Image preview..."
-                style="max-width: 200px; max-height: 200px" />
-              <img id="pic4" src="http://placehold.it/180" alt="Image preview..."
-                style="max-width: 200px; max-height: 200px" />
-              <img id="pic5" src="http://placehold.it/180" alt="Image preview..."
-                style="max-width: 200px; max-height: 200px" />
-              <img id="pic6" src="http://placehold.it/180" alt="Image preview..."
-                style="max-width: 200px; max-height: 200px" />
+              <div class="showPic">
+                <img id="pic1" src="http://placehold.it/180" alt="Image preview..."
+                  style="max-width: 200px; max-height: 200px" />
+                <img id="pic2" src="http://placehold.it/180" alt="Image preview..."
+                  style="max-width: 200px; max-height: 200px" />
+                <img id="pic3" src="http://placehold.it/180" alt="Image preview..."
+                  style="max-width: 200px; max-height: 200px" />
+              </div>
             </div>
           </div>
         </div>
@@ -228,7 +257,8 @@
         <div class="field-body">
           <div class="field">
             <div class="control">
-              <input class="input " type="text" placeholder="ค่าเดินทาง" id="costTravel" onkeypress="return isNumber(event);"onchange="setValueTravel()">
+              <input class="input " type="text" placeholder="ค่าเดินทาง" id="costTravel"
+                onkeypress="return isNumber(event);" onchange="setValueTravel()">
             </div>
           </div>
         </div>
@@ -240,7 +270,8 @@
         <div class="field-body">
           <div class="field">
             <div class="control">
-              <input class="input " type="text" placeholder="ค่านายหน้า" id="commission" onkeypress="return isNumber(event);" onchange="setValueAgent()">
+              <input class="input " type="text" placeholder="ค่านายหน้า" id="commission"
+                onkeypress="return isNumber(event);" onchange="setValueAgent()">
             </div>
           </div>
         </div>
@@ -282,7 +313,8 @@
         <div class="field-body">
           <div class="field">
             <div class="control">
-              <input class="input " type="text" placeholder="ราคารวม" id="total" onkeypress="return isNumber(event);" disabled>
+              <input class="input " type="text" placeholder="ราคารวม" id="total" onkeypress="return isNumber(event);"
+                disabled>
             </div>
           </div>
         </div>

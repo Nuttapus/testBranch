@@ -29,42 +29,33 @@
     var arraygear = []
     var arraySalePrice = []
     var data = []
-
-    var delayInMilliseconds = 2000;
+    var count = 0;
+    var delayInMilliseconds = 4000;
 
     function getTRNSell() {
-        var data = { type: "TRN_Sell" }
-        axios.post("http://localhost:4001/get", data).then((res) => {
-            for (i = 0; i < res.data.data.length; i++) {
-                data = res.data.data
-                // arraybrand.push(res.data.data[i].brand)
-                // arraymodel.push(res.data.data[i].model)
-                // arraygenerateYear.push(res.data.data[i].generateYear)
-                // arraygear.push(res.data.data[i].gear)
-                // arraySalePrice.push(res.data.data[i].salePrice)
-
-                // document.getElementById("brandd").innerHTML = "แบรนด์: " + arraybrand[i]
-                // document.getElementById("modell").innerHTML = "รุ่น: " + arraymodel[i]
-                // document.getElementById("yearr").innerHTML = "ปี: " + arraygenerateYear[i]
-                // document.getElementById("gearr").innerHTML = "เกียร์: " + arraygear[i]
-                // document.getElementById("pricee").innerHTML = "ราคา: " + arraySalePrice[i]
+        var dataCheck = { type: "TRN_Sell" }
+        axios.post("http://localhost:4001/get", dataCheck).then((res) => {
+            if (res.data) {
+                for (i = 0; i < res.data.data.length; i++) {
+                    data = res.data.data
+                }
+                data.forEach(function (item, i) {
+                    cards = cards.add(createCard(item));
+                    count++
+                });
             }
-            data.forEach(function (item, i) {
-                cards = cards.add(createCard(item));
-            });
         });
     }
 
     function createCard(cardData) {
-
         var cardTemplate = [
             '<div class="card">',
             '<div class="card-content">',
             '<p class="title">',
             '<div class="columns">',
             '<div class="column is-3">',
-            '<figure class="image is-128x128">',
-            '<img src="https://bulma.io/images/placeholders/128x128.png">',
+            '<figure class="image is-256x256">',
+            '<img src=', cardData.picture.pic2, ' width="50">',
             '</figure>',
             '</div>',
             '<div class="column is-two-fifths">',
@@ -80,16 +71,14 @@
             cardData.generateYear || 'No data provided', '</p>',
             '<p class="title is-3">เกียร์: ',
             cardData.gear || 'No data provided', '</p>',
-            '<a class="button is-success is-large">ซื้อ</a>',
+            '<button class="button is-info is-large" id=' +cardData.ID_TRN_Sell, ' onclick="loadPage(event)">ซื้อ</button>',
             '</div >',
             '</div >',
             '</p >',
             '</div >',
             '</div >',
             '<br>',
-
         ];
-
         return $(cardTemplate.join(''));
     }
     var cards = $();
@@ -100,13 +89,12 @@
         });
     }, delayInMilliseconds);
 
-    // $(function () {
-    //     $(".card").searcher({
-    //         itemSelector: ".card-content",
-    //         textSelector: "p",
-    //         inputSelector: "#cardSearch"
-    //     });
-    // });
+    function loadPage(e){
+        var idCheck = e.path[0].id
+        localStorage.setItem("sendID", idCheck);
+        console.log(idCheck)
+        window.location.href = "./ข้อมูลรถ.html"
+    }
 
 </script>
 
@@ -128,7 +116,7 @@
         <div id="navbarBasicExample" class="navbar-menu">
             <div class="navbar-start">
                 <a class="navbar-item" href="./หน้าหลัก.html">หน้าหลัก</a>
-                <a class="navbar-item" href="./ซื้อรถ.html">ซื้อรถ</a>
+                <a class="navbar-item" href="./ค้นหารถ.html">ซื้อรถ</a>
                 <a class="navbar-item" href="./หน้าขาย1.html">ขายรถ</a>
                 <a class="navbar-item" href="./เดินทะเบียน.html">ทะเบียน</a>
                 <a class="navbar-item" href="./จัดการพนักงาน.html">จัดการพนักงาน</a>

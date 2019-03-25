@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="../node_modules/bulma/css/bulma.min.css">
+    <link rel="shortcut icon" href="../img/logo.png" />
+    <title>ขายรถ(ต่อ)</title>
+    <style>
+        .inputRon {
+            width: 70%;
+            padding-right: 200px;
+            margin: 10px 10px;
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            height: 30px;
+        }
+
+        .topic {
+            padding-left: 25px !important;
+        }
+
+        .imageRon {
+            display: block;
+            position: relative;
+            border: 1px;
+        }
+
+        .imageRon img {
+            display: block;
+            height: auto;
+            width: 100%;
+            border: 1;
+        }
+
+        .imageRon img.is-rounded {
+            border-radius: 290486px;
+            border: 1;
+
+        }
+
+        .imageRon.is-square img,
+        .imageRon.is-1by1 img,
+        .imageRon.is-5by4 img,
+        .imageRon.is-4by3 img,
+        .imageRon.is-3by2 img,
+        .imageRon.is-5by3 img,
+        .imageRon.is-16by9 img,
+        .imageRon.is-2by1 img,
+        .imageRon.is-3by1 img,
+        .imageRon.is-4by5 img,
+        .imageRon.is-3by4 img,
+        .imageRon.is-2by3 img,
+        .imageRon.is-3by5 img,
+        .imageRon.is-9by16 img,
+        .imageRon.is-1by2 img,
+        .imageRon.is-1by3 img {
+            height: 100%;
+            width: 100%;
+            border: 1;
+        }
+
+        .imageRon.is-48x48 {
+            height: 48px;
+            width: 48px;
+            border: 1;
+        }
+
+        .choose_file {
+            position: relative;
+            display: inline-block;
+            border-radius: 5px;
+            border: #ebebeb solid 1px;
+            width: 100%;
+            height: 80%;
+            padding: 4px 6px 4px 8px;
+            font: normal 14px Myriad Pro, Verdana, Geneva, sans-serif;
+            color: #f8f5f5;
+            margin-top: 2px;
+            text-align: center;
+            background: rgb(65, 133, 235)
+        }
+
+        .choose_file input[type="file"] {
+            -webkit-appearance: none;
+            position: absolute;
+            ;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            width: 100%
+        }
+
+        .choose_file2 {
+            position: relative;
+            display: inline-block;
+            border-radius: 5px;
+            border: #ebebeb solid 1px;
+            width: 98%;
+            height: 80%;
+            padding: 4px 6px 4px 8px;
+            font: normal 14px Myriad Pro, Verdana, Geneva, sans-serif;
+            color: #f8f5f5;
+            margin-top: 2px;
+            text-align: center;
+            background: rgb(65, 133, 235)
+        }
+
+        .choose_file2 input[type="file"] {
+            -webkit-appearance: none;
+            position: absolute;
+            ;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            width: 98%
+        }
+
+        .choose_file3 {
+            position: relative;
+            display: inline-block;
+            border-radius: 5px;
+            border: #ebebeb solid 1px;
+            width: 70%;
+            height: 80%;
+            padding: 4px 6px 4px 8px;
+            font: normal 14px Myriad Pro, Verdana, Geneva, sans-serif;
+            color: #f8f5f5;
+            margin-top: 2px;
+            margin-left: 10px;
+            text-align: center;
+            background: rgb(65, 133, 235)
+        }
+
+        .choose_file3 input[type="file"] {
+            -webkit-appearance: none;
+            position: absolute;
+            ;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            width: 100%
+        }
+
+        .imageOutput {
+            width: 400px;
+            height: 400px;
+        }
+    </style>
+</head>
+
+<body>
+    <script src="../node_modules/axios/dist/axios.min.js"></script>
+    <script>
+        var count = 1
+        var count2 = 1
+        var idPicture
+
+
+        window.onload = function () {
+            var getName = localStorage.getItem("storageName");
+            var getLastName = localStorage.getItem("storageLastName");
+            var getDepartment = localStorage.getItem("storageDepartment");
+            document.getElementById("name").innerHTML = `<i class="fa fa-fw fa-user"></i> &nbsp;` + getName + " " + getLastName;
+        }
+
+        function previewFile() {
+            //var preview = document.getElementById('blah0'); //selects the query named img
+            var file = document.querySelector('input[type=file]').files[0]; //sames as here
+            var reader = new FileReader();
+            var namePic
+
+
+            reader.onloadend = function () {
+                console.log("check 1")
+                idPicture = reader.result;
+                localStorage.setItem("carPicture" + count, idPicture);
+            }
+            if (file) {
+                reader.readAsDataURL(file); //reads the data as a URL
+            } else {
+                preview.src = "";
+            }
+
+            loadFile(event)
+        }
+
+        var loadFile = function (event) {
+            var output = document.getElementById('outputCar' + count);
+            output.src = URL.createObjectURL(event.target.files[0]);
+            count++
+        };
+
+        function nextPage() {
+            window.location.href = "./หน้าขาย3.html";
+        }
+    </script>
+    <nav class="navbar is-info" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+            <a class="navbar-item" href="#">
+                <img src="../img/logo.png" width="112" height="28">
+            </a>
+
+            <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
+                data-target="navbarBasicExample">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
+        </div>
+
+        <div id="navbarBasicExample" class="navbar-menu">
+            <div class="navbar-start">
+                <a class="navbar-item" href="./หน้าหลัก.html">หน้าหลัก</a>
+                <a class="navbar-item" href="./ค้นหารถ.html">ซื้อรถ</a>
+                <a class="navbar-item" href="./หน้าขาย1.html">ขายรถ</a>
+                <a class="navbar-item" href="./เดินทะเบียน.html">ทะเบียน</a>
+                <a class="navbar-item" href="./จัดการพนักงาน.html">จัดการพนักงาน</a>
+                <a class="navbar-item" href="./ข้อมูลซ่อมรถ.html">ซ่อม</a>
+                <a class="navbar-item" href="./ค้นหาลูกค้า.html">ลูกค้า</a>
+
+            </div>
+            <div class="navbar-end">
+                <div class="navbar-item has-dropdown is-hoverable">
+                    <a class="navbar-link" id="name">
+                        <i class="fa fa-fw fa-user"></i> &nbsp; ชื่อผู้ใช้
+                    </a>
+
+                    <div class="navbar-dropdown">
+                        <a class="navbar-item" href="../ล็อกอิน.html">
+                            ออกจากระบบ
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <br>
+    <div class="container">
+        <div class="title" style="color: red;">
+            <h1>
+                ขายรถขั้นตอนที่ 2/3
+            </h1>
+        </div>
+        <div class="title is-3">
+            <h1>
+                รูปภาพ
+            </h1>
+        </div>
+    </div>
+    <br>
+    <br>
+    <div class="conatiner">
+        <div class="container">
+            <div class="choose_file">
+                <span>+ อัพโหลดรูปภาพ</span>
+                <input class="inputRon input-padding-16" type="file" accept="image/*" onchange="previewFile()">
+            </div>
+            <p>
+                คุณสามารถอัปโหลดรูปรถได้สูงสุดถึง 21 รูป โดยรูปภาพจะต้องเป็นแนวนอน ไม่มีการตกแต่งภาพใดๆ
+                และอัปโหลดอย่างน้อย 5 รูป นามสกุลไฟล์รูปภาพที่รองรับคือ JPG และ JPEG เท่านั้น
+                โดยแต่ละไฟล์รูปภาพจะต้องมีขนาดระหว่าง 10 KB แต่ไม่เกิน 50 mb.
+            </p>
+            <div class="row">
+                <div class="columns">
+                    <div class="column">
+                        <div class="dotted">
+                            <img id="outputCar1" class="imageOutput">
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="dotted">
+                            <img id="outputCar2" class="imageOutput">
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="dotted">
+                            <img id="outputCar3" class="imageOutput">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <br>
+            <br>
+            <div class="buttons is-right" >
+                <a class="button is-info is-outlined" style="width:10%" onclick="nextPage()">ถัดไป</a>
+            </div>
+            <br>
+        </div>
+        <footer class="footer">
+            <div class="content has-text-centered">
+                <p>
+                    <strong>&nbsp;&copy; 2018 - Project</strong> by SourceSoft</a>
+                </p>
+            </div>
+        </footer>
+
+</body>
+
+</html>

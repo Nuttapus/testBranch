@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="../node_modules/bulma/css/bulma.min.css">
+    <link rel="shortcut icon" href="../img/logo.png" />
+    <title>ขายรถ(ต่อ)</title>
+</head>
+
+<body>
+    <script src="../node_modules/axios/dist/axios.min.js"></script>
+    <script>
+        var alertText = ""
+
+
+        var getBrand = localStorage.getItem("brand");
+        var getModel = localStorage.getItem("model");
+        var getGenerateYear = localStorage.getItem("generateYear");
+        var getGear = localStorage.getItem("gear");
+        var getCC = localStorage.getItem("cc");
+        var getCarYear = localStorage.getItem("carYear");
+        var getDetailModel = localStorage.getItem("detailModel");
+        var getOptions = localStorage.getItem("options");
+        var getMiles = localStorage.getItem("miles");
+        var getColor = localStorage.getItem("color");
+        var getRegisterYear = localStorage.getItem("registerYears");
+        var getSalePrice = localStorage.getItem("salePrice");
+        var getTopic = localStorage.getItem("topic");
+        var getTextArea = localStorage.getItem("textArea");
+        var getCarPic1 = localStorage.getItem("carPicture1");
+        var getCarPic2 = localStorage.getItem("carPicture2");
+        var getCarPic3 = localStorage.getItem("carPicture3");
+        var getPicidCard1 = localStorage.getItem("idCard1");
+        var getPicidCard2 = localStorage.getItem("idCard2");
+
+        // console.log(getCarPic1)
+        // console.log(getCarPic2)
+        // console.log(getCarPic3)
+        // console.log(getPicidCard1)
+        // console.log(getPicidCard2)
+
+        window.onload = function () {
+            var getName = localStorage.getItem("storageName");
+            var getLastName = localStorage.getItem("storageLastName");
+            var getDepartment = localStorage.getItem("storageDepartment");
+            document.getElementById("name").innerHTML = `<i class="fa fa-fw fa-user"></i> &nbsp;` + getName + " " + getLastName;
+        }
+
+        function insertData() {
+            if (checkData()) {
+                var obj = {
+                    type: "sell",
+                    brand: getBrand,
+                    model: getModel,
+                    generateYear: getGenerateYear,
+                    gear: getGear,
+                    cc: getCC,
+                    carYear: getCarYear,
+                    detailModel: getDetailModel,
+                    options: getOptions,
+                    miles: getMiles,
+                    registerYear: getRegisterYear,
+                    color: getColor,
+                    salePrice: getSalePrice,
+                    topic: getTopic,
+                    textArea: getTextArea,
+                    picture: {
+                        "pic1": getCarPic1,
+                        "pic2": getCarPic2,
+                        "pic3": getCarPic3
+                    },
+                    detailCustomer: {
+                        "email": document.getElementById("email").value,
+                        "name": document.getElementById("nameCus").value,
+                        "lastname": document.getElementById("lastname").value,
+                        "textID": document.getElementById("textID").value,
+                        "call": document.getElementById("call").value
+                    },
+                    name_MST_Employee: "บรรชา จิตรอ่อน"
+                }
+                console.log(obj)
+                axios.post("http://localhost:4001/insert", obj).then((res) => {
+                    if (res.data.status) {
+                        location.reload();
+                    } else {
+                        alert("username นี้มีอยู่แล้วในระบบ")
+                    }
+                })
+            } else {
+                alert(alertText)
+            }
+
+        }
+
+        function isNumber(e) {
+            e = e || window.event;
+            var charCode = e.which ? e.which : e.keyCode;
+            idLength = e.key
+            return /\d/.test(String.fromCharCode(charCode));
+        }
+
+        function checkData() {
+            if (checkEmail()) {
+                if (document.getElementById("email").value !== "") {
+                    if (document.getElementById("nameCus").value !== "") {
+                        if (document.getElementById("lastname").value !== "") {
+                            if (document.getElementById("textID").value !== "") {
+                                if (document.getElementById("call").value !== "") {
+                                    return true
+                                } else {
+                                    alertText = "กรุณากรอกเบอร์โทรศัพทร์ให้ถูกต้อง"
+                                    return false
+                                }
+                            } else {
+                                alertText = "กรุณากรอกรหัสประจำตัวประชนให้ถูกต้อง"
+                                return false
+                            }
+                        } else {
+                            alertText = "กรุณากรอกนามสกุลให้ถูกต้อง"
+                            return false
+                        }
+                    } else {
+                        alertText = "กรุณากรอกชื่อให้ถูกต้อง"
+                        return false
+                    }
+                } else {
+                    alertText = "กรุณากรอก Email ให้ถูกต้อง"
+                    return false
+                }
+            } else {
+                alert("กรอก email ให้ถูกต้อง")
+            }
+
+        }
+
+
+        function validateEmail(email) {
+            var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return re.test(email);
+        }
+        function checkEmail() {
+            if (validateEmail(document.getElementById("email").value)) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        function validate(evt) {
+            var theEvent = evt || window.event;
+            // Handle paste
+            if (theEvent.type === 'paste') {
+                key = event.clipboardData.getData('text/plain');
+            } else {
+                // Handle key press
+                var key = theEvent.keyCode || theEvent.which;
+                key = String.fromCharCode(key);
+            }
+            var regex = /[0-9]|\./;
+            if (!regex.test(key)) {
+                theEvent.returnValue = false;
+                if (theEvent.preventDefault) theEvent.preventDefault();
+            }
+        }
+
+
+    </script>
+    <nav class="navbar is-info" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+            <a class="navbar-item" href="#">
+                <img src="../img/logo.png" width="112" height="28">
+            </a>
+
+            <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
+                data-target="navbarBasicExample">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
+        </div>
+
+        <div id="navbarBasicExample" class="navbar-menu">
+            <div class="navbar-start">
+                <a class="navbar-item" href="./หน้าหลัก.html">หน้าหลัก</a>
+                <a class="navbar-item" href="./ค้นหารถ.html">ซื้อรถ</a>
+                <a class="navbar-item" href="./หน้าขาย1.html">ขายรถ</a>
+                <a class="navbar-item" href="./เดินทะเบียน.html">ทะเบียน</a>
+                <a class="navbar-item" href="./จัดการพนักงาน.html">จัดการพนักงาน</a>
+                <a class="navbar-item" href="./ข้อมูลซ่อมรถ.html">ซ่อม</a>
+                <a class="navbar-item" href="./ค้นหาลูกค้า.html">ลูกค้า</a>
+
+            </div>
+            <div class="navbar-end">
+                <div class="navbar-item has-dropdown is-hoverable">
+                    <a class="navbar-link" id="name">
+                        <i class="fa fa-fw fa-user"></i> &nbsp; ชื่อผู้ใช้
+                    </a>
+
+                    <div class="navbar-dropdown">
+                        <a class="navbar-item" href="../ล็อกอิน.html">
+                            ออกจากระบบ
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <br>
+    <div class="container">
+        <div class="title" style="color: red;">
+            <h1>
+                ขายรถขั้นตอนที่ 3/3
+            </h1>
+        </div>
+        <div class="title is-3">
+            <h1>
+                ข้อมูลผู้ขาย
+            </h1>
+        </div>
+    </div>
+    <br>
+    <br>
+    <div class="container">
+        <div class="container">
+            <div class="row">
+                <div class="column is-6">
+                    <label>email</label>
+                    <input class="input is-2" type="text" placeholder="ตัวอย่าง : aaa@gmail.com" id="email"
+                        onkeypress="return (event.charCode >= 64 && event.charCode <= 90) || (event.charCode >= 95 && event.charCode <= 122) || (event.charCode >= 45 && event.charCode <= 57)">
+                </div>
+            </div>
+            <div class="row">
+                <div class="column is-6">
+                    <label>ชื่อ</label>
+                    <input class="input is-2" type="text" placeholder="ตัวอย่าง : ดำ" id="nameCus">
+                </div>
+            </div>
+            <div class="row">
+                <div class="column is-6">
+                    <label>นามสกุล</label>
+                    <input class="input is-2" type="text" placeholder="ตัวอย่าง : ดี" id="lastname">
+                </div>
+            </div>
+            <div class="row">
+                <div class="column is-6">
+                    <label>เลขประจำตัวประชาชน หรือ เลขหนังสือเดินทาง</label>
+                    <input class="input is-2" type="text" placeholder="ตัวอย่าง : 1000020202020" id="textID" maxlength="13" onkeypress="return isNumber(event)">
+                </div>
+            </div>
+            <div class="row">
+                <div class="column is-6">
+                    <label>เบอร์โทรศัพท์</label>
+                    <input class="input is-2" type="text" placeholder="ตัวอย่าง : 0911111111" id="call" maxlength="10" onkeypress="return isNumber(event)">
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <br>
+    <br>
+    <div class="buttons is-right" style="margin-right: 15%">
+        <a class="button is-info is-outlined" style="width:10%" onclick="insertData()">ยืนยัน</a>
+        <a class="button is-danger is-outlined" style="width:10%" onclick="submit()">ยกเลิก</a>
+    </div>
+    <br>
+    <footer class="footer">
+        <div class="content has-text-centered">
+            <p>
+                <strong>&nbsp;&copy; 2018 - Project</strong> by SourceSoft</a>
+            </p>
+            <img id="textPic">
+        </div>
+    </footer>
+
+</body>
+
+</html>
