@@ -51,11 +51,12 @@
         function checkValue() {
             checkUsername = true;
             checkEmail = true
+            var data = { type: "login"}
             var arrayEmployee = [];
             var username = document.getElementById("username").value;
             var email = document.getElementById("email").value;
 
-            axios.get("http://localhost:4001/getEmployee").then((res) => {
+            axios.post("http://localhost:4001/get", data).then((res) => {
                 arrayEmployee = res.data;
                 for (i = 0; i < arrayEmployee.data.length; i++) {
                     if (username == arrayEmployee.data[i].username) {
@@ -118,11 +119,11 @@
                             <div class="control">
                                 <div class="columns">
                                     <div class="column">
-                                        <a class="button is-info is-large is-fullwidth" type="submit"
+                                        <a class="button is-info is-outlined is-large is-fullwidth" type="submit"
                                             onclick="checkValue()">ยืนยัน</a>
                                     </div>
                                     <div class="column">
-                                        <a class="button is-dark is-large is-fullwidth" type="submit"
+                                        <a class="button is-info is-outlined is-large is-fullwidth" type="submit"
                                             onclick="gotoLogin()">ยกเลิก</a>
                                     </div>
                                 </div>
