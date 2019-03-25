@@ -16,13 +16,6 @@
 
 <script>
 
-    window.onload = function () {
-        var getName = localStorage.getItem("storageName");
-        var getLastName = localStorage.getItem("storageLastName");
-        var getDepartment = localStorage.getItem("storageDepartment");
-        document.getElementById("name").innerHTML = `<i class="fa fa-fw fa-user"></i> &nbsp;` + getName + " " + getLastName;
-        employee = getName + " " + getLastName;
-    }
     var arraybrand = []
     var arraymodel = []
     var arraygenerateYear = []
@@ -30,9 +23,14 @@
     var arraySalePrice = []
     var data = []
     var count = 0;
-    var delayInMilliseconds = 4000;
+    var delayInMilliseconds = 4500;
 
     function getTRNSell() {
+        var getName = localStorage.getItem("storageName");
+        var getLastName = localStorage.getItem("storageLastName");
+        var getDepartment = localStorage.getItem("storageDepartment");
+        document.getElementById("name").innerHTML = `<i class="fa fa-fw fa-user"></i> &nbsp;` + getName + " " + getLastName;
+        employee = getName + " " + getLastName;
         var dataCheck = { type: "TRN_Sell" }
         axios.post("http://localhost:4001/get", dataCheck).then((res) => {
             if (res.data) {
@@ -71,7 +69,7 @@
             cardData.generateYear || 'No data provided', '</p>',
             '<p class="title is-3">เกียร์: ',
             cardData.gear || 'No data provided', '</p>',
-            '<button class="button is-info is-large" id=' +cardData.ID_TRN_Sell, ' onclick="loadPage(event)">ซื้อ</button>',
+            '<button class="button is-info is-large" id=' + cardData.ID_TRN_Sell, ' onclick="loadPage(event)">ซื้อ</button>',
             '</div >',
             '</div >',
             '</p >',
@@ -89,7 +87,7 @@
         });
     }, delayInMilliseconds);
 
-    function loadPage(e){
+    function loadPage(e) {
         var idCheck = e.path[0].id
         localStorage.setItem("sendID", idCheck);
         console.log(idCheck)
