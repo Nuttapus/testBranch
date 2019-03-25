@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="../node_modules/bulma/css/bulma.min.css">
+    <link rel="shortcut icon" href="../img/logo.png" />
+    <title>ข้อมูลรถ</title>
+</head>
+
+<body>
+    <script src="../node_modules/axios/dist/axios.min.js"></script>
+    <script>
+        var getID, getPic
+        window.onload = function () {
+            var getName = localStorage.getItem("storageName");
+            var getLastName = localStorage.getItem("storageLastName");
+            var getDepartment = localStorage.getItem("storageDepartment");
+
+            document.getElementById("name").innerHTML = `<i class="fa fa-fw fa-user"></i> &nbsp;` + getName + " " + getLastName;
+        }
+
+        function showData() {
+            getID = localStorage.getItem("sendID");
+            var data = { type: "car", ID_TRN_Sell: getID }
+            axios.post("http://localhost:4001/get", data).then((res) => {
+                var a = res.data
+                document.getElementById("brand").innerHTML = a.data.brand
+                document.getElementById("model").innerHTML = a.data.model
+                document.getElementById("generateYear").innerHTML = a.data.generateYear
+                document.getElementById("gear").innerHTML = a.data.gear
+                document.getElementById("cc").innerHTML = a.data.cc
+                document.getElementById("carYear").innerHTML = a.data.carYear
+                document.getElementById("detailModel").innerHTML = a.data.detailModel
+                document.getElementById("miles").innerHTML = a.data.miles
+                document.getElementById("model").innerHTML = a.data.model
+                document.getElementById("price").innerHTML = a.data.salePrice
+                document.getElementById("topic").innerHTML = a.data.topic
+                document.getElementById("color").innerHTML = a.data.color
+
+                var newDiv = document.createElement('img');
+                // newDiv.src = a.data.picture.pic+""+i
+                // toAdd.appendChild(newDiv);
+                // document.getElementById('pic'+i).appendChild(toAdd);
+
+                for (var i = 1; i <= 3; i++) {
+                    var toAdd = document.createDocumentFragment();
+                    var newDiv = document.createElement('img');
+                    console.log(a.data.picture.pic)
+                    toAdd.appendChild(newDiv);
+                    if (i === 1) {
+                        newDiv.src = a.data.picture.pic1
+                        newDiv.alt = "picture"
+                        document.getElementById('pic1').appendChild(toAdd);
+                    } else if (i === 2) {
+                        newDiv.src = a.data.picture.pic2
+                        newDiv.alt = "picture"
+                        document.getElementById('pic2').appendChild(toAdd);
+                        picBig.src = a.data.picture.pic2
+                        picBig.alt = "picture"
+                    } else {
+                        newDiv.src = a.data.picture.pic3
+                        newDiv.alt = "picture"
+                        document.getElementById('pic3').appendChild(toAdd);
+                    }
+
+                }
+            });
+        }
+        document.addEventListener("DOMContentLoaded", showData());
+
+        function buy(){
+            window.location.href = "./ซื้อรถ.html"
+        }
+    </script>
+    <nav class="navbar is-info" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+            <a class="navbar-item" href="#">
+                <img src="../img/logo.png" width="112" height="28">
+            </a>
+
+            <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
+                data-target="navbarBasicExample">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
+        </div>
+
+        <div id="navbarBasicExample" class="navbar-menu">
+            <div class="navbar-start">
+                <a class="navbar-item" href="./หน้าหลัก.html">หน้าหลัก</a>
+                <a class="navbar-item" href="./ค้นหารถ.html">ซื้อรถ</a>
+                <a class="navbar-item" href="./หน้าขาย1.html">ขายรถ</a>
+                <a class="navbar-item" href="./เดินทะเบียน.html">ทะเบียน</a>
+                <a class="navbar-item" href="./จัดการพนักงาน.html">จัดการพนักงาน</a>
+                <a class="navbar-item" href="./ข้อมูลซ่อมรถ.html">ซ่อม</a>
+                <a class="navbar-item" href="./ค้นหาลูกค้า.html">ลูกค้า</a>
+
+            </div>
+            <div class="navbar-end">
+                <div class="navbar-item has-dropdown is-hoverable">
+                    <a class="navbar-link" id="name">
+                        <i class="fa fa-fw fa-user"></i> &nbsp; ชื่อผู้ใช้
+                    </a>
+
+                    <div class="navbar-dropdown">
+                        <a class="navbar-item" href="../ล็อกอิน.html">
+                            ออกจากระบบ
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <br>
+    <br>
+    <div class="container">
+        <div class="columns">
+            <div class="column is-2">
+                <div class="card" id="pic1">
+
+                </div>
+                <div class="card" id="pic2">
+
+                </div>
+                <div class="card" id="pic3">
+
+                </div>
+            </div>
+            <div class="column is-7">
+                <div class="row has-text-centered">
+                    <label id="price">
+                        ข้อมูลผู้ขาย
+                    </label>
+                </div>
+                <br>
+                <div class="card">
+                    <img id="picBig">
+                </div>
+                <br>
+                <div class="row">
+                    <label id="topic">
+                        แอคคอร์ดสวยๆ ท๊อปสุด รถมือเดียว บุคเซอร์วิสพร้อม ภายในดำตัดลายไม้หรูหรา แอร์ดิจิตอล
+                        ซันรูฟหลังคาไฟฟ้า
+                        วิทยุ CD/DVD MP USB จอ LCD กลาง พร้อมระบบNavigator และกล้องมองหลัง ระบบครูซคอนโทรล
+                        ปุ่ม Start กุญแจสมาร์ทคีย์ ม่านหลังไฟฟ้า เบาะหนังปรับไฟฟ้า แอร์แบค ABS ล้อแม็คสวยๆ
+                        ชุดแต่งรอบคัน สวยงามพร้อมใช้เลยครับ
+                    </label>
+                </div>
+            </div>
+            <div class="column">
+                <div class="row has-text-centered">
+                    <label>
+                        ข้อมูลผู้ขาย
+                    </label>
+                </div>
+                <br>
+                <div class="row has-text-centered">
+                    <label>
+                        สเปครถ
+                    </label>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="columns">
+                        <div class="column">
+                            <label>
+                                ยี่ห้อรถ
+                            </label>
+                        </div>
+                        <div class="column">
+                            <label id="brand">
+                                toyota
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="columns">
+                        <div class="column">
+                            <label>
+                                รุ่น
+                            </label>
+                        </div>
+                        <div class="column">
+                            <label id="model">
+                                camry
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="columns">
+                        <div class="column">
+                            <label>
+                                โฉมรถยนต์
+                            </label>
+                        </div>
+                        <div class="column">
+                            <label id="carYear">
+                                ปี 2019
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="columns">
+                        <div class="column">
+                            <label>
+                                รายละเอียดรุ่น
+                            </label>
+                        </div>
+                        <div class="column">
+                            <label id="detailModel">
+                                sportcar
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="columns">
+                        <div class="column">
+                            <label>
+                                ปีที่ผลิด
+                            </label>
+                        </div>
+                        <div class="column">
+                            <label id="generateYear">
+                                2019
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="columns">
+                        <div class="column">
+                            <label>
+                                ขนาดเครื่องยนต์
+                            </label>
+                        </div>
+                        <div class="column">
+                            <label id="cc">
+                                2000 cc
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="columns">
+                        <div class="column">
+                            <label>
+                                ระบบเกียร์
+                            </label>
+                        </div>
+                        <div class="column">
+                            <label id="gear" อัตโนมัติ </label> </div> </div> </div> <div class="row">
+                                <div class="columns">
+                                    <div class="column">
+                                        <label>
+                                            เลขไมล์
+                                        </label>
+                                    </div>
+                                    <div class="column">
+                                        <label id="miles">
+                                            200000
+                                        </label>
+                                    </div>
+                                </div>
+                        </div>
+                        <div class="row">
+                            <div class="columns">
+                                <div class="column">
+                                    <label>
+                                        สี
+                                    </label>
+                                </div>
+                                <div class="column">
+                                    <label id="color">
+                                        ดำ
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <button class="button is-info is-large is-fullwidth " onclick="buy()">ซื้อ</button>
+                    </div>
+                </div>
+            </div>
+</body>
+
+</html>

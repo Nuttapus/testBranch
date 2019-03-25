@@ -34,13 +34,20 @@ app.post('/get', (req, res) => {
                 if (err) throw err;
                 res.json({ data: result })
                 client.close();
-
             })
         } else if (req.body.type === "MST_Customer") {
             const db = client.db(dbName)
             db.collection('MST_Customer').find({}).toArray(function (err, result) {
                 if (err) throw err;
                 res.json({ data: result })
+                client.close();
+            })
+        } else if (req.body.type === "car") {
+            const db = client.db(dbName)
+            db.collection('TRN_Sell').findOne({ ID_TRN_Sell: req.body.ID_TRN_Sell }, (err, result) => {
+                if (err) throw err
+                res.json({ data: result })
+                console.log(result)
                 client.close();
             })
         }
@@ -257,6 +264,46 @@ app.post('/insert', (req, res) => {
                 });
                 
             });
+        }else if (req.body.type === "sell") {
+            db.collection('TRN_Sell').find({}).toArray(function (err, result) {
+                console.log("check pass")
+                var count = result.length
+                count += 1
+                db.collection('TRN_Sell').findOne({ ID_TRN_Sell: req.body.ID_TRN_Sell }, (err, result) => {
+                    if (err) throw err
+                    console.log(result)
+                    if (result === null) {
+                        const newBuy = {
+                            ID_TRN_Sell: "sell" + count,
+                            brand: req.body.brand,
+                            model: req.body.model,
+                            generateYear: req.body.generateYear,
+                            gear: req.body.gear,
+                            cc: req.body.cc,
+                            carYear: req.body.carYear,
+                            detailModel: req.body.detailModel,
+                            options: req.body.options,
+                            miles: req.body.miles,
+                            registerYear: req.body.registerYear,
+                            color: req.body.color,
+                            salePrice: req.body.salePrice,
+                            topic: req.body.topic,
+                            textArea: req.body.textArea,
+                            picture: req.body.picture,
+                            detailCustomer: req.body.detailCustomer,
+                            name_MST_Employee: req.body.name_MST_Employee
+                        };
+                        db.collection('TRN_Sell').insertOne(newBuy, (err, result) => {
+                            if (err) throw err
+                            client.close()
+                            res.json({ status: true })
+                        })
+                    } else {
+                        res.json({ status: false })
+                        client.close()
+                    }
+                })
+            })
         }
     })
 })
