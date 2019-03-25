@@ -36,6 +36,13 @@ app.post('/get', (req, res) => {
                 client.close();
 
             })
+        } else if (req.body.type === "MST_Customer") {
+            const db = client.db(dbName)
+            db.collection('MST_Customer').find({}).toArray(function (err, result) {
+                if (err) throw err;
+                res.json({ data: result })
+                client.close();
+            })
         }
     })
 })
@@ -111,6 +118,7 @@ app.post('/insert', (req, res) => {
                     }
 
                 });
+                
             });
         } else if (req.body.type === "MST_Registration") {
             db.collection('MST_Registration').find({}).toArray(function (err, result) {
@@ -214,6 +222,41 @@ app.post('/insert', (req, res) => {
 
                 });
             });
+        } else if (req.body.type === "MST_Customer") {
+            db.collection('MST_Customer').find({}).toArray(function (err, result) {
+                var count = result.length
+                count += 1
+                db.collection('MST_Customer').findOne({ ID_MST_Customer: req.body.idDB }, (err, result1) => {
+                    const newCus = {
+                        "ID_MST_Customer": "c" + count,
+                        "name": req.body.name,
+                        "lastname": req.body.lastname,
+                        "birthday": req.body.date,
+                        "idCardNumber": req.body.id,
+                        "sex": req.body.sex,
+                        "email": req.body.email,
+                        "address": req.body.address,
+                        "tambon": req.body.tumbon,
+                        "amphoe": req.body.aumphoe,
+                        "city": req.body.city,
+                        "postcode": req.body.post,
+                        "tel": req.body.mobile,
+                        "typeCus": req.body.typeCus
+                    }
+                    if (result1 === null) {
+                        db.collection('MST_Customer').insertOne(newCus, (err, result2) => {
+                            if (err) throw err
+                            client.close()
+                            res.json({ status: true })
+                        })
+                    } else {
+                        res.json({ status: false })
+                        client.close()
+                    }
+
+                });
+                
+            });
         }
     })
 })
@@ -245,6 +288,28 @@ app.post('/update', (req, res) => {
                 res.json({ status: true })
                 client.close();
             });
+        } else if (req.body.type === "MST_Customer") {
+            const updateData = {
+                "ID_MST_Customer": req.body.idDB,
+                "name": req.body.name,
+                "lastname": req.body.lastname,
+                "birthday": req.body.date,
+                "idCardNumber": req.body.id,
+                "sex": req.body.sex,
+                "email": req.body.email,
+                "address": req.body.address,
+                "tambon": req.body.tumbon,
+                "amphoe": req.body.aumphoe,
+                "city": req.body.city,
+                "postcode": req.body.post,
+                "tel": req.body.mobile,
+                "typeCus": req.body.typeCus
+            }
+            db.collection("MST_Customer").update({ ID_MST_Customer: req.body.idDB }, updateData, function (err, result) {
+                if (err) throw err;
+                res.json({ status: true })
+                client.close();
+            });
         }
     })
 })
@@ -255,6 +320,12 @@ app.post('/delete', (req, res) => {
         const type = req.body.type
         if (type === "MST_Employee") {
             db.collection(type).deleteOne({ username: req.body.username }, (err, obj) => {
+                if (err) throw err;
+                res.json({ data: obj })
+                client.close();
+            });
+        } else if (type === "MST_Customer") {
+            db.collection(type).deleteOne({ ID_MST_Customer: req.body.idDB }, (err, obj) => {
                 if (err) throw err;
                 res.json({ data: obj })
                 client.close();
