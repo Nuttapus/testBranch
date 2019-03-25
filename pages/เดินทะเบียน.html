@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" type="text/css" href="../node_modules//bulma/css/bulma.css">
+  <style>
+    body,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      font-family: "Lato", sans-serif
+    }
+
+    .w3-bar,
+    h1,
+    button {
+      font-family: "Montserrat", sans-serif
+    }
+
+    .fa-anchor,
+    .fa-coffee {
+      font-size: 200px
+    }
+  </style>
+  <title>เดินทะเบียน</title>
+</head>
+
+<body>
+  <script src="../node_modules/axios/dist/axios.min.js"></script>
+  <script>
+    var employee;
+    window.onload = function () {
+      var getName = localStorage.getItem("storageName");
+      var getLastName = localStorage.getItem("storageLastName");
+      var getDepartment = localStorage.getItem("storageDepartment");
+      document.getElementById("name").innerHTML = `<i class="fa fa-fw fa-user"></i> &nbsp;` + getName + " " + getLastName;
+      employee = getName + " " + getLastName;
+    }
+    function addRegis() {
+      var dateregis = document.getElementById("dateregis").value;
+      var regisnumber = document.getElementById("regisnumber").value;
+      var province = document.getElementById("province").value;
+      var genre = document.getElementById("genre").value;
+      var look = document.getElementById("look").value;
+      var brand = document.getElementById("brand").value;
+      var model = document.getElementById("model").value;
+      var years = document.getElementById("year").value;
+      var color = document.getElementById("color").value;
+      var carnumber = document.getElementById("carnumber").value;
+      var lieto = document.getElementById("lieto").value;
+      var enginebrand = document.getElementById("enginebrand").value;
+      var enginenumber = document.getElementById("enginenumber").value;
+      var address = document.getElementById("address").value;
+      var fuel = document.getElementById("fuel").value;
+      var tanknumber = document.getElementById("tanknumber").value;
+      var quantity = document.getElementById("quantity").value;
+      var CC = document.getElementById("CC").value;
+      var hp = document.getElementById("hp").value;
+      var carweight = document.getElementById("carweight").value;
+      var payload = document.getElementById("payload").value;
+      var totalweight = document.getElementById("totalweight").value;
+      var seats = document.getElementById("seats").value;
+      if (dateregis != "") {
+        if (regisnumber != "") {
+          if (province != "") {
+            if (genre != "") {
+              if (look != "") {
+                if (brand != "") {
+                  if (model != "") {
+                    if (color != "") {
+                      if (carnumber != "") {
+                        if (lieto != "") {
+                          if (enginebrand != "") {
+                            if (enginenumber != "") {
+                              if (address != "") {
+                                if (tanknumber != "") {
+                                  if (quantity != "") {
+                                    if (CC != "") {
+                                      if (hp != "") {
+                                        if (carweight != "") {
+                                          if (payload != "") {
+                                            if (totalweight != "") {
+                                              if (seats != "") {
+                                                const data = {
+                                                  registrationDate: dateregis,
+                                                  registrationNumber: regisnumber,
+                                                  province: province,
+                                                  genre: genre,
+                                                  type: look,
+                                                  brand: brand,
+                                                  model: model,
+                                                  modelYear: years,
+                                                  color: color,
+                                                  carNumber: carnumber,
+                                                  address: lieto,
+                                                  engineBand: enginebrand,
+                                                  engineNumber: enginenumber,
+                                                  engineNumberAddress: address,
+                                                  fuel: fuel,
+                                                  tankNumber: tanknumber,
+                                                  quantity: quantity,
+                                                  cc: CC,
+                                                  horsePower: hp,
+                                                  carWeight: carweight,
+                                                  payLoad: payload,
+                                                  totalWeight: totalweight,
+                                                  seat: seats,
+                                                  type: "MST_Registration"
+                                                }
+                                                axios.post("http://localhost:4001/insert", data).then((res) => {
+                                                  console.log(data)
+                                                  alert("เพิ่มข้อมูลสำเร็จ")
+                                                });
+                                                // window.location.href = "./ใบรับทะเบียน.html"
+                                              } else {
+                                                alert("กรุณากรอกที่นั่ง");
+                                              }
+                                            } else {
+                                              alert("กรุณากรอกน้ำหนักรวม");
+                                            }
+                                          } else {
+                                            alert("กรุณากรอกน้ำหนักบรรทุก/น้ำหนักลงเพลา");
+                                          }
+                                        } else {
+                                          alert("กรุณากรอกน้ำหนักรถ");
+                                        }
+                                      } else {
+                                        alert("กรุณากรอกแรงม้า");
+                                      }
+                                    } else {
+                                      alert("กรุณากรอกซีซี");
+                                    }
+                                  } else {
+                                    alert("กรุณากรอกจำนวน");
+                                  }
+                                } else {
+                                  alert("กรุณากรอกเลขถัง");
+                                }
+                              } else {
+                                alert("กรุณากรอกที่อยู่เลขเครื่องยนต์");
+                              }
+                            } else {
+                              alert("กรุณากรอกเลขเครื่องยนต์");
+                            }
+                          } else {
+                            alert("กรุณากรอกยี่ห้อเครื่องยนต์");
+                          }
+                        } else {
+                          alert("กรุณากรอกที่อยู่เลขตัวรถ");
+                        }
+                      } else {
+                        alert("กรุณากรอกเลขตัวรถ");
+                      }
+                    } else {
+                      alert("กรุณากรอกสี");
+                    }
+                  } else {
+                    alert("กรุณากรอกแบบ");
+                  }
+                } else {
+                  alert("กรุณากรอกยี่ห้อ");
+                }
+              } else {
+                alert("กรุณากรอกลักษณะ");
+              }
+            } else {
+              alert("กรุณากรอกประเภท");
+            }
+          } else {
+            alert("กรุณากรอกจังหวัด");
+          }
+        } else {
+          alert("กรุณากรอกเลขทะเบียน");
+        }
+      } else {
+        alert("กรุณากรอกวันจดทะเบียน");
+      }
+    }
+  </script>
+  <nav class="navbar is-info" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="./หน้าหลัก.html">
+        <img src="../img/logo.png" width="112" height="28">
+      </a>
+
+      <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
+        data-target="navbarBasicExample">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
+    </div>
+
+    <div id="navbarBasicExample" class="navbar-menu">
+      <div class="navbar-start">
+        <a class="navbar-item" href="./หน้าหลัก.html">หน้าหลัก</a>
+        <a class="navbar-item" href="./ซื้อรถ.html">ซื้อรถ</a>
+        <a class="navbar-item" href="./หน้าขาย1.html">ขายรถ</a>
+        <a class="navbar-item" href="./เดินทะเบียน.html">ทะเบียน</a>
+        <a class="navbar-item" href="./จัดการพนักงาน.html">จัดการพนักงาน</a>
+        <a class="navbar-item" href="./ข้อมูลซ่อมรถ.html">ซ่อม</a>
+        <a class="navbar-item" href="./ค้นหาลูกค้า.html">ลูกค้า</a>
+
+      </div>
+      <div class="navbar-end">
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" id="name">
+            <i class="fa fa-fw fa-user"></i> &nbsp; ชื่อผู้ใช้
+          </a>
+
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="../ล็อกอิน.html">
+              ออกจากระบบ
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <div class="container">
+    <h1 class="title has-text-centered" style="margin-top: 1%">เดินทะเบียน</h1>
+  </div>
+  <div class="box" style="margin-left: 10% ; margin-right:10% ; margin-top: 1%">
+    <form>
+      <div class="columns is-gapless level">
+        <div class="column is-5 level-left">
+          วันจดทะเบียน :
+          <input class="input is-black" style="float:right; width: 60%" id="dateregis" type="text">
+        </div>
+        <div class="column is-5 level-right">
+          เลขทะเบียน :
+          <input class="input is-black" style="float:right; width: 60%" id="regisnumber" type="text">
+        </div>
+      </div>
+      <div class="columns is-gapless  level">
+        <div class="column is-5 level-left">
+          จังหวัด :
+          <input class="input is-black" style="float:right; width: 60%" id="province" type="text">
+        </div>
+        <div class="column is-5 level-right">
+          ประเภท :
+          <input class="input is-black" style="float:right; width: 60%" id="genre" type="text">
+        </div>
+      </div>
+      <div class="columns is-gapless level">
+        <div class="column is-5 level-left">
+          ลักษณะ :
+          <input class="input is-black" style="float:right; width: 60%" id="look" type="text">
+        </div>
+        <div class="column is-5 level-right">
+          ยี่ห้อ :
+          <input class="input is-black" style="float:right; width: 60%" id="brand" type="text">
+        </div>
+      </div>
+      <div class="columns is-gapless level">
+        <div class="column is-3 level-left">
+          แบบ :
+          <input class="input is-black" style="float:right; width: 70%" id="model" type="text">
+        </div>
+        <div class="column is-3">
+          รุ่นปี ค.ศ. :
+          <div class="control" style="float:right; width: 70%">
+            <div class="select is-black">
+              <select style="width: 300px" id="year">
+                <option>2019</option>
+                <option>2018</option>
+                <option>2017</option>
+                <option>2016</option>
+                <option>2015</option>
+                <option>2014</option>
+                <option>2013</option>
+                <option>2012</option>
+                <option>2011</option>
+                <option>2010</option>
+                <option>2009</option>
+                <option>2008</option>
+                <option>2007</option>
+                <option>2006</option>
+                <option>2005</option>
+                <option>2004</option>
+                <option>2003</option>
+                <option>2002</option>
+                <option>2001</option>
+                <option>2000</option>
+                <option>1999</option>
+                <option>1998</option>
+                <option>1997</option>
+                <option>1996</option>
+                <option>1995</option>
+                <option>1994</option>
+                <option>1993</option>
+                <option>1992</option>
+                <option>1991</option>
+                <option>1990</option>
+                <option>1989</option>
+                <option>1988</option>
+                <option>1987</option>
+                <option>1986</option>
+                <option>1985</option>
+                <option>1984</option>
+                <option>1983</option>
+                <option>1982</option>
+                <option>1981</option>
+              </select>
+            </div>
+          </div>
+
+        </div>
+        <div class="column is-3 level-right">
+          สี :
+          <input class="input is-black" style="float:right; width: 70%" id="color" type="text">
+        </div>
+      </div>
+      <div class="columns is-gapless level">
+        <div class="column is-5 level-left">
+          เลขตัวรถ :
+          <input class="input is-black" style="float:right; width: 60%" id="carnumber" type="text">
+        </div>
+        <div class="column is-5 level-right">
+          อยู่ที่ :
+          <input class="input is-black" style="float:right; width: 60%" id="lieto" type="text">
+        </div>
+      </div>
+      <div class="columns is-gapless level">
+        <div class="column is-5 level-left">
+          ยี่ห้อเครื่องยนต์ :
+          <input class="input is-black" style="float:right; width: 60%" id="enginebrand" type="text">
+        </div>
+        <div class="column is-5 level-right">
+          เลขเครื่องยนต์ :
+          <input class="input is-black" style="float:right; width: 60%" id="enginenumber" type="text">
+        </div>
+      </div>
+      <div class="columns is-gapless level">
+        <div class="column is-5 level-left">
+          ที่อยู่ :
+          <input class="input is-black" style="float:right; width: 60%" id="address" type="text">
+        </div>
+        <div class="column is-5 level-right">
+          เชื้อเพลิง :
+          <input class="input is-black" style="float:right; width: 60%" id="fuel" type="text">
+        </div>
+      </div>
+      <div class="columns is-gapless level">
+        <div class="column is-5 level-left">
+          เลขถัง :
+          <input class="input is-black" style="float:right; width: 60%" id="tanknumber" type="text">
+        </div>
+        <div class="column is-5 level-right">
+          จำนวน :
+          <input class="input is-black" style="float:right; width: 60%" id="quantity" type="text">
+        </div>
+      </div>
+      <div class="columns is-gapless level">
+        <div class="column is-5 level-left">
+          ซีซี :
+          <input class="input is-black" style="float:right; width: 60%" id="CC" type="text">
+        </div>
+        <div class="column is-5 level-right">
+          แรงม้า :
+          <input class="input is-black" style="float:right; width: 60%" id="hp" type="text">
+        </div>
+      </div>
+      <div class="columns is-gapless level">
+        <div class="column is-5 level-left">
+          น้ำหนักรถ :
+          <input class="input is-black" style="float:right; width: 60%" id="carweight" type="text">
+        </div>
+        <div class="column is-5 level-right">
+          น้ำหนักบรรทุก/น้ำหนักลงเพลา :
+          <input class="input is-black" style="float:right; width: 60%" id="payload" type="text">
+        </div>
+      </div>
+      <div class="columns is-gapless level">
+        <div class="column is-5 level-left">
+          น้ำหนักรวม :
+          <input class="input is-black" style="float:right; width: 60%" id="totalweight" type="text">
+        </div>
+        <div class="column is-5 level-right">
+          ที่นั่ง :
+          <input class="input is-black" style="float:right; width: 60%" id="seats" type="text">
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="field is-grouped is-grouped-right" style="margin-top: 1%; margin-right: 10%">
+    <p class="control">
+      <a class="button is-info is-outlined" onclick="addRegis()" style="width: 150px">
+        ถัดไป
+      </a>
+    </p>
+    <p class="control">
+      <a class="button is-info is-outlined" style="width: 150px;">
+        ยกเลิก
+      </a>
+    </p>
+  </div>
+  </div>
+</body>
+
+</html>

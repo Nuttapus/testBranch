@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="../node_modules/bulma/css/bulma.css">
+    <link rel="stylesheet" href="../node_modules/bulma/css/bulma.min.css">
+    <link rel="stylesheet" href="../node_modules/bulma-divider/dist/css/bulma-divider.min.css" class="rel">
+    <link rel="shortcut icon" href="../img/logo.png">
+    <title>ข้อมูลซ่อมรถ</title>
+
+
+</head>
+
+<body>
+    <script src="../node_modules/axios/dist/axios.min.js"></script>
+    <script>
+        function isNumber(e) {
+            e = e || window.event;
+            var charCode = e.which ? e.which : e.keyCode;
+            idLength = e.key
+            return /\d/.test(String.fromCharCode(charCode));
+        }
+        function cancel() {
+            window.location.href = "";
+        }
+        function submit() {
+            var brand = document.getElementById('brand').value;
+            var model = document.getElementById('model').value;
+            var machineNumber = document.getElementById('machineNumber').value;
+            var pointsRepair = document.getElementById('pointsRepair').value;
+            var nameEmployee = document.getElementById('nameEmployee').value;
+            var nameAppraise = document.getElementById('nameAppraise').value;
+            var nameTechnician = document.getElementById('nameTechnician').value;
+            var nameTester = document.getElementById('nameTester').value;
+
+            if (brand !== "" && model !== "" && machineNumber !== "" && pointsRepair !== "" &&
+                nameEmployee !== "" && nameAppraise !== "" && nameTechnician !== "" && nameTester !== "") {
+
+                const data = {
+                    brand: brand,
+                    model: model,
+                    machineNumber: machineNumber,
+                    pointsRepair: pointsRepair,
+                    nameEmployee: nameEmployee,
+                    nameAppraise: nameAppraise,
+                    nameTechnician: nameTechnician,
+                    nameTester: nameTester,
+                    type: "TRN_Repair"
+                }
+
+                axios.post("http://localhost:4001/insert", data).then((res) => {
+                    console.log(data);
+                    alert("สำเร็จ")
+                });
+            } else {
+                alert("กรุณากรอกข้อมูลให้ครบ")
+            }
+        }
+    </script>
+
+    <nav class="navbar is-info" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+            <a class="navbar-item" href="#">
+                <img src="../img/logo.png" width="112" height="28">
+            </a>
+
+            <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
+                data-target="navbarBasicExample">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
+        </div>
+
+        <div id="navbarBasicExample" class="navbar-menu">
+            <div class="navbar-start">
+                <a class="navbar-item" href="./หน้าหลัก.html">หน้าหลัก</a>
+                <a class="navbar-item" href="./ซื้อรถ.html">ซื้อรถ</a>
+                <a class="navbar-item" href="./หน้าขาย1.html">ขายรถ</a>
+                <a class="navbar-item" href="./เดินทะเบียน.html">ทะเบียน</a>
+                <a class="navbar-item" href="./จัดการพนักงาน.html">จัดการพนักงาน</a>
+                <a class="navbar-item" href="./ข้อมูลซ่อมรถ.html">ซ่อม</a>
+                <a class="navbar-item" href="./ค้นหาลูกค้า.html">ลูกค้า</a>
+
+            </div>
+            <div class="navbar-end">
+                <div class="navbar-item has-dropdown is-hoverable">
+                    <a class="navbar-link" id="name">
+                        <i class="fa fa-fw fa-user"></i> &nbsp; ชื่อผู้ใช้
+                    </a>
+
+                    <div class="navbar-dropdown">
+                        <a class="navbar-item" href="../ล็อกอิน.html">
+                            ออกจากระบบ
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+
+    <div class="box"
+        style="border-style:solid ; border-width: 1px ;width:80%  ; margin-left: 10% ; margin-right: 10% ; margin-top: 3% ">
+        <br>
+        <center>
+            <h1 style="font-size: 20px"><b>ข้อมูลซ่อมรถ</b></h1>
+        </center><br><br>
+        <div class="row">
+
+            <div class="row">
+                <div class="columns">
+                    <div class="column is-2">
+                        <label class="label">ยี่ห้อ :</label>
+                    </div>
+                    <div class="column">
+                        <input style="width:60%" class="input" type="text" id="brand">
+                    </div>
+                </div>
+            </div><br>
+
+            <div class="row">
+                <div class="columns">
+                    <div class="column is-2">
+                        <label class="label">รุ่น :</label>
+                    </div>
+                    <div class="column">
+                        <input style="width:60%" class="input" type="text" id="model">
+                    </div>
+                </div>
+            </div><br>
+
+            <div class="row">
+                <div class="columns">
+                    <div class="column is-2">
+                        <label class="label">เลขเครื่อง :</label>
+                    </div>
+                    <div class="column">
+                        <input style="width:60%" class="input" type="text" id="machineNumber">
+                    </div>
+                </div>
+            </div><br>
+
+            <div class="row">
+                <div class="columns">
+                    <div class="column is-2">
+                        <label class="label">จุดซ่อม :</label>
+                    </div>
+                    <div class="column is-6">
+                        <textarea class="textarea has-fixed-size" rows="5" id="pointsRepair"></textarea>
+                    </div>
+                </div>
+            </div><br>
+
+            <div class="row">
+                <div class="columns">
+                    <div class="column is-2">
+                        <label class="label">รูปภาพจุดเสียหาย</label>
+                    </div>
+                </div>
+            </div><br>
+            <div class="row" style="margin-left:15%">
+                <div class="columns">
+                    <div class="column is-2">
+                        <figure class="image" style="width:400px">
+                            <img src="https://bulma.io/images/placeholders/480x480.png">
+                        </figure>
+                    </div>
+                </div>
+            </div><br>
+
+
+            <div class="row">
+                <div class="columns">
+                    <div class="column is-2">
+                        <label class="label">พนักงาน :</label>
+                    </div>
+                    <div class="column">
+                        <input style="width:60%" class="input" type="text" id="nameEmployee">
+                    </div>
+                </div>
+            </div><br>
+
+            <div class="row">
+                <div class="columns">
+                    <div class="column is-2">
+                        <label class="label">ผู้ประเมินราคา :</label>
+                    </div>
+                    <div class="column">
+                        <input style="width:60%" class="input" type="text" id="nameAppraise">
+                    </div>
+                </div>
+            </div><br>
+
+            <div class="row">
+                <div class="columns">
+                    <div class="column is-2">
+                        <label class="label">ช่างซ่อม :</label>
+                    </div>
+                    <div class="column">
+                        <input style="width:60%" class="input" type="text" id="nameTechnician">
+                    </div>
+                </div>
+            </div><br>
+
+            <div class="row">
+                <div class="columns">
+                    <div class="column is-2">
+                        <label class="label">ผู้ตรวจสอบ :</label>
+                    </div>
+                    <div class="column">
+                        <input style="width:60%" class="input" type="text" id="nameTester">
+                    </div>
+                </div>
+            </div><br>
+
+            <div class="row" style="margin-left:75% ; margin-right: 1%">
+                <div class="buttons  is-right" style="margin-right:5%">
+                    <a class="button is-info is-outlined" style="width:40%" onclick="submit()">ตกลง</a>
+                    <a class="button is-info is-outlined" style="width:40%" onclick="cancel()">ยกเลิก</a>
+                </div>
+
+
+            </div><br>
+        </div>
+    </div><br>
+
+
+    <footer class="footer">
+        <div class="content has-text-centered">
+            <p>
+                <strong>&nbsp;&copy; 2018 - Project</strong> by SourceSoft</a>
+            </p>
+        </div>
+    </footer>
+</body>
+
+</html>
