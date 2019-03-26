@@ -44,6 +44,7 @@
       document.getElementById("name").innerHTML = `<i class="fa fa-fw fa-user"></i> &nbsp;` + getName + " " + getLastName;
     } 
   </script>
+
   <nav class="navbar is-info" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
       <a class="navbar-item" href="./หน้าหลัก.html">
@@ -59,16 +60,15 @@
     </div>
 
     <div id="navbarBasicExample" class="navbar-menu">
-      <div class="navbar-start">
-        <a class="navbar-item is-active" href="./หน้าหลัก.html">หน้าหลัก</a>
-        <a class="navbar-item" href="./ค้นหารถ.html">ซื้อรถ</a>
-        <a class="navbar-item" href="./หน้าขาย1.html">ขายรถ</a>
-        <a class="navbar-item" href="./เดินทะเบียน.html">ทะเบียน</a>
-        <a class="navbar-item" href="./จัดการพนักงาน.html">จัดการพนักงาน</a>
-        <a class="navbar-item" href="./ข้อมูลซ่อมรถ.html">ซ่อม</a>
-        <a class="navbar-item" href="./ค้นหาลูกค้า.html">ลูกค้า</a>
-
-      </div>
+        <div class="navbar-start">
+            <a class="navbar-item is-active" href="./หน้าหลัก.html">หน้าหลัก</a>
+            <a class="navbar-item" href="./ค้นหารถ.html">ซื้อรถ</a>
+            <a class="navbar-item" href="./หน้าขาย1.html">ขายรถ</a>
+            <a class="navbar-item" href="./เดินทะเบียน.html">เดินทะเบียน</a>
+            <a class="navbar-item" href="./ข้อมูลซ่อมรถ.html">ซ่อม</a>
+            <a class="navbar-item" href="./ข้อมูลลูกค้า.html">ข้อมูลลูกค้า</a>
+            <a class="navbar-item" href="./จัดการพนักงาน.html">จัดการพนักงาน</a>
+          </div>
       <div class="navbar-end">
         <div class="navbar-item has-dropdown is-hoverable">
           <a class="navbar-link" id="name">
@@ -127,20 +127,8 @@
         </div>
       </div>
     </div>
-    <div class="columns is-variable is-1-mobile is-0-tablet is-3-desktop is-8-widescreen is-2-fullhd">
-      <div class="column is-one-third">
-        <div class="card" onclick="window.location.href='./ข้อมูลรถ.html'">
-          <div class="tile is-parent">
-            <article class="tile is-child notification">
-              <figure class="image is-4by4">
-                <img src="../img/btnCar.png">
-              </figure>
-              <p class="title">ข้อมูลรถ</p>
-            </article>
-          </div>
-        </div>
-      </div>
 
+    <div class="columns is-variable is-1-mobile is-0-tablet is-3-desktop is-8-widescreen is-2-fullhd">
       <div class="column is-one-third">
         <div class="card" onclick="window.location.href='./ข้อมูลซ่อมรถ.html'">
           <div class="tile is-parent">
@@ -155,7 +143,7 @@
       </div>
 
       <div class="column is-one-third">
-        <div class="card" onclick="window.location.href='./ค้นหาลูกค้า.html'">
+        <div class="card" onclick="window.location.href='./ข้อมูลลูกค้า.html'">
           <div class="tile is-parent">
             <article class="tile is-child notification">
               <figure class="image is-4by4">
@@ -166,9 +154,7 @@
           </div>
         </div>
       </div>
-    </div>
 
-    <div class="columns is-variable is-1-mobile is-0-tablet is-3-desktop is-8-widescreen is-2-fullhd">
       <div class="column is-one-third">
         <div class="card" onclick="window.location.href='./จัดการพนักงาน.html'">
           <div class="tile is-parent">
@@ -181,41 +167,18 @@
           </div>
         </div>
       </div>
-
-      <div class="column is-one-third">
-        <div class="card" style="cursor:auto;">
-          <div class="tile is-parent">
-            <article class="tile is-child notification">
-              <figure class="image is-4by4">
-                <img src="../img/btnWarning.svg">
-              </figure>
-              <p class="title">แจ้งปัญหา</p>
-            </article>
-          </div>
-        </div>
-      </div>
-
-      <div class="column is-one-third">
-        <div class="card" onclick="window.location.href='../ล็อกอิน.html'">
-          <div class="tile is-parent">
-            <article class="tile is-child notification">
-              <figure class="image is-4by4">
-                <img src="../img/btnExit.svg">
-              </figure>
-              <p class="title">ออกจากระบบ</p>
-            </article>
-          </div>
-        </div>
-      </div>
     </div>
-    <br>
-    <footer class="footer">
-      <div class="content has-text-centered">
-        <p>
-          <strong>&nbsp;&copy; 2018 - Project</strong> by SourceSoft</a>
-        </p>
-      </div>
-    </footer>
+  </div>
+  
+  <br>
+
+  <footer class="footer">
+    <div class="content has-text-centered">
+      <p>
+        <strong>&nbsp;&copy; 2018 - Project</strong> by SourceSoft</a>
+      </p>
+    </div>
+  </footer>
 </body>
 
 </html>

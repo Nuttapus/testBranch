@@ -6,28 +6,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link rel="stylesheet" type="text/css" href="../node_modules//bulma/css/bulma.css">
-  <style>
-    body,
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6 {
-      font-family: "Lato", sans-serif
-    }
-
-    .w3-bar,
-    h1,
-    button {
-      font-family: "Montserrat", sans-serif
-    }
-
-    .fa-anchor,
-    .fa-coffee {
-      font-size: 200px
-    }
-  </style>
   <title>เดินทะเบียน</title>
 </head>
 
@@ -183,46 +161,49 @@
       }
     }
   </script>
-  <nav class="navbar is-info" role="navigation" aria-label="main navigation">
-    <div class="navbar-brand">
-      <a class="navbar-item" href="./หน้าหลัก.html">
-        <img src="../img/logo.png" width="112" height="28">
-      </a>
 
-      <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
-        data-target="navbarBasicExample">
-        <span aria-hidden="true"></span>
-        <span aria-hidden="true"></span>
-        <span aria-hidden="true"></span>
-      </a>
-    </div>
+    <nav class="navbar is-info" role="navigation" aria-label="main navigation">
+      <div class="navbar-brand">
+        <a class="navbar-item" href="./หน้าหลัก.html">
+          <img src="../img/logo.png" width="112" height="28" />
+        </a>
 
-    <div id="navbarBasicExample" class="navbar-menu">
-      <div class="navbar-start">
-        <a class="navbar-item" href="./หน้าหลัก.html">หน้าหลัก</a>
-        <a class="navbar-item" href="./ค้นหารถ.html">ซื้อรถ</a>
-        <a class="navbar-item" href="./หน้าขาย1.html">ขายรถ</a>
-        <a class="navbar-item" href="./เดินทะเบียน.html">ทะเบียน</a>
-        <a class="navbar-item" href="./จัดการพนักงาน.html">จัดการพนักงาน</a>
-        <a class="navbar-item" href="./ข้อมูลซ่อมรถ.html">ซ่อม</a>
-        <a class="navbar-item" href="./ค้นหาลูกค้า.html">ลูกค้า</a>
-
+        <a
+          role="button"
+          class="navbar-burger burger"
+          aria-label="menu"
+          aria-expanded="false"
+          data-target="navbarBasicExample"
+        >
+          <span aria-hidden="true"></span> <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
       </div>
-      <div class="navbar-end">
-        <div class="navbar-item has-dropdown is-hoverable">
-          <a class="navbar-link" id="name">
-            <i class="fa fa-fw fa-user"></i> &nbsp; ชื่อผู้ใช้
-          </a>
 
-          <div class="navbar-dropdown">
-            <a class="navbar-item" href="../ล็อกอิน.html">
-              ออกจากระบบ
+      <div id="navbarBasicExample" class="navbar-menu">
+        <div class="navbar-start">
+          <a class="navbar-item" href="./หน้าหลัก.html">หน้าหลัก</a>
+          <a class="navbar-item" href="./ค้นหารถ.html">ซื้อรถ</a>
+          <a class="navbar-item" href="./หน้าขาย1.html">ขายรถ</a>
+          <a class="navbar-item is-active" href="./เดินทะเบียน.html">เดินทะเบียน</a>
+          <a class="navbar-item" href="./ข้อมูลซ่อมรถ.html">ซ่อม</a>
+          <a class="navbar-item" href="./ข้อมูลลูกค้า.html">ข้อมูลลูกค้า</a>
+          <a class="navbar-item" href="./จัดการพนักงาน.html">จัดการพนักงาน</a>
+        </div>
+        <div class="navbar-end">
+          <div class="navbar-item has-dropdown is-hoverable">
+            <a class="navbar-link" id="name">
+              <i class="fa fa-fw fa-user"></i> &nbsp; ชื่อผู้ใช้
             </a>
+
+            <div class="navbar-dropdown">
+              <a class="navbar-item" href="../ล็อกอิน.html"> ออกจากระบบ </a>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </nav>
+    </nav>
+
   <div class="container">
     <h1 class="title has-text-centered" style="margin-top: 1%">เดินทะเบียน</h1>
   </div>
@@ -231,42 +212,42 @@
       <div class="columns is-gapless level">
         <div class="column is-5 level-left">
           วันจดทะเบียน :
-          <input class="input is-black" style="float:right; width: 60%" id="dateregis" type="text">
+          <input class="input " style="float:right; width: 60%" id="dateregis" type="text">
         </div>
         <div class="column is-5 level-right">
           เลขทะเบียน :
-          <input class="input is-black" style="float:right; width: 60%" id="regisnumber" type="text">
+          <input class="input " style="float:right; width: 60%" id="regisnumber" type="text">
         </div>
       </div>
       <div class="columns is-gapless  level">
         <div class="column is-5 level-left">
           จังหวัด :
-          <input class="input is-black" style="float:right; width: 60%" id="province" type="text">
+          <input class="input " style="float:right; width: 60%" id="province" type="text">
         </div>
         <div class="column is-5 level-right">
           ประเภท :
-          <input class="input is-black" style="float:right; width: 60%" id="genre" type="text">
+          <input class="input " style="float:right; width: 60%" id="genre" type="text">
         </div>
       </div>
       <div class="columns is-gapless level">
         <div class="column is-5 level-left">
           ลักษณะ :
-          <input class="input is-black" style="float:right; width: 60%" id="look" type="text">
+          <input class="input" style="float:right; width: 60%" id="look" type="text">
         </div>
         <div class="column is-5 level-right">
           ยี่ห้อ :
-          <input class="input is-black" style="float:right; width: 60%" id="brand" type="text">
+          <input class="input " style="float:right; width: 60%" id="brand" type="text">
         </div>
       </div>
       <div class="columns is-gapless level">
         <div class="column is-3 level-left">
           แบบ :
-          <input class="input is-black" style="float:right; width: 70%" id="model" type="text">
+          <input class="input " style="float:right; width: 70%" id="model" type="text">
         </div>
         <div class="column is-3">
           รุ่นปี ค.ศ. :
           <div class="control" style="float:right; width: 70%">
-            <div class="select is-black">
+            <div class="select ">
               <select style="width: 300px" id="year">
                 <option>2019</option>
                 <option>2018</option>
@@ -314,77 +295,77 @@
         </div>
         <div class="column is-3 level-right">
           สี :
-          <input class="input is-black" style="float:right; width: 70%" id="color" type="text">
+          <input class="input " style="float:right; width: 70%" id="color" type="text">
         </div>
       </div>
       <div class="columns is-gapless level">
         <div class="column is-5 level-left">
           เลขตัวรถ :
-          <input class="input is-black" style="float:right; width: 60%" id="carnumber" type="text">
+          <input class="input " style="float:right; width: 60%" id="carnumber" type="text">
         </div>
         <div class="column is-5 level-right">
           อยู่ที่ :
-          <input class="input is-black" style="float:right; width: 60%" id="lieto" type="text">
+          <input class="input " style="float:right; width: 60%" id="lieto" type="text">
         </div>
       </div>
       <div class="columns is-gapless level">
         <div class="column is-5 level-left">
           ยี่ห้อเครื่องยนต์ :
-          <input class="input is-black" style="float:right; width: 60%" id="enginebrand" type="text">
+          <input class="input " style="float:right; width: 60%" id="enginebrand" type="text">
         </div>
         <div class="column is-5 level-right">
           เลขเครื่องยนต์ :
-          <input class="input is-black" style="float:right; width: 60%" id="enginenumber" type="text">
+          <input class="input " style="float:right; width: 60%" id="enginenumber" type="text">
         </div>
       </div>
       <div class="columns is-gapless level">
         <div class="column is-5 level-left">
           ที่อยู่ :
-          <input class="input is-black" style="float:right; width: 60%" id="address" type="text">
+          <input class="input " style="float:right; width: 60%" id="address" type="text">
         </div>
         <div class="column is-5 level-right">
           เชื้อเพลิง :
-          <input class="input is-black" style="float:right; width: 60%" id="fuel" type="text">
+          <input class="input " style="float:right; width: 60%" id="fuel" type="text">
         </div>
       </div>
       <div class="columns is-gapless level">
         <div class="column is-5 level-left">
           เลขถัง :
-          <input class="input is-black" style="float:right; width: 60%" id="tanknumber" type="text">
+          <input class="input " style="float:right; width: 60%" id="tanknumber" type="text">
         </div>
         <div class="column is-5 level-right">
           จำนวน :
-          <input class="input is-black" style="float:right; width: 60%" id="quantity" type="text">
+          <input class="input " style="float:right; width: 60%" id="quantity" type="text">
         </div>
       </div>
       <div class="columns is-gapless level">
         <div class="column is-5 level-left">
           ซีซี :
-          <input class="input is-black" style="float:right; width: 60%" id="CC" type="text">
+          <input class="input " style="float:right; width: 60%" id="CC" type="text">
         </div>
         <div class="column is-5 level-right">
           แรงม้า :
-          <input class="input is-black" style="float:right; width: 60%" id="hp" type="text">
+          <input class="input " style="float:right; width: 60%" id="hp" type="text">
         </div>
       </div>
       <div class="columns is-gapless level">
         <div class="column is-5 level-left">
           น้ำหนักรถ :
-          <input class="input is-black" style="float:right; width: 60%" id="carweight" type="text">
+          <input class="input " style="float:right; width: 60%" id="carweight" type="text">
         </div>
         <div class="column is-5 level-right">
           น้ำหนักบรรทุก/น้ำหนักลงเพลา :
-          <input class="input is-black" style="float:right; width: 60%" id="payload" type="text">
+          <input class="input " style="float:right; width: 60%" id="payload" type="text">
         </div>
       </div>
       <div class="columns is-gapless level">
         <div class="column is-5 level-left">
           น้ำหนักรวม :
-          <input class="input is-black" style="float:right; width: 60%" id="totalweight" type="text">
+          <input class="input " style="float:right; width: 60%" id="totalweight" type="text">
         </div>
         <div class="column is-5 level-right">
           ที่นั่ง :
-          <input class="input is-black" style="float:right; width: 60%" id="seats" type="text">
+          <input class="input " style="float:right; width: 60%" id="seats" type="text">
         </div>
       </div>
     </form>
