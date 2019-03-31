@@ -10,6 +10,49 @@
     <link rel="shortcut icon" href="../img/logo.png" />
     <title>สัญญาซื้อขาย</title>
 </head>
+<script src="../node_modules/axios/dist/axios.min.js"></script>
+<script>
+
+    function cancel() {
+        window.location.href = "./ซื้อรถ.html";
+    }
+
+    function showData() {
+
+        var getID = localStorage.getItem("sendID");
+        var data = { type: "car", ID_TRN_Sell: getID }
+
+        axios.post("http://localhost:4001/get", data).then((res) => {
+            var a = res.data
+            document.getElementById("brand").value = a.data.brand
+            document.getElementById("model").value = a.data.model
+            document.getElementById("year").value = a.data.carYear
+            document.getElementById("gear").value = a.data.gear
+            document.getElementById("color").value = a.data.color
+            document.getElementById("numberRegistration").value = a.data.numberRegistration
+            document.getElementById("numberEngine").value = a.data.numberEngine
+            document.getElementById("bumberTank").value = a.data.bumberTank
+            // document.getElementById("carNumber").value = a.data.generateYear
+            // document.getElementById("cost").value = a.data.salePrice
+            console.log(a)
+        });
+    }
+    window.onload = function () {
+        var today = new Date();
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+        var yyyy = today.getFullYear();
+        today = mm + '/' + dd + '/' + yyyy;
+        console.log(today)
+
+        document.getElementById("date").value = today;
+
+        var total = localStorage.getItem("total");
+        document.getElementById("total").value = total
+        console.log(total)
+    }
+    document.addEventListener("DOMContentLoaded", showData());
+</script>
 
 <body>
     <br>
@@ -38,7 +81,7 @@
                 <div class="field-body">
                     <div class="field">
                         <div class="control">
-                            <input class="input" type="date">
+                            <input class="input" type="text" id="date">
                         </div>
                     </div>
                 </div>
@@ -215,7 +258,7 @@
                 <div class="field-body">
                     <div class="field">
                         <div class="control">
-                            <input class="input" type="text">
+                            <input class="input" type="text" id="brand">
                         </div>
                     </div>
                 </div>
@@ -229,7 +272,7 @@
                 <div class="field-body">
                     <div class="field">
                         <div class="control">
-                            <input class="input" type="text">
+                            <input class="input" type="text" id="model">
                         </div>
                     </div>
                 </div>
@@ -243,7 +286,7 @@
                 <div class="field-body">
                     <div class="field">
                         <div class="control">
-                            <input class="input" type="text">
+                            <input class="input" type="text" id="year">
                         </div>
                     </div>
                 </div>
@@ -256,7 +299,7 @@
                 <div class="field-body">
                     <div class="field">
                         <div class="control">
-                            <input class="input" type="text">
+                            <input class="input" type="text" id="gear">
                         </div>
                     </div>
                 </div>
@@ -270,7 +313,7 @@
                 <div class="field-body">
                     <div class="field">
                         <div class="control">
-                            <input class="input" type="text">
+                            <input class="input" type="text" id="color">
                         </div>
                     </div>
                 </div>
@@ -283,7 +326,7 @@
                 <div class="field-body">
                     <div class="field">
                         <div class="control">
-                            <input class="input" type="text">
+                            <input class="input" type="text" id="numberRegistration">
                         </div>
                     </div>
                 </div>
@@ -297,7 +340,7 @@
                 <div class="field-body">
                     <div class="field">
                         <div class="control">
-                            <input class="input" type="text">
+                            <input class="input" type="text" id="numberEngine">
                         </div>
                     </div>
                 </div>
@@ -310,7 +353,7 @@
                 <div class="field-body">
                     <div class="field">
                         <div class="control">
-                            <input class="input" type="text">
+                            <input class="input" type="text" id="bumberTank">
                         </div>
                     </div>
                 </div>
@@ -324,7 +367,7 @@
                 <div class="field-body">
                     <div class="field">
                         <div class="control">
-                            <input class="input" type="text">
+                            <input class="input" type="text" id="total">
                         </div>
                     </div>
                 </div>
@@ -342,47 +385,47 @@
                     </div>
                 </div>
             </div>
-            
+
         </div>
-       <div class="columns">
-        <div class="column"> 
+        <div class="columns">
+            <div class="column">
                 <label class="label">ผู้ขายได้ชำระเงินทั้งหมดในวันทำสัญญาฉบับนี้เเล้ว : ชำระโดย</label>
                 <div class="field-label is-normal">
                 </div>
                 <div class="field-body">
                     <div class="field">
-                            <label class="checkbox">
-                                    <input type="checkbox"> เงินสด
-                                </label>
-                                <br>
-                                <label class="checkbox">
-                                    <input type="checkbox"> บัตรเครดิต
-                                </label>
-                                <label class="label">สาขา/เลขที่เช็ค</label>
-                                <div class="field-label is-medium">
-                                        <input class="input" type="text">
-                                </div>
+                        <label class="checkbox">
+                            <input type="checkbox"> เงินสด
+                        </label>
+                        <br>
+                        <label class="checkbox">
+                            <input type="checkbox"> บัตรเครดิต
+                        </label>
+                        <label class="label">สาขา/เลขที่เช็ค</label>
+                        <div class="field-label is-medium">
+                            <input class="input" type="text">
+                        </div>
                     </div>
                 </div>
-                
+
+            </div>
+
         </div>
-        
-    </div>
-    <div class="column">
+        <div class="column">
             <label class="label">3.ผู้ขายได้ทำการส่งมอบให้กับผู้ซื้อในสภาพที่ผุ้ซื้อยอมรับ</label>
-            <div class="column"> 
-            
+            <div class="column">
+
                 <label class="label">ลงชื่อ............................................ผู้ขาย</label>
                 <label class="label">(...........................................................)</label>
                 <label class="label">ลงชื่อ............................................ผู้ซื้อ</label>
-                <label class="label">(...........................................................)</label>    
-                </div>
-    </div>
-        
-    <div class="buttons  is-right">
-        <a class="button is-info is-outlined" style="width:10%" onclick="submit()">ต่อไป</a>
-        <a class="button is-info is-outlined" style="width:10%" onclick="cancel()">ยกเลิก</a>
-    </div>
+                <label class="label">(...........................................................)</label>
+            </div>
+        </div>
+
+        <div class="buttons  is-right">
+            <a class="button is-info is-outlined" style="width:10%" onclick="submit()">ต่อไป</a>
+            <a class="button is-info is-outlined" style="width:10%" onclick="cancel()">ยกเลิก</a>
+        </div>
     </div>
     </div>
 </body>
