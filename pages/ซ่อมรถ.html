@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="shortcut icon" href="../img/logo.png">
+    <link rel="stylesheet" href="../node_modules/bulma/css/bulma.min.css">
+    <title>ซ่อมรถ</title>
+
+</head>
+
+<body>
+    <script src="../node_modules/axios/dist/axios.min.js"></script>
+    <script>
+        var getNameEm
+        window.onload = function () {
+            var getName = localStorage.getItem("storageName");
+            var getLastName = localStorage.getItem("storageLastName");
+            var getDepartment = localStorage.getItem("storageDepartment");
+            document.getElementById("name").innerHTML = `<i class="fa fa-fw fa-user"></i> &nbsp;` + getName + " " + getLastName;
+            getNameEm = getName
+        }
+        function isNumber(e) {
+            e = e || window.event;
+            var charCode = e.which ? e.which : e.keyCode;
+            idLength = e.key
+            return /\d/.test(String.fromCharCode(charCode));
+        }
+        function cancel() {
+            window.location.reload();
+        }
+        function print() {
+            localStorage.setItem("idNumber", document.getElementById("idNumber").value)
+            localStorage.setItem("model", document.getElementById("model").value)
+            window.location.href = "./ใบรับรถ.html"
+        }
+        function generate_table(a) {
+            var table = document.getElementById("employeeList");
+            console.log(a)
+            console.log("check length " + a.data.length)
+            for (var i = 0; i < a.data.length; i++) {
+                console.log("loop pass")
+                var newRow = table.insertRow(1)
+
+                var ID_TRN_Repair = newRow.insertCell(0)
+                var brand = newRow.insertCell(1)
+                var model = newRow.insertCell(2)
+                var machineNumber = newRow.insertCell(3)
+                var pointsRepair = newRow.insertCell(4)
+                var nameEmployee = newRow.insertCell(5)
+                var nameAppraise = newRow.insertCell(6)
+                var nameTechnician = newRow.insertCell(7)
+                var nameTester = newRow.insertCell(8)
+                var crud = newRow.insertCell(9)
+
+                ID_TRN_Repair.innerHTML = a.data[i].ID_TRN_Repair
+                brand.innerHTML = a.data[i].brand
+                model.innerHTML = a.data[i].model
+                machineNumber.innerHTML = a.data[i].machineNumber
+                pointsRepair.innerHTML = a.data[i].pointsRepair
+                nameEmployee.innerHTML = a.data[i].nameEmployee
+                nameAppraise.innerHTML = a.data[i].nameAppraise
+                nameTechnician.innerHTML = a.data[i].nameTechnician
+                nameTester.innerHTML = a.data[i].nameTester
+                crud.innerHTML = `<a class="button is-warning" onClick="selectData(this)">Edit</a>
+                          <a class="button is-danger" onClick="deleteData(this)">Delete</a>`;
+            }
+        }
+        function selectData(td) {
+            selectedRow = td.parentElement.parentElement;
+            idDB = selectedRow.cells[0].innerHTML;
+            document.getElementById("brand").value = selectedRow.cells[1].innerHTML;
+            document.getElementById("model").value = selectedRow.cells[2].innerHTML;
+            document.getElementById("idNumber").value = selectedRow.cells[3].innerHTML;
+            document.getElementById("pointsRepair").value = selectedRow.cells[4].innerHTML;
+            document.getElementById("empoyee").value = selectedRow.cells[5].innerHTML;
+            document.getElementById("namePartner").value = selectedRow.cells[6].innerHTML;
+            document.getElementById("nameTechnician").value = selectedRow.cells[7].innerHTML;
+            document.getElementById("nameTester").value = selectedRow.cells[8].innerHTML;
+
+            document.getElementById('update').style = "width:10%; display: block;"
+            document.getElementById('submit').style = "width:10%; display: none;"
+
+            blockInput()
+        }
+        function blockInput() {
+            document.getElementById('brand').disabled = true;
+            document.getElementById('model').disabled = true;
+            document.getElementById('idNumber').disabled = true;
+            document.getElementById('pointsRepair').disabled = true;
+            document.getElementById('empoyee').disabled = true;
+            document.getElementById('namePartner').disabled = true;
+            document.getElementById('nameTechnician').disabled = true;
+            document.getElementById('nameTester').disabled = true;
+
+        }
+        function deleteData(td) {
+            selectedRow = td.parentElement.parentElement;
+            var obj = selectedRow.cells[3].innerHTML;
+            deleteRow(obj)
+        }
+        function deleteRow(idCar) {
+            console.log(idCar)
+            var checkDelete = confirm("ต้องการจะลบข้อมูลนี้จริงๆหรือไม่")
+            var data = { machineNumber: idCar, type: "TRN_Repair" }
+            if (checkDelete) {
+                if (idCar !== "") {
+                    axios.post("http://localhost:4001/delete", data).then((res) => {
+                        location.reload();
+                    })
+                } else {
+                    alert("กรุณาลองใหม่ภายหลัง")
+                }
+            } else {
+                console.log("cancle")
+            }
+        }
+        function submit() {
+            brand = document.getElementById('brand').value
+            model = document.getElementById('model').value;
+            machineNumber = document.getElementById("idNumber").value;
+            pointsRepair = document.getElementById("pointsRepair").value;
+            nameEmployee = document.getElementById("empoyee").value;
+            nameAppraise = document.getElementById("namePartner").value;
+            nameTechnician = document.getElementById("nameTechnician").value;
+            nameTester = document.getElementById("nameTester").value;
+
+            if (brand !== "" && model !== undefined && machineNumber !== undefined && pointsRepair !== undefined && nameEmployee !== undefined
+                && nameAppraise !== undefined && nameTechnician !== undefined && nameTester !== undefined) {
+                var data = {
+                    brand: brand, model: model, machineNumber: machineNumber, pointsRepair: pointsRepair, nameEmployee: nameEmployee, nameAppraise: nameAppraise,
+                    nameTechnician: nameTechnician, nameTester: nameTester,empoyee: getNameEm, type: "TRN_Repair"
+                }
+                axios.post("http://localhost:4001/insert", data).then((res) => {
+                    if (res.data.status) {
+                        alert("เพิ่มข้อมูลเรียบร้อย")
+                        window.location.reload();
+                    } 
+                })
+            } else {
+                alert("กรุณาใส่ข้อมูลให้ครบทุกช่อง")
+            }
+        }
+        function showData() {
+            var showData = { type: "TRN_Repair" }
+            axios.post("http://localhost:4001/get", showData).then((res) => {
+                var data = []
+                data = res.data
+                generate_table(data)
+            })
+        }
+        document.addEventListener("DOMContentLoaded", showData());
+    </script>
+
+    <nav class="navbar is-info" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+            <a class="navbar-item" href="./หน้าหลัก.html">
+                <img src="../img/logo.png" width="112" height="28" />
+            </a>
+
+            <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
+                data-target="navbarBasicExample">
+                <span aria-hidden="true"></span> <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
+        </div>
+
+        <div id="navbarBasicExample" class="navbar-menu">
+            <div class="navbar-start">
+                <a class="navbar-item" href="./หน้าหลัก.html">หน้าหลัก</a>
+                <a class="navbar-item is-active" href="./ค้นหารถ.html">ซื้อรถ</a>
+                <a class="navbar-item" href="./หน้าขาย1.html">ขายรถ</a>
+                <a class="navbar-item" href="./เดินทะเบียน.html">เดินทะเบียน</a>
+                <a class="navbar-item" href="./ซ่อมรถ.html">ซ่อม</a>
+                <a class="navbar-item" href="./ข้อมูลลูกค้า.html">ข้อมูลลูกค้า</a>
+                <a class="navbar-item" href="./จัดการพนักงาน.html">จัดการพนักงาน</a>
+            </div>
+            <div class="navbar-end">
+                <div class="navbar-item has-dropdown is-hoverable">
+                    <a class="navbar-link" id="name">
+                        <i class="fa fa-fw fa-user"></i> &nbsp; ชื่อผู้ใช้
+                    </a>
+
+                    <div class="navbar-dropdown">
+                        <a class="navbar-item" href="../ล็อกอิน.html"> ออกจากระบบ </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <br />
+        <center>
+            <h1 class="title"> ซ่อมรถ </h1>
+        </center>
+        <br /><br /><br />
+        <div class="columns">
+            <div class="column">
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">ยี่ห้อ</label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field">
+                            <div class="control">
+                                <input id="brand" class="input" type="text" placeholder="ยี่ห้อ" maxlength="20">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">รุ่น</label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field">
+                            <div class="control">
+                                <input id="model" class="input" type="text" placeholder="รุ่น" maxlength="20">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">เลขเครื่อง</label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field">
+                            <div class="control">
+                                <input id="idNumber" class="input" type="text" placeholder="เลขเครื่อง" maxlength="20">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                            <label class="label">จุดซ่อม</label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <div class="control">
+                                    <textarea class="textarea has-fixed-size" rows="4" id="pointsRepair"
+                                        maxlength="50"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="column">
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">พนักงาน</label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field">
+                            <div class="control">
+                                <input id="empoyee" class="input" type="text" placeholder="ชื่อพนักงาน" maxlength="20">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">ผู้ประเมินราคา</label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field">
+                            <div class="control">
+                                <input id="namePartner" class="input" type="text" placeholder="ชื่อผู้ประเมินราคา"
+                                    maxlength="20">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">ช่างซ่อม</label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field">
+                            <div class="control">
+                                <input id="nameTechnician" class="input" type="text" placeholder="ชื่อช่างซ่อม"
+                                    maxlength="20">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">ผู้ตรวจสอบ</label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field">
+                            <div class="control">
+                                <input id="nameTester" class="input" type="text" placeholder="ผู้ตรวจสอบ"
+                                    maxlength="20">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br />
+        <div class="buttons  is-right">
+            <a class="button is-info is-outlined" style="width:10%; display: none;" onclick="print()"
+                id="update">พิมพ์</a>
+            <a class="button is-info is-outlined" style="width:10%" id="submit" onclick="submit()">เพิ่ม</a>
+            <a class="button is-info is-outlined" style="width:10%" onclick="cancel()">ยกเลิก</a>
+        </div>
+    </div>
+    <br>
+    <center>
+        <table class="table table is-bordered " id="employeeList">
+            <thead>
+                <tr>
+                    <th>id</th>
+                    <th>ยี่ห้อ</th>
+                    <th>รุ่น</th>
+                    <th>เลขเครื่อง</th>
+                    <th>จุดซ่อม</th>
+                    <th>พนักงาน</th>
+                    <th>ผู้ประเมินราคา</th>
+                    <th>ช่างซ่อม</th>
+                    <th>ผู้ตรวจสอบ</th>
+                    <th>action</th>
+                </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+    </center>
+</body>
+
+
+
+</html>
