@@ -12,69 +12,93 @@
 </head>
 
 <body>
+    <script src="../node_modules/axios/dist/axios.min.js"></script>
+
+    <script>
+        var nameEm,getModel,getIdCar
+        window.onload = function () {
+            var getName = localStorage.getItem("storageName");
+            var getLastName = localStorage.getItem("storageLastName");
+            var getDepartment = localStorage.getItem("storageDepartment");
+            getModel = localStorage.getItem("idNumber");
+            getIdCar = localStorage.getItem("model");
+            nameEm = getName
+            var today = new Date();
+            var dd = String(today.getDate()).padStart(2, '0');
+            var mm = String(today.getMonth() + 1).padStart(2, '0'); 
+            var yyyy = today.getFullYear();
+            today = mm + '/' + dd + '/' + yyyy;
+
+            document.getElementById("date").value = today;
+            document.getElementById("model").value = getModel;
+            document.getElementById("carID").value = getIdCar;
+        }
+        function submit(){
+            var data = {
+                type: "TRN_CarReceipt",
+                date: document.getElementById("date").value,
+                model: getModel,
+                idCar: getIdCar,
+                nameCus: document.getElementById("customer").value,
+                tel: document.getElementById("tel").value,
+                name_MST_Employee: nameEm
+            }
+            axios.post("http://localhost:4001/insert", data).then((res) => {
+                if (res.data.status) {
+                    alert("เรียบร้อย")
+                    window.print()
+                }
+            })
+        }
+        function back(){
+            window.location.href = "./ซ่อมรถ.html"
+        }
+    </script>
     <br>
-    
+
     <div class="card" style="margin-left:5%;margin-right: 5%">
-    <div class="container">
-            
-          
-        <br>
-        <p class="level-item has-text-centered">
-            <img src="../img/logo.png" alt="" style="height: 90px;">
-        </p>
-        <br>
-        <p class="level-item has-text-centered">
-            <strong class="title is-5">บริษัท โชคทวีออโต้เซล</strong>
-        </p>
-        <br>
-        <p class="level-item has-text-centered">
-            <u class="title is-10">ใบรับรถ</u>
-        </p>
-        <br>
-        <br>
-        <br>
-        <div class="level-right">
-            <div class="level-item">
-                <p class="subtitle is-5">
-                    <strong>วันที่รับ</strong>
-                </p>
-            </div>
-            <div class="level-item">
-                <div class="field has-addons">
-                    <p class="control">
-                        <input class="input" type="date" id="date">
-                    </p>
-                </div>
-            </div>
-        </div>
-        <br>
-        <br>
-        <div class="level-right">
-            <div class="level-item">
-                <p class="subtitle is-5">
-                    <strong>รหัสรับรถ</strong>
-                </p>
-            </div>
-            <div class="level-item">
-                <div class="field has-addons">
-                    <p class="control">
-                        <input class="input" type="text" style="width: 180px" id="carId">
-                    </p>
-                </div>
-            </div>
-        </div>
-        <br>
-        <br>
-        <div class="level-left">
+        <div class="container">
+            <br>
+            <p class="level-item has-text-centered">
+                <img src="../img/logo.png" alt="" style="height: 90px;">
+            </p>
+            <br>
+            <p class="level-item has-text-centered">
+                <strong class="title is-5">บริษัท โชคทวีออโต้เซล</strong>
+            </p>
+            <br>
+            <p class="level-item has-text-centered">
+                <u class="title is-10">ใบรับรถ</u>
+            </p>
+            <br>
+            <br>
+            <br>
+            <div class="level-right">
                 <div class="level-item">
                     <p class="subtitle is-5">
-                        <strong>ทะเบียนรถ</strong>
+                        <strong>วันที่รับ</strong>
                     </p>
                 </div>
                 <div class="level-item">
                     <div class="field has-addons">
                         <p class="control">
-                            <input class="input" type="text" id="licensePlateCar">
+                            <input class="input" type="text" id="date" disabled>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <br>
+            <div class="level-right">
+                <div class="level-item">
+                    <p class="subtitle is-5">
+                        <strong>เลขเครื่อง</strong>
+                    </p>
+                </div>
+                <div class="level-item">
+                    <div class="field has-addons">
+                        <p class="control">
+                            <input class="input" type="text" style="width: 180px" id="model" disabled>
                         </p>
                     </div>
                 </div>
@@ -82,78 +106,94 @@
             <br>
             <br>
             <div class="level-left">
-                    <div class="level-item">
-                        <p class="subtitle is-5">
-                            <strong>ชื่อลูกค้า&nbsp;&nbsp;&nbsp;</strong>
+                <div class="level-item">
+                    <p class="subtitle is-5">
+                        <strong>รุ่นรถ</strong>
+                    </p>
+                </div>
+                <div class="level-item">
+                    <div class="field has-addons">
+                        <p class="control">
+                            <input class="input" type="text" id="carID" disabled>
                         </p>
                     </div>
-                    <div class="level-item">
-                        <div class="field has-addons">
-                            <p class="control">
-                                <input class="input" type="text" id="customer">
-                            </p>
-                        </div>
+                </div>
+            </div>
+            <br>
+            <br>
+            <div class="level-left">
+                <div class="level-item">
+                    <p class="subtitle is-5">
+                        <strong>ชื่อลูกค้า&nbsp;&nbsp;&nbsp;</strong>
+                    </p>
+                </div>
+                <div class="level-item">
+                    <div class="field has-addons">
+                        <p class="control">
+                            <input class="input" type="text" id="customer" maxlength="10">
+                        </p>
                     </div>
                 </div>
-                <br>
-                <br>
-                <div class="level-left">
-                        <div class="level-item">
-                            <p class="subtitle is-5">
-                                <strong>เบอร์โทร&nbsp;&nbsp;&nbsp;</strong>
-                            </p>
-                        </div>
-                        <div class="level-item">
-                            <div class="field has-addons">
-                                <p class="control">
-                                    <input class="input" type="text" id="tel">
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <br>
-                    <br>
-                    <div class="level-right">
-                            <div class="level-item">
-                                <p class="subtitle is-5">
-                                    <strong>ลงชื่อ</strong>
-                                </p>
-                            </div>
-                            <div class="level-item">
-                                <div class="field has-addons">
-                                    <p class="control">
-                                        ..........................................................
-                                    </p>
-                                    <p>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="level-right">
-                                <div class="level-item">
-                                    <div class="field has-addons">
-                                        <p class="control">
-                                            (&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)
-                                        </p>
-                                        <p>
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <br>
-                            <br>
-                            
-                            
-                            
             </div>
-            
+            <br>
+            <br>
+            <div class="level-left">
+                <div class="level-item">
+                    <p class="subtitle is-5">
+                        <strong>เบอร์โทร&nbsp;&nbsp;&nbsp;</strong>
+                    </p>
+                </div>
+                <div class="level-item">
+                    <div class="field has-addons">
+                        <p class="control">
+                            <input class="input" type="text" id="tel" maxlength="10">
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <br>
+            <div class="level-right">
+                <div class="level-item">
+                    <p class="subtitle is-5">
+                        <strong>ลงชื่อ</strong>
+                    </p>
+                </div>
+                <div class="level-item">
+                    <div class="field has-addons">
+                        <p class="control">
+                            ..........................................................
+                        </p>
+                        <p>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="level-right">
+                <div class="level-item">
+                    <div class="field has-addons">
+                        <p class="control">
+                            (&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)
+                        </p>
+                        <p>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <br>
+
+
+
+        </div>
+
     </div>
     <br>
     <div class="buttons  is-right" style="margin-right:5%">
-            <a class="button is-info is-outlined" style="width:10%" >ตกลง</a>
-            <a class="button is-info is-outlined" style="width:10%" >ยกเลิก</a>
-        </div>
+        <a class="button is-info is-outlined" style="width:10%" onclick="submit()">ตกลง</a>
+        <a class="button is-info is-outlined" style="width:10%" onclick="back()">กลับ</a>
+    </div>
 </body>
 
 </html>

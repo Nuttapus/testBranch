@@ -8,8 +8,9 @@ const dbName = 'softsource';
 const app = express()
 const port = 4001
 
-app.use(bodyParser.json())
-app.use(cors({ origin: true }))
+app.use(bodyParser.json({ limit: "100mb" }));
+app.use(bodyParser.urlencoded({ limit: "100mb", extended: true, parameterLimit: 100000 }));
+app.use(cors())
 
 
 app.post('/get', (req, res) => {
@@ -47,7 +48,14 @@ app.post('/get', (req, res) => {
             db.collection('TRN_Sell').findOne({ ID_TRN_Sell: req.body.ID_TRN_Sell }, (err, result) => {
                 if (err) throw err
                 res.json({ data: result })
-                console.log(result)
+
+                client.close();
+            })
+        } else if (req.body.type === "TRN_Repair") {
+            const db = client.db(dbName)
+            db.collection('TRN_Repair').find({}).toArray(function (err, result) {
+                if (err) throw err
+                res.json({ data: result })
                 client.close();
             })
         }
@@ -125,7 +133,7 @@ app.post('/insert', (req, res) => {
                     }
 
                 });
-                
+
             });
         } else if (req.body.type === "MST_Registration") {
             db.collection('MST_Registration').find({}).toArray(function (err, result) {
@@ -176,19 +184,17 @@ app.post('/insert', (req, res) => {
                 var count = result.length
                 count += 1
                 db.collection('TRN_Repair').findOne({ ID_TRN_Repair: "r" + count }, (err, result1) => {
-
                     const newRepair = {
                         "ID_TRN_Repair": "r" + count,
                         "brand": req.body.brand,
                         "model": req.body.model,
                         "machineNumber": req.body.machineNumber,
-                        "poinstsRepair": req.body.poinstsRepair,
-                        "pictureRepair": "",
+                        "pointsRepair": req.body.pointsRepair,
                         "nameEmployee": req.body.nameEmployee,
                         "nameAppraise": req.body.nameAppraise,
                         "nameTechnician": req.body.nameTechnician,
                         "nameTester": req.body.nameTester,
-                        "name_MST_Employee": "ประหยุด จันอังคาร"
+                        "name_MST_Employee": req.body.empoyee
                     }
                     if (result1 === null) {
                         db.collection('TRN_Repair').insertOne(newRepair, (err, result2) => {
@@ -262,9 +268,9 @@ app.post('/insert', (req, res) => {
                     }
 
                 });
-                
+
             });
-        }else if (req.body.type === "sell") {
+        } else if (req.body.type === "sell") {
             db.collection('TRN_Sell').find({}).toArray(function (err, result) {
                 console.log("check pass")
                 var count = result.length
@@ -294,6 +300,60 @@ app.post('/insert', (req, res) => {
                             name_MST_Employee: req.body.name_MST_Employee
                         };
                         db.collection('TRN_Sell').insertOne(newBuy, (err, result) => {
+                            if (err) throw err
+                            client.close()
+                            res.json({ status: true })
+                        })
+                    } else {
+                        res.json({ status: false })
+                        client.close()
+                    }
+                })
+            })
+        } else if (req.body.type === "TRN_RegistrationReceipt") {
+            db.collection('TRN_RegistrationReceipt').find({}).toArray(function (err, result) {
+                var count = result.length
+                count += 1
+                db.collection('TRN_RegistrationReceipt').findOne({ ID_TRN_RegistrationReceipt: req.body.ID_TRN_RegistrationReceipt }, (err, result) => {
+                    if (err) throw err
+                    console.log(result)
+                    if (result === null) {
+                        const newBuy = {
+                            ID_TRN_RegistrationReceipt: "RTR" + count,
+                            date: req.body.date,
+                            registration: req.body.registration,
+                            nameCustomer: req.body.nameCustomer,
+                            telCustomer: req.body.telCustomer,
+                            name_MST_Employee: req.body.name_MST_Employee,
+                        };
+                        db.collection('TRN_RegistrationReceipt').insertOne(newBuy, (err, result) => {
+                            if (err) throw err
+                            client.close()
+                            res.json({ status: true })
+                        })
+                    } else {
+                        res.json({ status: false })
+                        client.close()
+                    }
+                })
+            })
+        } else if (req.body.type === "TRN_CarReceipt") {
+            db.collection('TRN_CarReceipt').find({}).toArray(function (err, result) {
+                var count = result.length
+                count += 1
+                db.collection('TRN_CarReceipt').findOne({ ID_TRN_CarReceipt: req.body.ID_TRN_CarReceipt }, (err, result) => {
+                    if (err) throw err
+                    if (result === null) {
+                        const newBuy = {
+                            ID_TRN_CarReceipt: "CR" + count,
+                            date: req.body.date,
+                            model: req.body.model,
+                            idCar: req.body.idCar,
+                            nameCus: req.body.nameCus,
+                            tel: req.body.tel,
+                            name_MST_Employee: req.body.name_MST_Employee,
+                        };
+                        db.collection('TRN_CarReceipt').insertOne(newBuy, (err, result) => {
                             if (err) throw err
                             client.close()
                             res.json({ status: true })
@@ -373,6 +433,12 @@ app.post('/delete', (req, res) => {
             });
         } else if (type === "MST_Customer") {
             db.collection(type).deleteOne({ ID_MST_Customer: req.body.idDB }, (err, obj) => {
+                if (err) throw err;
+                res.json({ data: obj })
+                client.close();
+            });
+        } else if (type === "TRN_Repair") {
+            db.collection(type).deleteOne({ machineNumber: req.body.machineNumber }, (err, obj) => {
                 if (err) throw err;
                 res.json({ data: obj })
                 client.close();
