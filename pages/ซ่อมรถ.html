@@ -82,6 +82,7 @@
 
             document.getElementById('update').style = "width:10%; display: block;"
             document.getElementById('submit').style = "width:10%; display: none;"
+            document.getElementById('list').style = "width:10%; display: none;"
 
             blockInput()
         }
@@ -131,13 +132,13 @@
                 && nameAppraise !== undefined && nameTechnician !== undefined && nameTester !== undefined) {
                 var data = {
                     brand: brand, model: model, machineNumber: machineNumber, pointsRepair: pointsRepair, nameEmployee: nameEmployee, nameAppraise: nameAppraise,
-                    nameTechnician: nameTechnician, nameTester: nameTester,empoyee: getNameEm, type: "TRN_Repair"
+                    nameTechnician: nameTechnician, nameTester: nameTester, empoyee: getNameEm, type: "TRN_Repair"
                 }
                 axios.post("http://localhost:4001/insert", data).then((res) => {
                     if (res.data.status) {
                         alert("เพิ่มข้อมูลเรียบร้อย")
                         window.location.reload();
-                    } 
+                    }
                 })
             } else {
                 alert("กรุณาใส่ข้อมูลให้ครบทุกช่อง")
@@ -310,6 +311,7 @@
         <div class="buttons  is-right">
             <a class="button is-info is-outlined" style="width:10%; display: none;" onclick="print()"
                 id="update">พิมพ์</a>
+            <a class="button is-success is-outlined" style="width:10%" id="list" onclick="window.location.href='./รายการซ่อมรถ.html'">รายการซ่อมรถ</a>
             <a class="button is-info is-outlined" style="width:10%" id="submit" onclick="submit()">เพิ่ม</a>
             <a class="button is-info is-outlined" style="width:10%" onclick="cancel()">ยกเลิก</a>
         </div>
