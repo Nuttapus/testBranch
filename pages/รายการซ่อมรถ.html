@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="../node_modules/bulma/css/bulma.css">
     <link rel="stylesheet" href="../node_modules/bulma/css/bulma.min.css">
+    <script src="../node_modules/jquery/dist/jquery.min.js"></script>
     <link rel="shortcut icon" href="../img/logo.png">
 
 
@@ -17,6 +18,7 @@
     <script src="../node_modules/axios/dist/axios.min.js"></script>
 
     <script>
+        var count = 0
         function isNumber(e) {
             e = e || window.event;
             var charCode = e.which ? e.which : e.keyCode;
@@ -24,133 +26,102 @@
             return /\d/.test(String.fromCharCode(charCode));
         }
         function submit() {
+            var table = document.getElementById("inventory");
+            table.parentElement.parentElement
+            console.log(table.rows[1].cells[2].id.among)
+            // var total = document.getElementById('total').value;
+            // var among = document.getElementById('among').value;
+            // var nameTechnician = document.getElementById('nameTechnician').value;
+            // var nameTester = document.getElementById('nameTester').value;
+            // var part = document.getElementById('part').value;
 
-            var total = document.getElementById('total').value;
-            var among = document.getElementById('among').value;
-            var nameTechnician = document.getElementById('nameTechnician').value;
-            var nameTester = document.getElementById('nameTester').value;
-            var part = document.getElementById('part').value;
+            // if (total !== "" && among !== "" && nameTechnician !== "" && nameTester !== "" &&
+            //     part !== "") {
 
-            if (total !== "" && among !== "" && nameTechnician !== "" && nameTester !== "" &&
-                part !== "") {
-
-                const data = {
-                    total: total,
-                    among: among,
-                    nameTechnician: nameTechnician,
-                    nameTester: nameTester,
-                    part: part,
-                    type: "TRN_Repair"
-                }
-                console.log(data)
-                axios.post("http://localhost:4001/insert", data).then((res) => {
-                    console.log(data)
-                    alert("สำเร็จ");
-                })
-            } else {
-                alert("กรุณากรอกข้อมูลให้ครบ");
-            }
+            //     const data = {
+            //         total: total,
+            //         among: among,
+            //         nameTechnician: nameTechnician,
+            //         nameTester: nameTester,
+            //         part: part,
+            //         type: "TRN_Repair"
+            //     }
+            //     console.log(data)
+            //     axios.post("http://localhost:4001/insert", data).then((res) => {
+            //         console.log(data)
+            //         alert("สำเร็จ");
+            //     })
+            // } else {
+            //     alert("กรุณากรอกข้อมูลให้ครบ");
+            // }
 
 
         }
 
+        function addRow() {
+            var str = '<tr class="boxType"><td>' +(count+=1)+'</td>\
+                <td id="namePart">'+ $('#part').val() + '</td>\
+                <td id="among">'+ $('#among').val() + '</td>\ <td id="price">'+ $('#priceperpart').val()
+                +'</td>\</tr>'
+            $('#screen').append(str);
+            localStorage.setItem("data", $('#screen').html());
+        }
+
     </script>
 
-<nav class="navbar is-info" role="navigation" aria-label="main navigation">
+    <nav class="navbar is-info" role="navigation" aria-label="main navigation">
         <div class="navbar-brand">
-          <a class="navbar-item" href="./หน้าหลัก.html">
-            <img src="../img/logo.png" width="112" height="28" />
-          </a>
-  
-          <a
-            role="button"
-            class="navbar-burger burger"
-            aria-label="menu"
-            aria-expanded="false"
-            data-target="navbarBasicExample"
-          >
-            <span aria-hidden="true"></span> <span aria-hidden="true"></span>
-            <span aria-hidden="true"></span>
-          </a>
+            <a class="navbar-item" href="./หน้าหลัก.html">
+                <img src="../img/logo.png" width="112" height="28" />
+            </a>
+
+            <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
+                data-target="navbarBasicExample">
+                <span aria-hidden="true"></span> <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
         </div>
-  
+
         <div id="navbarBasicExample" class="navbar-menu">
-          <div class="navbar-start">
-            <a class="navbar-item" href="./หน้าหลัก.html">หน้าหลัก</a>
-            <a class="navbar-item" href="./ค้นหารถ.html">ซื้อรถ</a>
-            <a class="navbar-item" href="./หน้าขาย1.html">ขายรถ</a>
-            <a class="navbar-item" href="./เดินทะเบียน.html">เดินทะเบียน</a>
-            <a class="navbar-item is-active" href="./ซ่อมรถ.html">ซ่อม</a>
-            <a class="navbar-item" href="./ข้อมูลลูกค้า.html">ข้อมูลลูกค้า</a>
-            <a class="navbar-item" href="./จัดการพนักงาน.html">จัดการพนักงาน</a>
-          </div>
-          <div class="navbar-end">
-            <div class="navbar-item has-dropdown is-hoverable">
-              <a class="navbar-link" id="name">
-                <i class="fa fa-fw fa-user"></i> &nbsp; ชื่อผู้ใช้
-              </a>
-  
-              <div class="navbar-dropdown">
-                <a class="navbar-item" href="../ล็อกอิน.html"> ออกจากระบบ </a>
-              </div>
+            <div class="navbar-start">
+                <a class="navbar-item" href="./หน้าหลัก.html">หน้าหลัก</a>
+                <a class="navbar-item" href="./ค้นหารถ.html">ซื้อรถ</a>
+                <a class="navbar-item" href="./หน้าขาย1.html">ขายรถ</a>
+                <a class="navbar-item" href="./เดินทะเบียน.html">เดินทะเบียน</a>
+                <a class="navbar-item is-active" href="./ซ่อมรถ.html">ซ่อม</a>
+                <a class="navbar-item" href="./ข้อมูลลูกค้า.html">ข้อมูลลูกค้า</a>
+                <a class="navbar-item" href="./จัดการพนักงาน.html">จัดการพนักงาน</a>
             </div>
-          </div>
+            <div class="navbar-end">
+                <div class="navbar-item has-dropdown is-hoverable">
+                    <a class="navbar-link" id="name">
+                        <i class="fa fa-fw fa-user"></i> &nbsp; ชื่อผู้ใช้
+                    </a>
+
+                    <div class="navbar-dropdown">
+                        <a class="navbar-item" href="../ล็อกอิน.html"> ออกจากระบบ </a>
+                    </div>
+                </div>
+            </div>
         </div>
-      </nav>
-  <br>
+    </nav>
+    <br>
     <center>
-        <h1 style="font-size: 20px ; ">รายการซ่อม</h1>
+        <h1 class="title">รายการซ่อม</h1>
     </center><br>
 
     <div>
-        <table class="card is-bordered" style=" width:90%  ; margin-left: 5% ; margin-right: 5% ">
+        <table class="card is-bordered" style=" width:90%  ; margin-left: 5% ; margin-right: 5% " id="inventory">
             <thead>
                 <tr>
-                    <th>
-                        <title="">ลำดับที่
-                    </th>
-                    <th>
-                        <title="">รายการอะไหล่
-                    </th>
-                    <th>
-                        <title="">จำนวน
-                    </th>
-                    <th>
-                        <title="">ราคา
-                    </th>
+                    <th>ลำดับ</th>
+                    <th>รายการอะไหล่</th>
+                    <th>จำนวน</th>
+                    <th>ราคา</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr>
-                    <th>1</th>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-
-                </tr>
-                <tr>
-                    <th>2</th>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-
-                </tr>
-                <tr>
-                    <th>3</th>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-
-                </tr>
-                <tr>
-                    <th>4</th>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-
-                </tr>
+            <tbody id="screen">
             </tbody>
-
         </table>
     </div><br>
 
@@ -207,15 +178,21 @@
                     <div class="column is-1">
                         <label class="label">ช่างซ่อม :</label>
                     </div>
-                    <div class="column is-8">
+                    <div class="column is-5">
                         <input style="width:300px" class="input" type="text" id="nameTechnician">
                     </div>
+                    <div class="column is-1">
+                            <label class="label">ราคา :</label>
+                        </div>
+                        <div class="column is-8">
+                            <input style="width:300px" class="input" type="text" id="priceperpart" onkeypress="return isNumber(event);"> 
+                        </div>
                 </div>
             </div><br>
 
             <div class="buttons  is-right" style="margin-right:5%">
-                <a class="button is-info is-outlined" style="width:10%" onclick="submit()">ตกลง</a>
-                <a class="button is-info is-outlined" style="width:10%" onclick="cancel()">ยกเลิก</a>
+                <a class="button is-info is-outlined" style="width:10%" onclick="addRow()">ตกลง</a>
+                <a class="button is-info is-outlined" style="width:10%" onclick="cancelPart()">ยกเลิก</a>
             </div>
 
         </div>
