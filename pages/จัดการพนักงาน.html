@@ -334,14 +334,16 @@
             type: "MST_Employee",
             idDB: idDB
           };
-          axios.post("http://localhost:4001/update", data).then(res => {
-            if (res.data.status) {
-              alert("อัพเดตสำเร็จ");
+          if (password == cfpassword) {
+            axios.post("http://localhost:4001/update", data).then(res => {
+              if (res.data.status) {
+                alert("อัพเดตสำเร็จ");
+              }
               window.location.reload();
-            }
-          });
-        } else {
-          alert("กรุณาใส่ข้อมูลให้ครบทุกช่อง....");
+            });
+          } else {
+            alert("กรุณาใส่ข้อมูลให้ครบทุกช่อง....");
+          }
         }
       }
       document.addEventListener("DOMContentLoaded", showData());
@@ -409,6 +411,7 @@
                     class="input"
                     type="text"
                     placeholder="username"
+                    maxlength="16"
                   />
                 </div>
                 <p id="pId" class="help is-danger" style="display:none">
@@ -430,6 +433,7 @@
                     type="password"
                     placeholder="password"
                     onchange="checkPassword()"
+                    maxlength="16"
                   />
                 </div>
               </div>
@@ -448,6 +452,7 @@
                     type="password"
                     placeholder="re-password"
                     onchange="checkPassword()"
+                    maxlength="16"
                   />
                 </div>
                 <p id="pPassword" class="help is-danger" style="display:none">
@@ -470,6 +475,7 @@
                       type="text"
                       placeholder="email"
                       onchange="checkEmail()"
+                      maxlength="30"
                     />
                   </div>
                   <p id="pEmail" class="help is-danger" style="display:none">
@@ -491,6 +497,7 @@
                     class="input"
                     type="text"
                     placeholder="ที่อยู่"
+                    maxlength="20"
                   />
                 </div>
               </div>
@@ -509,6 +516,7 @@
                     type="text"
                     placeholder="อำเภอ"
                     onkeypress="return isNotNumber(event);"
+                    maxlength="20"
                   />
                 </div>
               </div>
@@ -569,6 +577,7 @@
                     type="text"
                     placeholder="ชื่อ"
                     onkeypress="return isNotNumber(event);"
+                    maxlength="20"
                   />
                 </div>
               </div>
@@ -587,6 +596,7 @@
                     type="text"
                     placeholder="นามสกุล"
                     onkeypress="return isNotNumber(event);"
+                    maxlength="20"
                   />
                 </div>
               </div>
@@ -641,6 +651,7 @@
                     type="text"
                     placeholder="ตำบล"
                     onkeypress="return isNotNumber(event);"
+                    maxlength="20"
                   />
                 </div>
               </div>
@@ -659,6 +670,7 @@
                     type="text"
                     placeholder="จังหวัด"
                     onkeypress="return isNotNumber(event);"
+                    maxlength="20"
                   />
                 </div>
               </div>
