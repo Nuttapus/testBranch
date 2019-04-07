@@ -380,7 +380,7 @@ app.post('/update', (req, res) => {
                 "tel": req.body.mobile,
                 "typeCus": req.body.typeCus
             }
-            db.collection("MST_Customer").update({ ID_MST_Customer: req.body.idDB }, updateData, function (err, result1) {
+            db.collection("MST_Customer").update({ idCardNumber: req.body.id }, updateData, function (err, result1) {
                 res.json({ status: true })
                 client.close();
             });

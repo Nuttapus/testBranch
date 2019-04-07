@@ -97,6 +97,9 @@
             document.getElementById("among").value = "";
             document.getElementById("priceperpart").value = "";
         }
+        function back(){
+            window.location.href = "./ซ่อมรถ.html"
+        }
     </script>
 
     <nav class="navbar is-info" role="navigation" aria-label="main navigation">
@@ -243,7 +246,7 @@
         <br>
         <div class="buttons  is-right" style="margin-right:5%">
             <a class="button is-info is-outlined" style="width:10%" onclick="submit()">เพิ่มข้อมูล</a>
-            <a class="button is-info is-outlined" style="width:10%" onclick="cancel()">ยกเลิก</a>
+            <a class="button is-info is-outlined" style="width:10%" onclick="back()">กลับ</a>
         </div>
         <div>
             <table class="card is-bordered" style=" width:90%  ; margin-left: 5% ; margin-right: 5% " id="inventory">
