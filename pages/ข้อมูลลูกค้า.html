@@ -1,628 +1,570 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <link rel="shortcut icon" href="../img/logo.png" />
-    <link rel="stylesheet" href="../node_modules/bulma/css/bulma.min.css" />
-    <title>ลูกค้า</title>
-  </head>
 
-  <body>
-    <script src="../node_modules/axios/dist/axios.min.js"></script>
-    <script>
-      window.onload = function() {
-        var getName = localStorage.getItem("storageName");
-        var getLastName = localStorage.getItem("storageLastName");
-        var gettypeCus = localStorage.getItem("storagetypeCus");
-        document.getElementById("navName").innerHTML =
-          `<i class="fa fa-fw fa-user"></i> &nbsp;` +
-          getName +
-          " " +
-          getLastName;
-      };
-      var idText,
-        postText,
-        telText,
-        email,
-        name,
-        lastname,
-        date,
-        address,
-        tumbon,
-        aumper,
-        city,
-        sex,
-        typeCus;
-      var flag = true;
-      var idDB;
-      function isNumber(e) {
-        e = e || window.event;
-        var charCode = e.which ? e.which : e.keyCode;
-        idLength = e.key;
-        return /\d/.test(String.fromCharCode(charCode));
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <link rel="shortcut icon" href="../img/logo.png" />
+  <link rel="stylesheet" href="../node_modules/bulma/css/bulma.min.css" />
+  <link href="../node_modules/please-wait/build/please-wait.css" rel="stylesheet">
+  <link rel="stylesheet" href="../node_modules/@fortawesome/fontawesome-free/css/all.css" class="rel" />
+  <link href="../node_modules/spinkit/css/spinkit.css" rel="stylesheet">
+  <title>ลูกค้า</title>
+</head>
+
+<body>
+  <script src="../node_modules/axios/dist/axios.min.js"></script>
+  <script src="../node_modules/please-wait/build/please-wait.js"></script>
+  <script>
+    window.onload = function () {
+      var getName = localStorage.getItem("storageName");
+      var getLastName = localStorage.getItem("storageLastName");
+      var gettypeCus = localStorage.getItem("storagetypeCus");
+      document.getElementById("navName").innerHTML =
+        `<i class="fa fa-fw fa-user"></i> &nbsp;` +
+        getName +
+        " " +
+        getLastName;
+    };
+    var idText,
+      postText,
+      telText,
+      email,
+      name,
+      lastname,
+      date,
+      address,
+      tumbon,
+      aumper,
+      city,
+      sex,
+      typeCus;
+    var flag = true;
+    var idDB;
+    var loading_screen = pleaseWait({
+      backgroundColor: 'rgb(240, 240, 240)',
+      loadingHtml: "<div class='sk-spinner sk-spinner-double-bounce'><div class='sk-wandering-cubes'><div class='sk-cube sk-cube1'></div><div class='sk-cube sk-cube2'></div></div></div></div>",
+      template: "<div class='pg-loading-inner'><div class='pg-loading-center-outer'><div class='pg-loading-center-middle'><div class='pg-loading-html'></div></div></div></div>"
+    })
+    function isNumber(e) {
+      e = e || window.event;
+      var charCode = e.which ? e.which : e.keyCode;
+      idLength = e.key;
+      return /\d/.test(String.fromCharCode(charCode));
+    }
+    
+    function isText(e) {
+      var key = e.keyCode;
+      if ((key >= 65 && key <= 90) || key == 8 || key >= 97 && key <= 122 || key >= 3585 && key <= 3661) {
+        return true
+      } else {
+        return false
       }
+    }
 
-      function checkEmail() {
-        var re = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
-        if (re.test(document.getElementById("email").value)) {
-          email = document.getElementById("email").value;
-          document.getElementById("email").style.border = "";
-          document.getElementById("pEmail").style.display = "none";
-        } else {
-          flag = false;
-          document.getElementById("email").style.border = "2px solid red";
-          document.getElementById("pEmail").style.display = "block";
-        }
+    function checkEmail() {
+      var re = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+      if (re.test(document.getElementById("email").value)) {
+        email = document.getElementById("email").value;
+        document.getElementById("email").style.border = "";
+        document.getElementById("pEmail").style.display = "none";
+      } else {
+        flag = false;
+        document.getElementById("email").style.border = "2px solid red";
+        document.getElementById("pEmail").style.display = "block";
       }
+    }
 
-      function cancel() {
-        window.location.reload();
-      }
+    function cancel() {
+      window.location.reload();
+    }
 
-      function selectData(td) {
-        selectedRow = td.parentElement.parentElement;
-        idDB = selectedRow.cells[0].innerHTML;
-        document.getElementById("name").value = selectedRow.cells[1].innerHTML;
-        document.getElementById("lastname").value =
-          selectedRow.cells[2].innerHTML;
-        document.getElementById("datepicker").value =
-          selectedRow.cells[3].innerHTML;
-        document.getElementById("id").value = selectedRow.cells[4].innerHTML;
-        document.getElementById("sex").value = selectedRow.cells[5].innerHTML;
-        document.getElementById("email").value = selectedRow.cells[6].innerHTML;
-        document.getElementById("address").value =
-          selectedRow.cells[7].innerHTML;
-        document.getElementById("tumbon").value =
-          selectedRow.cells[8].innerHTML;
-        document.getElementById("aumphoe").value =
-          selectedRow.cells[9].innerHTML;
-        document.getElementById("city").value = selectedRow.cells[10].innerHTML;
-        document.getElementById("post").value = selectedRow.cells[11].innerHTML;
-        document.getElementById("mobile").value =
-          selectedRow.cells[12].innerHTML;
-        document.getElementById("typeCus").value =
-          selectedRow.cells[13].innerHTML;
+    function selectData(td) {
+      selectedRow = td.parentElement.parentElement;
+      idDB = selectedRow.cells[0].innerHTML;
+      document.getElementById("name").value = selectedRow.cells[1].innerHTML;
+      document.getElementById("lastname").value =
+        selectedRow.cells[2].innerHTML;
+      document.getElementById("datepicker").value =
+        selectedRow.cells[3].innerHTML;
+      document.getElementById("id").value = selectedRow.cells[4].innerHTML;
+      document.getElementById("sex").value = selectedRow.cells[5].innerHTML;
+      document.getElementById("email").value = selectedRow.cells[6].innerHTML;
+      document.getElementById("address").value =
+        selectedRow.cells[7].innerHTML;
+      document.getElementById("tumbon").value =
+        selectedRow.cells[8].innerHTML;
+      document.getElementById("aumphoe").value =
+        selectedRow.cells[9].innerHTML;
+      document.getElementById("city").value = selectedRow.cells[10].innerHTML;
+      document.getElementById("post").value = selectedRow.cells[11].innerHTML;
+      document.getElementById("mobile").value =
+        selectedRow.cells[12].innerHTML;
+      document.getElementById("typeCus").value =
+        selectedRow.cells[13].innerHTML;
 
-        document.getElementById("update").style = "width:10%; display: block;";
-        document.getElementById("submit").style = "width:10%; display: none;";
-      }
+      document.getElementById("update").style = "width:10%; display: block;";
+      document.getElementById("submit").style = "width:10%; display: none;";
+    }
 
-      function generate_table(a) {
-        var table = document.getElementById("customerList");
-        console.log(a);
-        console.log("check length " + a.data.length);
-        for (var i = 0; i < a.data.length; i++) {
-          console.log("loop pass");
-          var newRow = table.insertRow(1);
+    function generate_table(a) {
+      var table = document.getElementById("customerList");
+      for (var i = 0; i < a.data.length; i++) {
+        var newRow = table.insertRow(1);
 
-          var ID_MST_Customer = newRow.insertCell(0);
-          var name = newRow.insertCell(1);
-          var lastname = newRow.insertCell(2);
-          var birthday = newRow.insertCell(3);
-          var idCardNumber = newRow.insertCell(4);
-          var sex = newRow.insertCell(5);
-          var email = newRow.insertCell(6);
-          var address = newRow.insertCell(7);
-          var tambon = newRow.insertCell(8);
-          var amphoe = newRow.insertCell(9);
-          var city = newRow.insertCell(10);
-          var postcode = newRow.insertCell(11);
-          var tel = newRow.insertCell(12);
-          var typeCus = newRow.insertCell(13);
-          var crud = newRow.insertCell(14);
+        var ID_MST_Customer = newRow.insertCell(0);
+        var name = newRow.insertCell(1);
+        var lastname = newRow.insertCell(2);
+        var birthday = newRow.insertCell(3);
+        var idCardNumber = newRow.insertCell(4);
+        var sex = newRow.insertCell(5);
+        var email = newRow.insertCell(6);
+        var address = newRow.insertCell(7);
+        var tambon = newRow.insertCell(8);
+        var amphoe = newRow.insertCell(9);
+        var city = newRow.insertCell(10);
+        var postcode = newRow.insertCell(11);
+        var tel = newRow.insertCell(12);
+        var typeCus = newRow.insertCell(13);
+        var crud = newRow.insertCell(14);
 
-          ID_MST_Customer.innerHTML = a.data[i].ID_MST_Customer;
-          name.innerHTML = a.data[i].name;
-          lastname.innerHTML = a.data[i].lastname;
-          birthday.innerHTML = a.data[i].birthday;
-          idCardNumber.innerHTML = a.data[i].idCardNumber;
-          sex.innerHTML = a.data[i].sex;
-          email.innerHTML = a.data[i].email;
-          address.innerHTML = a.data[i].address;
-          tambon.innerHTML = a.data[i].tambon;
-          amphoe.innerHTML = a.data[i].amphoe;
-          city.innerHTML = a.data[i].city;
-          postcode.innerHTML = a.data[i].postcode;
-          tel.innerHTML = a.data[i].tel;
-          typeCus.innerHTML = a.data[i].typeCus;
-          crud.innerHTML = `<a class="button is-warning" onClick="selectData(this)">Edit</a>
+        ID_MST_Customer.innerHTML = a.data[i].ID_MST_Customer;
+        name.innerHTML = a.data[i].name;
+        lastname.innerHTML = a.data[i].lastname;
+        birthday.innerHTML = a.data[i].birthday;
+        idCardNumber.innerHTML = a.data[i].idCardNumber;
+        sex.innerHTML = a.data[i].sex;
+        email.innerHTML = a.data[i].email;
+        address.innerHTML = a.data[i].address;
+        tambon.innerHTML = a.data[i].tambon;
+        amphoe.innerHTML = a.data[i].amphoe;
+        city.innerHTML = a.data[i].city;
+        postcode.innerHTML = a.data[i].postcode;
+        tel.innerHTML = a.data[i].tel;
+        typeCus.innerHTML = a.data[i].typeCus;
+        crud.innerHTML = `<a class="button is-warning" onClick="selectData(this)">Edit</a>
                                 <a class="button is-danger" onClick="deleteData(this)">Delete</a>`;
+      }
+    }
+
+    function showData() {
+      loadScreen("df")
+      var b = { type: "MST_Customer" };
+      axios.post("http://localhost:4001/get", b).then(res => {
+        var a = [];
+        a = res.data;
+        generate_table(a);
+        loadScreen("loadSuc");
+      });
+    }
+
+    function deleteRow(userDel) {
+      var checkDelete = confirm("ต้องการจะลบข้อมูลนี้จริงๆหรือไม่");
+      var data = { username: userDel, type: "MST_Customer" };
+      if (checkDelete) {
+        if (userDel !== "") {
+          axios.post("http://localhost:4001/delete", data).then(res => {
+            location.reload();
+          });
+        } else {
+          alert("กรุณาลองใหม่ภายหลัง");
         }
+      } else {
+        console.log("cancle");
       }
+    }
 
-      function showData() {
-        var b = { type: "MST_Customer" };
-        axios.post("http://localhost:4001/get", b).then(res => {
-          var a = [];
-          a = res.data;
-          generate_table(a);
-        });
-      }
-
-      function deleteRow(userDel) {
-        console.log(userDel);
-        var checkDelete = confirm("ต้องการจะลบข้อมูลนี้จริงๆหรือไม่");
-        var data = { username: userDel, type: "MST_Customer" };
-        if (checkDelete) {
-          if (userDel !== "") {
-            axios.post("http://localhost:4001/delete", data).then(res => {
-              location.reload();
-            });
-          } else {
-            alert("กรุณาลองใหม่ภายหลัง");
+    function deleteData(td) {
+      selectedRow = td.parentElement.parentElement;
+      var obj = selectedRow.cells[7].innerHTML;
+      deleteRow(obj);
+    }
+    function submit() {
+      idText = document.getElementById("id").value;
+      postText = document.getElementById("post").value;
+      telText = document.getElementById("mobile").value;
+      name = document.getElementById("name").value;
+      lastname = document.getElementById("lastname").value;
+      date = document.getElementById("datepicker").value;
+      address = document.getElementById("address").value;
+      tumbon = document.getElementById("tumbon").value;
+      aumper = document.getElementById("aumphoe").value;
+      city = document.getElementById("city").value;
+      sex = document.getElementById("sex").value;
+      typeCus = document.getElementById("typeCus").value;
+      if (
+        idText !== "" &&
+        postText !== undefined &&
+        telText !== undefined &&
+        email !== undefined &&
+        name !== undefined &&
+        lastname !== undefined &&
+        date !== undefined &&
+        address !== undefined &&
+        tumbon !== undefined &&
+        aumper !== undefined &&
+        city !== undefined &&
+        sex !== undefined
+      ) {
+        var data = {
+          email: email,
+          name: name,
+          lastname: lastname,
+          address: address,
+          tumbon: tumbon,
+          aumphoe: aumper,
+          city: city,
+          sex: sex,
+          typeCus: typeCus,
+          post: postText,
+          mobile: telText,
+          date: date,
+          id: idText,
+          type: "MST_Customer",
+          idDB: idDB
+        };
+        axios.post("http://localhost:4001/insert", data).then(res => {
+          if (res.data.status) {
+            alert("เพิ่มข้อมูลลูกค้าเรียบร้อย");
+            window.location.reload();
           }
-        } else {
-          console.log("cancle");
-        }
+        });
+      } else {
+        alert("กรุณาใส่ข้อมูลให้ครบทุกช่อง");
       }
+    }
 
-      function deleteData(td) {
-        selectedRow = td.parentElement.parentElement;
-        var obj = selectedRow.cells[7].innerHTML;
-        deleteRow(obj);
+    function update() {
+      idText = document.getElementById("id").value;
+      postText = document.getElementById("post").value;
+      telText = document.getElementById("mobile").value;
+      name = document.getElementById("name").value;
+      lastname = document.getElementById("lastname").value;
+      date = document.getElementById("datepicker").value;
+      address = document.getElementById("address").value;
+      tumbon = document.getElementById("tumbon").value;
+      aumper = document.getElementById("aumphoe").value;
+      city = document.getElementById("city").value;
+      sex = document.getElementById("sex").value;
+      typeCus = document.getElementById("typeCus").value;
+
+      if (document.getElementById("email").value !== email) {
+        email = document.getElementById("email").value;
       }
-      function submit() {
-        idText = document.getElementById("id").value;
-        postText = document.getElementById("post").value;
-        telText = document.getElementById("mobile").value;
-        name = document.getElementById("name").value;
-        lastname = document.getElementById("lastname").value;
-        date = document.getElementById("datepicker").value;
-        address = document.getElementById("address").value;
-        tumbon = document.getElementById("tumbon").value;
-        aumper = document.getElementById("aumphoe").value;
-        city = document.getElementById("city").value;
-        sex = document.getElementById("sex").value;
-        typeCus = document.getElementById("typeCus").value;
-        if (
-          idText !== "" &&
-          postText !== undefined &&
-          telText !== undefined &&
-          email !== undefined &&
-          name !== undefined &&
-          lastname !== undefined &&
-          date !== undefined &&
-          address !== undefined &&
-          tumbon !== undefined &&
-          aumper !== undefined &&
-          city !== undefined &&
-          sex !== undefined
-        ) {
-          var data = {
-            email: email,
-            name: name,
-            lastname: lastname,
-            address: address,
-            tumbon: tumbon,
-            aumphoe: aumper,
-            city: city,
-            sex: sex,
-            typeCus: typeCus,
-            post: postText,
-            mobile: telText,
-            date: date,
-            id: idText,
-            type: "MST_Customer",
-            idDB: idDB
-          };
-          console.log("เข้าจ้า1");
-          axios.post("http://localhost:4001/insert", data).then(res => {
-            console.log(res.data.status);
+      if (
+        idText !== "" &&
+        postText !== "" &&
+        telText !== "" &&
+        email !== "" &&
+        name !== "" &&
+        lastname !== "" &&
+        date !== "" &&
+        address !== "" &&
+        tumbon !== "" &&
+        aumper !== "" &&
+        city !== "" &&
+        sex !== ""
+      ) {
+        var data = {
+          email: email,
+          name: name,
+          lastname: lastname,
+          address: address,
+          tumbon: tumbon,
+          aumphoe: aumper,
+          city: city,
+          sex: sex,
+          typeCus: typeCus,
+          post: postText,
+          mobile: telText,
+          date: date,
+          id: idText,
+          type: "MST_Customer",
+          idDB: idDB
+        };
 
-            if (res.data.status) {
-              alert("เพิ่มข้อมูลลูกค้าเรียบร้อย");
-              window.location.reload();
-            }
-          });
-        } else {
-          alert("กรุณาใส่ข้อมูลให้ครบทุกช่อง");
-        }
+        axios.post("http://localhost:4001/update", data).then(res => {
+          if (res.data.status) {
+            alert("อัพเดตสำเร็จ");
+            window.location.reload();
+          }
+        });
+      } else {
+        alert("กรุณาใส่ข้อมูลให้ครบทุกช่อง....");
       }
+    }
+    document.addEventListener("DOMContentLoaded", showData());
 
-      function update() {
-        idText = document.getElementById("id").value;
-        postText = document.getElementById("post").value;
-        telText = document.getElementById("mobile").value;
-        name = document.getElementById("name").value;
-        lastname = document.getElementById("lastname").value;
-        date = document.getElementById("datepicker").value;
-        address = document.getElementById("address").value;
-        tumbon = document.getElementById("tumbon").value;
-        aumper = document.getElementById("aumphoe").value;
-        city = document.getElementById("city").value;
-        sex = document.getElementById("sex").value;
-        typeCus = document.getElementById("typeCus").value;
-
-        if (document.getElementById("email").value !== email) {
-          email = document.getElementById("email").value;
-        }
-        if (
-          idText !== "" &&
-          postText !== "" &&
-          telText !== "" &&
-          email !== "" &&
-          name !== "" &&
-          lastname !== "" &&
-          date !== "" &&
-          address !== "" &&
-          tumbon !== "" &&
-          aumper !== "" &&
-          city !== "" &&
-          sex !== ""
-        ) {
-          var data = {
-            email: email,
-            name: name,
-            lastname: lastname,
-            address: address,
-            tumbon: tumbon,
-            aumphoe: aumper,
-            city: city,
-            sex: sex,
-            typeCus: typeCus,
-            post: postText,
-            mobile: telText,
-            date: date,
-            id: idText,
-            type: "MST_Customer",
-            idDB: idDB
-          };
-
-          axios.post("http://localhost:4001/update", data).then(res => {
-            if (res.data.status) {
-              alert("อัพเดตสำเร็จ");
-              window.location.reload();
-            }
-          });
-        } else {
-          alert("กรุณาใส่ข้อมูลให้ครบทุกช่อง....");
-        }
+    function loadScreen(a) {
+      if (a === "loadSuc") {
+        loading_screen.finish()
       }
-      document.addEventListener("DOMContentLoaded", showData());
-    </script>
+    }
+  </script>
 
-    <nav class="navbar is-info" role="navigation" aria-label="main navigation">
-      <div class="navbar-brand">
-        <a class="navbar-item" href="./หน้าหลัก.html">
-          <img src="../img/logo.png" width="112" height="28" />
-        </a>
+  <nav class="navbar is-info" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="./หน้าหลัก.html">
+        <img src="../img/logo.png" width="112" height="28" />
+      </a>
 
-        <a
-          role="button"
-          class="navbar-burger burger"
-          aria-label="menu"
-          aria-expanded="false"
-          data-target="navbarBasicExample"
-        >
-          <span aria-hidden="true"></span> <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-        </a>
+      <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
+        data-target="navbarBasicExample">
+        <span aria-hidden="true"></span> <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
+    </div>
+
+    <div id="navbarBasicExample" class="navbar-menu">
+      <div class="navbar-start">
+        <a class="navbar-item" href="./หน้าหลัก.html">หน้าหลัก</a>
+        <a class="navbar-item" href="./ค้นหารถ.html">ซื้อรถ</a>
+        <a class="navbar-item" href="./หน้าขาย1.html">ขายรถ</a>
+        <a class="navbar-item" href="./เดินทะเบียน.html">เดินทะเบียน</a>
+        <a class="navbar-item" href="./ซ่อมรถ.html">ซ่อม</a>
+        <a class="navbar-item is-active" href="./ข้อมูลลูกค้า.html">ข้อมูลลูกค้า</a>
+        <a class="navbar-item" href="./จัดการพนักงาน.html">จัดการพนักงาน</a>
       </div>
+      <div class="navbar-end">
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" id="navName">
+            <i class="fa fa-fw fa-user"></i> &nbsp; ชื่อผู้ใช้
+          </a>
 
-      <div id="navbarBasicExample" class="navbar-menu">
-        <div class="navbar-start">
-          <a class="navbar-item" href="./หน้าหลัก.html">หน้าหลัก</a>
-          <a class="navbar-item" href="./ค้นหารถ.html">ซื้อรถ</a>
-          <a class="navbar-item" href="./หน้าขาย1.html">ขายรถ</a>
-          <a class="navbar-item" href="./เดินทะเบียน.html">เดินทะเบียน</a>
-          <a class="navbar-item" href="./ซ่อมรถ.html">ซ่อม</a>
-          <a class="navbar-item is-active" href="./ข้อมูลลูกค้า.html">ข้อมูลลูกค้า</a>
-          <a class="navbar-item" href="./จัดการพนักงาน.html">จัดการพนักงาน</a>
-        </div>
-        <div class="navbar-end">
-          <div class="navbar-item has-dropdown is-hoverable">
-            <a class="navbar-link" id="name">
-              <i class="fa fa-fw fa-user"></i> &nbsp; ชื่อผู้ใช้
-            </a>
-
-            <div class="navbar-dropdown">
-              <a class="navbar-item" href="../ล็อกอิน.html"> ออกจากระบบ </a>
-            </div>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="../ล็อกอิน.html"> ออกจากระบบ </a>
           </div>
         </div>
-      </div>
-    </nav>
-
-    <div class="container">
-      <br />
-      <center><h1 class="title">ข้อมูลลูกค้า</h1></center>
-      <br /><br />
-      <div class="columns">
-        <div class="column">
-          <div class="field is-horizontal">
-            <div class="field-label is-normal">
-              <label class="label">ชื่อ</label>
-            </div>
-
-            <div class="field-body">
-              <div class="field">
-                <div class="control">
-                  <input
-                    id="name"
-                    class="input"
-                    type="text"
-                    placeholder="ชื่อ"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="field is-horizontal">
-            <div class="field-label is-normal">
-              <label class="label">วัน/เดือน/ปี</label>
-            </div>
-            <div class="field-body">
-              <div class="field">
-                <div class="control">
-                  <input
-                    id="datepicker"
-                    class="input"
-                    type="date"
-                    placeholder=""
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="field">
-            <div class="field is-horizontal">
-              <div class="field-label is-normal">
-                <label class="label">อีเมล</label>
-              </div>
-              <div class="field-body">
-                <div class="field">
-                  <div class="control">
-                    <input
-                      id="email"
-                      class="input"
-                      type="text"
-                      placeholder="อีเมล"
-                      onchange="checkEmail()"
-                    />
-                  </div>
-                  <p id="pEmail" class="help is-danger" style="display:none">
-                    อีเมลล์ไม่ถูกต้อง
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="field is-horizontal">
-            <div class="field-label is-normal">
-              <label class="label">เบอร์โทรศัพท์</label>
-            </div>
-            <div class="field-body">
-              <div class="field">
-                <div class="control">
-                  <input
-                    id="mobile"
-                    class="input"
-                    type="text"
-                    placeholder="เบอร์โทรศัพท์"
-                    maxlength="10"
-                    onkeypress="return isNumber(event);"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="field is-horizontal">
-            <div class="field-label is-normal">
-              <label class="label">เพศ</label>
-            </div>
-            <div class="field-body">
-              <div class="field ">
-                <p class="control ">
-                  <span class="select is-fullwidth">
-                    <select required id="sex">
-                      <option disabled selected hidden>เลือก... </option>
-                      <option value="ชาย">ชาย</option>
-                      <option value="หญิง">หญิง</option>
-                      <option value="อื่นๆ">อื่นๆ</option>
-                    </select>
-                  </span>
-                </p>
-              </div>
-            </div>
-          </div>
-          <div class="field is-horizontal">
-            <div class="field-label is-normal">
-              <label class="label">ประเภท</label>
-            </div>
-            <div class="field-body">
-              <div class="field ">
-                <p class="control ">
-                  <span class="select is-fullwidth">
-                    <select required id="typeCus">
-                      <option disabled selected hidden>เลือก... </option>
-                      <option value="ขาย">ขาย</option>
-                      <option value="ซื้อ">ซื้อ</option>
-                      <option value="ซ่อม">ซ่อม</option>
-                    </select>
-                  </span>
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="column">
-          <div class="field is-horizontal">
-            <div class="field-label is-normal">
-              <label class="label">นามสกุล</label>
-            </div>
-            <div class="field-body">
-              <div class="field">
-                <div class="control">
-                  <input
-                    id="lastname"
-                    class="input"
-                    type="text"
-                    placeholder="นามสกุล"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="field is-horizontal">
-            <div class="field-label is-normal">
-              <label class="label">บัตรประชาชน</label>
-            </div>
-            <div class="field-body">
-              <div class="field">
-                <div class="control">
-                  <input
-                    id="id"
-                    class="input"
-                    type="text"
-                    placeholder="เลขบัตรประชาชน"
-                    maxlength="13"
-                    onkeypress="return isNumber(event);"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="field is-horizontal">
-            <div class="field-label is-normal">
-              <label class="label">ที่อยู่</label>
-            </div>
-            <div class="field-body">
-              <div class="field">
-                <div class="control">
-                  <input
-                    id="address"
-                    class="input"
-                    type="text"
-                    placeholder="ที่อยู่"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="field is-horizontal">
-            <div class="field-label is-normal">
-              <label class="label">ตำบล</label>
-            </div>
-            <div class="field-body">
-              <div class="field">
-                <div class="control">
-                  <input
-                    id="tumbon"
-                    class="input"
-                    type="text"
-                    placeholder="ตำบล"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="field is-horizontal">
-            <div class="field-label is-normal">
-              <label class="label">อำเภอ</label>
-            </div>
-            <div class="field-body">
-              <div class="field">
-                <div class="control">
-                  <input
-                    id="aumphoe"
-                    class="input"
-                    type="text"
-                    placeholder="อำเภอ"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="field is-horizontal">
-            <div class="field-label is-normal">
-              <label class="label">จังหวัด</label>
-            </div>
-            <div class="field-body">
-              <div class="field">
-                <div class="control">
-                  <input
-                    id="city"
-                    class="input"
-                    type="text"
-                    placeholder="จังหวัด"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="field is-horizontal">
-            <div class="field-label is-normal">
-              <label class="label">รหัสไปรษณีย์</label>
-            </div>
-            <div class="field-body">
-              <div class="field">
-                <div class="control">
-                  <input
-                    id="post"
-                    class="input"
-                    type="text"
-                    placeholder="รหัสไปรษณีย์"
-                    maxlength="5"
-                    onkeypress="return isNumber(event);"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="buttons  is-right">
-        <a
-          class="button is-info is-outlined"
-          style="width:10%; display: none;"
-          onclick="update()"
-          id="update"
-          >แก้ไข</a
-        >
-        <a
-          class="button is-info is-outlined"
-          style="width:10%"
-          id="submit"
-          onclick="submit()"
-          >เพิ่ม</a
-        >
-        <a
-          class="button is-info is-outlined"
-          style="width:10%"
-          onclick="cancel()"
-          >ยกเลิก</a
-        >
       </div>
     </div>
+  </nav>
+
+  <div class="container">
     <br />
     <center>
-      <table class="table table is-bordered " id="customerList">
-        <thead>
-          <tr>
-            <th>id</th>
-            <th>ชื่อ</th>
-            <th>นามสกุล</th>
-            <th>วัน/เดือน/ปี เกิด</th>
-            <th>เลขประจำตัวประชาชน</th>
-            <th>เพศ</th>
-            <th>Email</th>
-            <th>ที่อยู่</th>
-            <th>ตำบล</th>
-            <th>อำเภอ</th>
-            <th>จังหวัด</th>
-            <th>รหัสไปรษณีย์</th>
-            <th>เบอร์โทรศัพท์</th>
-            <th>ประเภท</th>
-            <th>จัดการลูกค้า</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
+      <h1 class="title">ข้อมูลลูกค้า</h1>
     </center>
-  </body>
+    <br /><br />
+    <div class="columns">
+      <div class="column">
+        <div class="field is-horizontal">
+          <div class="field-label is-normal">
+            <label class="label">ชื่อ</label>
+          </div>
+
+          <div class="field-body">
+            <div class="field">
+              <div class="control">
+                <input id="name" class="input" type="text" placeholder="ชื่อ" onkeypress="return isText(event)" maxlength="20"/>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="field is-horizontal">
+          <div class="field-label is-normal">
+            <label class="label">วัน/เดือน/ปี</label>
+          </div>
+          <div class="field-body">
+            <div class="field">
+              <div class="control">
+                <input id="datepicker" class="input" type="date" placeholder="" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="field">
+          <div class="field is-horizontal">
+            <div class="field-label is-normal">
+              <label class="label">อีเมล</label>
+            </div>
+            <div class="field-body">
+              <div class="field">
+                <div class="control">
+                  <input id="email" class="input" type="text" placeholder="อีเมล" onchange="checkEmail()" />
+                </div>
+                <p id="pEmail" class="help is-danger" style="display:none">
+                  อีเมลล์ไม่ถูกต้อง
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="field is-horizontal">
+          <div class="field-label is-normal">
+            <label class="label">เบอร์โทรศัพท์</label>
+          </div>
+          <div class="field-body">
+            <div class="field">
+              <div class="control">
+                <input id="mobile" class="input" type="text" placeholder="เบอร์โทรศัพท์" maxlength="10"
+                  onkeypress="return isNumber(event);" />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="field is-horizontal">
+          <div class="field-label is-normal">
+            <label class="label">เพศ</label>
+          </div>
+          <div class="field-body">
+            <div class="field ">
+              <p class="control ">
+                <span class="select is-fullwidth">
+                  <select required id="sex">
+                    <option disabled selected hidden>เลือก... </option>
+                    <option value="ชาย">ชาย</option>
+                    <option value="หญิง">หญิง</option>
+                    <option value="อื่นๆ">อื่นๆ</option>
+                  </select>
+                </span>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="field is-horizontal">
+          <div class="field-label is-normal">
+            <label class="label">ประเภท</label>
+          </div>
+          <div class="field-body">
+            <div class="field ">
+              <p class="control ">
+                <span class="select is-fullwidth">
+                  <select required id="typeCus">
+                    <option disabled selected hidden>เลือก... </option>
+                    <option value="ขาย">ขาย</option>
+                    <option value="ซื้อ">ซื้อ</option>
+                    <option value="ซ่อม">ซ่อม</option>
+                  </select>
+                </span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="column">
+        <div class="field is-horizontal">
+          <div class="field-label is-normal">
+            <label class="label">นามสกุล</label>
+          </div>
+          <div class="field-body">
+            <div class="field">
+              <div class="control">
+                <input id="lastname" class="input" type="text" placeholder="นามสกุล" onkeypress="return isText(event)" maxlength="20"/>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="field is-horizontal">
+          <div class="field-label is-normal">
+            <label class="label">บัตรประชาชน</label>
+          </div>
+          <div class="field-body">
+            <div class="field">
+              <div class="control">
+                <input id="id" class="input" type="text" placeholder="เลขบัตรประชาชน" maxlength="13"
+                  onkeypress="return isNumber(event);" />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="field is-horizontal">
+          <div class="field-label is-normal">
+            <label class="label">ที่อยู่</label>
+          </div>
+          <div class="field-body">
+            <div class="field">
+              <div class="control">
+                <input id="address" class="input" type="text" placeholder="ที่อยู่" maxlength="20"/>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="field is-horizontal">
+          <div class="field-label is-normal">
+            <label class="label">ตำบล</label>
+          </div>
+          <div class="field-body">
+            <div class="field">
+              <div class="control">
+                <input id="tumbon" class="input" type="text" placeholder="ตำบล" onkeypress="return isText(event)" maxlength="20"/>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="field is-horizontal">
+          <div class="field-label is-normal">
+            <label class="label">อำเภอ</label>
+          </div>
+          <div class="field-body">
+            <div class="field">
+              <div class="control">
+                <input id="aumphoe" class="input" type="text" placeholder="อำเภอ" onkeypress="return isText(event)" maxlength="20"/>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="field is-horizontal">
+          <div class="field-label is-normal">
+            <label class="label">จังหวัด</label>
+          </div>
+          <div class="field-body">
+            <div class="field">
+              <div class="control">
+                <input id="city" class="input" type="text" placeholder="จังหวัด" onkeypress="return isText(event)" maxlength="20"/>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="field is-horizontal">
+          <div class="field-label is-normal">
+            <label class="label">รหัสไปรษณีย์</label>
+          </div>
+          <div class="field-body">
+            <div class="field">
+              <div class="control">
+                <input id="post" class="input" type="text" placeholder="รหัสไปรษณีย์" maxlength="5"
+                  onkeypress="return isNumber(event);" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="buttons  is-right">
+      <a class="button is-info is-outlined" style="width:10%; display: none;" onclick="update()" id="update">แก้ไข</a>
+      <a class="button is-info is-outlined" style="width:10%" id="submit" onclick="submit()">เพิ่ม</a>
+      <a class="button is-info is-outlined" style="width:10%" onclick="cancel()">ยกเลิก</a>
+    </div>
+  </div>
+  <br />
+  <center>
+    <table class="table table is-bordered " id="customerList">
+      <thead>
+        <tr>
+          <th>id</th>
+          <th>ชื่อ</th>
+          <th>นามสกุล</th>
+          <th>วัน/เดือน/ปี เกิด</th>
+          <th>เลขประจำตัวประชาชน</th>
+          <th>เพศ</th>
+          <th>Email</th>
+          <th>ที่อยู่</th>
+          <th>ตำบล</th>
+          <th>อำเภอ</th>
+          <th>จังหวัด</th>
+          <th>รหัสไปรษณีย์</th>
+          <th>เบอร์โทรศัพท์</th>
+          <th>ประเภท</th>
+          <th>จัดการลูกค้า</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </center>
+</body>
+
 </html>

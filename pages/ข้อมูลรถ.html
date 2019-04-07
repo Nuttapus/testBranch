@@ -8,13 +8,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="../node_modules/bulma/css/bulma.min.css">
     <link rel="shortcut icon" href="../img/logo.png" />
+    <link href="../node_modules/please-wait/build/please-wait.css" rel="stylesheet">
+    <link href="../node_modules/spinkit/css/spinkit.css" rel="stylesheet">
     <title>ข้อมูลรถ</title>
 </head>
 
 <body>
     <script src="../node_modules/axios/dist/axios.min.js"></script>
+    <script src="../node_modules/please-wait/build/please-wait.js"></script>
     <script>
         var getID, getPic
+        var loading_screen = pleaseWait({
+            backgroundColor: 'rgb(240, 240, 240)',
+            loadingHtml: "<div class='sk-spinner sk-spinner-double-bounce'><div class='sk-wandering-cubes'><div class='sk-cube sk-cube1'></div><div class='sk-cube sk-cube2'></div></div></div></div>",
+            template: "<div class='pg-loading-inner'><div class='pg-loading-center-outer'><div class='pg-loading-center-middle'><div class='pg-loading-html'></div></div></div></div>"
+        })
         window.onload = function () {
             var getName = localStorage.getItem("storageName");
             var getLastName = localStorage.getItem("storageLastName");
@@ -24,6 +32,7 @@
         }
 
         function showData() {
+            loadScreen("load")
             getID = localStorage.getItem("sendID");
             var data = { type: "car", ID_TRN_Sell: getID }
             axios.post("http://localhost:4001/get", data).then((res) => {
@@ -45,7 +54,7 @@
                 // newDiv.src = a.data.picture.pic+""+i
                 // toAdd.appendChild(newDiv);
                 // document.getElementById('pic'+i).appendChild(toAdd);
-
+                loadScreen("loadSuc")
                 for (var i = 1; i <= 3; i++) {
                     var toAdd = document.createDocumentFragment();
                     var newDiv = document.createElement('img');
@@ -72,51 +81,53 @@
         }
         document.addEventListener("DOMContentLoaded", showData());
 
-        function buy(){
+        function buy() {
             window.location.href = "./ซื้อรถ.html"
+        }
+        function loadScreen(a) {
+            if (a === "load") {
+                //loading_screen
+            } else if (a === "loadSuc") {
+                loading_screen.finish()
+            }
         }
     </script>
 
-     <nav class="navbar is-info" role="navigation" aria-label="main navigation">
-      <div class="navbar-brand">
-        <a class="navbar-item" href="./หน้าหลัก.html">
-          <img src="../img/logo.png" width="112" height="28" />
-        </a>
-
-        <a
-          role="button"
-          class="navbar-burger burger"
-          aria-label="menu"
-          aria-expanded="false"
-          data-target="navbarBasicExample"
-        >
-          <span aria-hidden="true"></span> <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-        </a>
-      </div>
-
-      <div id="navbarBasicExample" class="navbar-menu">
-        <div class="navbar-start">
-          <a class="navbar-item" href="./หน้าหลัก.html">หน้าหลัก</a>
-          <a class="navbar-item is-active" href="./ค้นหารถ.html">ซื้อรถ</a>
-          <a class="navbar-item" href="./หน้าขาย1.html">ขายรถ</a>
-          <a class="navbar-item" href="./เดินทะเบียน.html">เดินทะเบียน</a>
-          <a class="navbar-item" href="./ซ่อมรถ.html">ซ่อม</a>
-          <a class="navbar-item" href="./ข้อมูลลูกค้า.html">ข้อมูลลูกค้า</a>
-          <a class="navbar-item" href="./จัดการพนักงาน.html">จัดการพนักงาน</a>
-        </div>
-        <div class="navbar-end">
-          <div class="navbar-item has-dropdown is-hoverable">
-            <a class="navbar-link" id="name">
-              <i class="fa fa-fw fa-user"></i> &nbsp; ชื่อผู้ใช้
+    <nav class="navbar is-info" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+            <a class="navbar-item" href="./หน้าหลัก.html">
+                <img src="../img/logo.png" width="112" height="28" />
             </a>
 
-            <div class="navbar-dropdown">
-              <a class="navbar-item" href="../ล็อกอิน.html"> ออกจากระบบ </a>
-            </div>
-          </div>
+            <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
+                data-target="navbarBasicExample">
+                <span aria-hidden="true"></span> <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
         </div>
-      </div>
+
+        <div id="navbarBasicExample" class="navbar-menu">
+            <div class="navbar-start">
+                <a class="navbar-item" href="./หน้าหลัก.html">หน้าหลัก</a>
+                <a class="navbar-item is-active" href="./ค้นหารถ.html">ซื้อรถ</a>
+                <a class="navbar-item" href="./หน้าขาย1.html">ขายรถ</a>
+                <a class="navbar-item" href="./เดินทะเบียน.html">เดินทะเบียน</a>
+                <a class="navbar-item" href="./ซ่อมรถ.html">ซ่อม</a>
+                <a class="navbar-item" href="./ข้อมูลลูกค้า.html">ข้อมูลลูกค้า</a>
+                <a class="navbar-item" href="./จัดการพนักงาน.html">จัดการพนักงาน</a>
+            </div>
+            <div class="navbar-end">
+                <div class="navbar-item has-dropdown is-hoverable">
+                    <a class="navbar-link" id="name">
+                        <i class="fa fa-fw fa-user"></i> &nbsp; ชื่อผู้ใช้
+                    </a>
+
+                    <div class="navbar-dropdown">
+                        <a class="navbar-item" href="../ล็อกอิน.html"> ออกจากระบบ </a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </nav>
 
     <br>
@@ -147,7 +158,7 @@
                 <br>
                 <div class="row">
                     <label id="topic">
-                        
+
                     </label>
                 </div>
             </div>
@@ -173,7 +184,7 @@
                         </div>
                         <div class="column">
                             <label id="brand">
-                                
+
                             </label>
                         </div>
                     </div>
@@ -187,7 +198,7 @@
                         </div>
                         <div class="column">
                             <label id="model">
-                                
+
                             </label>
                         </div>
                     </div>
@@ -201,7 +212,7 @@
                         </div>
                         <div class="column">
                             <label id="carYear">
-                                
+
                             </label>
                         </div>
                     </div>
@@ -215,7 +226,7 @@
                         </div>
                         <div class="column">
                             <label id="detailModel">
-                                
+
                             </label>
                         </div>
                     </div>
@@ -229,7 +240,7 @@
                         </div>
                         <div class="column">
                             <label id="generateYear">
-                                
+
                             </label>
                         </div>
                     </div>
@@ -243,7 +254,7 @@
                         </div>
                         <div class="column">
                             <label id="cc">
-                                
+
                             </label>
                         </div>
                     </div>
@@ -256,39 +267,42 @@
                             </label>
                         </div>
                         <div class="column">
-                            <label id="gear"> </label> </div> </div> </div> <div class="row">
-                                <div class="columns">
-                                    <div class="column">
-                                        <label>
-                                            เลขไมล์
-                                        </label>
-                                    </div>
-                                    <div class="column">
-                                        <label id="miles">
-                                            
-                                        </label>
-                                    </div>
-                                </div>
-                        </div>
-                        <div class="row">
-                            <div class="columns">
-                                <div class="column">
-                                    <label>
-                                        สี
-                                    </label>
-                                </div>
-                                <div class="column">
-                                    <label id="color">
-                                        
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                        <br>
-                        <button class="button is-info is-large is-fullwidth " onclick="buy()">ซื้อ</button>
+                            <label id="gear"> </label> </div>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="columns">
+                        <div class="column">
+                            <label>
+                                เลขไมล์
+                            </label>
+                        </div>
+                        <div class="column">
+                            <label id="miles">
+
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="columns">
+                        <div class="column">
+                            <label>
+                                สี
+                            </label>
+                        </div>
+                        <div class="column">
+                            <label id="color">
+
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <button class="button is-info is-large is-fullwidth " onclick="buy()">ซื้อ</button>
             </div>
+        </div>
+    </div>
 </body>
 
 </html>
