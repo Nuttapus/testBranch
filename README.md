@@ -1,7 +1,7 @@
 npm i
 
-npm i bulma-divider -S
+อย่างเดียว
 
-npm i bulma -S
 
-npm i --save-dev @fortawesome/fontawesome-free
+
+
