@@ -5,7 +5,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <link rel="stylesheet" type="text/css" href="../node_modules//bulma/css/bulma.css">
+  <link rel="stylesheet" type="text/css" href="../node_modules/bulma/css/bulma.css">
+  <link rel="stylesheet" href="../node_modules/@fortawesome/fontawesome-free/css/all.css" />
   <link rel="shortcut icon" href="../img/logo.png" />
   <title>เดินทะเบียน</title>
 </head>
@@ -18,8 +19,22 @@
       var getName = localStorage.getItem("storageName");
       var getLastName = localStorage.getItem("storageLastName");
       var getDepartment = localStorage.getItem("storageDepartment");
-      document.getElementById("name").innerHTML = `<i class="fa fa-fw fa-user"></i> &nbsp;` + getName + " " + getLastName;
+      document.getElementById("navName").innerHTML = `<i class="fa fa-fw fa-user"></i> &nbsp;` + getName + " " + getLastName;
       employee = getName + " " + getLastName;
+    }
+    function isText(e) {
+      var key = e.keyCode;
+      if ((key >= 65 && key <= 90) || key == 8 || key >= 97 && key <= 122 || key >= 3585 && key <= 3661) {
+        return true
+      } else {
+        return false
+      }
+    }
+    function isNumber(e) {
+      e = e || window.event;
+      var charCode = e.which ? e.which : e.keyCode;
+      idLength = e.key
+      return /\d/.test(String.fromCharCode(charCode));
     }
     function addRegis() {
       var dateregis = document.getElementById("dateregis").value;
@@ -93,11 +108,10 @@
                                                   type: "MST_Registration"
                                                 }
                                                 axios.post("http://localhost:4001/insert", data).then((res) => {
-                                                  console.log(data)
                                                   alert("เพิ่มข้อมูลสำเร็จ")
                                                 });
-                                                 window.location.href = "./ใบรับทะเบียน.html"
-                                                 localStorage.setItem("idCar",regisnumber)
+                                                window.location.href = "./ใบรับทะเบียน.html"
+                                                localStorage.setItem("idCar", regisnumber)
                                               } else {
                                                 alert("กรุณากรอกที่นั่ง");
                                               }
@@ -164,47 +178,42 @@
     }
   </script>
 
-    <nav class="navbar is-info" role="navigation" aria-label="main navigation">
-      <div class="navbar-brand">
-        <a class="navbar-item" href="./หน้าหลัก.html">
-          <img src="../img/logo.png" width="112" height="28" />
-        </a>
+  <nav class="navbar is-info" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="./หน้าหลัก.html">
+        <img src="../img/logo.png" width="112" height="28" />
+      </a>
 
-        <a
-          role="button"
-          class="navbar-burger burger"
-          aria-label="menu"
-          aria-expanded="false"
-          data-target="navbarBasicExample"
-        >
-          <span aria-hidden="true"></span> <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-        </a>
+      <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
+        data-target="navbarBasicExample">
+        <span aria-hidden="true"></span> <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
+    </div>
+
+    <div id="navbarBasicExample" class="navbar-menu">
+      <div class="navbar-start">
+        <a class="navbar-item" href="./หน้าหลัก.html">หน้าหลัก</a>
+        <a class="navbar-item" href="./ค้นหารถ.html">ซื้อรถ</a>
+        <a class="navbar-item" href="./หน้าขาย1.html">ขายรถ</a>
+        <a class="navbar-item is-active" href="./เดินทะเบียน.html">เดินทะเบียน</a>
+        <a class="navbar-item" href="./ซ่อมรถ.html">ซ่อม</a>
+        <a class="navbar-item" href="./ข้อมูลลูกค้า.html">ข้อมูลลูกค้า</a>
+        <a class="navbar-item" href="./จัดการพนักงาน.html">จัดการพนักงาน</a>
       </div>
+      <div class="navbar-end">
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" id="navName">
+            <i class="fa fa-fw fa-user"></i> &nbsp; ชื่อผู้ใช้
+          </a>
 
-      <div id="navbarBasicExample" class="navbar-menu">
-        <div class="navbar-start">
-          <a class="navbar-item" href="./หน้าหลัก.html">หน้าหลัก</a>
-          <a class="navbar-item" href="./ค้นหารถ.html">ซื้อรถ</a>
-          <a class="navbar-item" href="./หน้าขาย1.html">ขายรถ</a>
-          <a class="navbar-item is-active" href="./เดินทะเบียน.html">เดินทะเบียน</a>
-          <a class="navbar-item" href="./ซ่อมรถ.html">ซ่อม</a>
-          <a class="navbar-item" href="./ข้อมูลลูกค้า.html">ข้อมูลลูกค้า</a>
-          <a class="navbar-item" href="./จัดการพนักงาน.html">จัดการพนักงาน</a>
-        </div>
-        <div class="navbar-end">
-          <div class="navbar-item has-dropdown is-hoverable">
-            <a class="navbar-link" id="name">
-              <i class="fa fa-fw fa-user"></i> &nbsp; ชื่อผู้ใช้
-            </a>
-
-            <div class="navbar-dropdown">
-              <a class="navbar-item" href="../ล็อกอิน.html"> ออกจากระบบ </a>
-            </div>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="../ล็อกอิน.html"> ออกจากระบบ </a>
           </div>
         </div>
       </div>
-    </nav>
+    </div>
+  </nav>
 
   <div class="container">
     <h1 class="title has-text-centered" style="margin-top: 1%">เดินทะเบียน</h1>
@@ -214,37 +223,37 @@
       <div class="columns is-gapless level">
         <div class="column is-5 level-left">
           วันจดทะเบียน :
-          <input class="input " style="float:right; width: 60%" id="dateregis" type="text">
+          <input class="input " style="float:right; width: 60%" id="dateregis" type="date" >
         </div>
         <div class="column is-5 level-right">
           เลขทะเบียน :
-          <input class="input " style="float:right; width: 60%" id="regisnumber" type="text">
+          <input class="input " style="float:right; width: 60%" id="regisnumber" type="text" maxlength="10">
         </div>
       </div>
       <div class="columns is-gapless  level">
         <div class="column is-5 level-left">
           จังหวัด :
-          <input class="input " style="float:right; width: 60%" id="province" type="text">
+          <input class="input " style="float:right; width: 60%" id="province" type="text" onkeypress="return isText(event)" maxlength="10">
         </div>
         <div class="column is-5 level-right">
           ประเภท :
-          <input class="input " style="float:right; width: 60%" id="genre" type="text">
+          <input class="input " style="float:right; width: 60%" id="genre" type="text" onkeypress="return isText(event)" maxlength="10">
         </div>
       </div>
       <div class="columns is-gapless level">
         <div class="column is-5 level-left">
           ลักษณะ :
-          <input class="input" style="float:right; width: 60%" id="look" type="text">
+          <input class="input" style="float:right; width: 60%" id="look" type="text" onkeypress="return isText(event)" maxlength="20">
         </div>
         <div class="column is-5 level-right">
           ยี่ห้อ :
-          <input class="input " style="float:right; width: 60%" id="brand" type="text">
+          <input class="input " style="float:right; width: 60%" id="brand" type="text" onkeypress="return isText(event)" maxlength="20">
         </div>
       </div>
       <div class="columns is-gapless level">
         <div class="column is-3 level-left">
           แบบ :
-          <input class="input " style="float:right; width: 70%" id="model" type="text">
+          <input class="input " style="float:right; width: 70%" id="model" type="text" onkeypress="return isText(event)" maxlength="10">
         </div>
         <div class="column is-3">
           รุ่นปี ค.ศ. :
@@ -297,77 +306,77 @@
         </div>
         <div class="column is-3 level-right">
           สี :
-          <input class="input " style="float:right; width: 70%" id="color" type="text">
+          <input class="input " style="float:right; width: 70%" id="color" type="text" onkeypress="return isText(event)" maxlength="10">
         </div>
       </div>
       <div class="columns is-gapless level">
         <div class="column is-5 level-left">
           เลขตัวรถ :
-          <input class="input " style="float:right; width: 60%" id="carnumber" type="text">
+          <input class="input " style="float:right; width: 60%" id="carnumber" type="text" maxlength="15">
         </div>
         <div class="column is-5 level-right">
           อยู่ที่ :
-          <input class="input " style="float:right; width: 60%" id="lieto" type="text">
+          <input class="input " style="float:right; width: 60%" id="lieto" type="text" onkeypress="return isText(event)" maxlength="20">
         </div>
       </div>
       <div class="columns is-gapless level">
         <div class="column is-5 level-left">
           ยี่ห้อเครื่องยนต์ :
-          <input class="input " style="float:right; width: 60%" id="enginebrand" type="text">
+          <input class="input " style="float:right; width: 60%" id="enginebrand" type="text" onkeypress="return isText(event)" maxlength="10">
         </div>
         <div class="column is-5 level-right">
           เลขเครื่องยนต์ :
-          <input class="input " style="float:right; width: 60%" id="enginenumber" type="text">
+          <input class="input " style="float:right; width: 60%" id="enginenumber" type="text" maxlength="15">
         </div>
       </div>
       <div class="columns is-gapless level">
         <div class="column is-5 level-left">
           ที่อยู่ :
-          <input class="input " style="float:right; width: 60%" id="address" type="text">
+          <input class="input " style="float:right; width: 60%" id="address" type="text" onkeypress="return isText(event)" maxlength="20">
         </div>
         <div class="column is-5 level-right">
           เชื้อเพลิง :
-          <input class="input " style="float:right; width: 60%" id="fuel" type="text">
+          <input class="input " style="float:right; width: 60%" id="fuel" type="text" onkeypress="return isText(event)" maxlength="10">
         </div>
       </div>
       <div class="columns is-gapless level">
         <div class="column is-5 level-left">
           เลขถัง :
-          <input class="input " style="float:right; width: 60%" id="tanknumber" type="text">
+          <input class="input " style="float:right; width: 60%" id="tanknumber" type="text" maxlength="15">
         </div>
         <div class="column is-5 level-right">
           จำนวน :
-          <input class="input " style="float:right; width: 60%" id="quantity" type="text">
+          <input class="input " style="float:right; width: 60%" id="quantity" type="text"  maxlength="10">
         </div>
       </div>
       <div class="columns is-gapless level">
         <div class="column is-5 level-left">
           ซีซี :
-          <input class="input " style="float:right; width: 60%" id="CC" type="text">
+          <input class="input " style="float:right; width: 60%" id="CC" type="text" onkeypress="return isNumber(event)" maxlength="10">
         </div>
         <div class="column is-5 level-right">
           แรงม้า :
-          <input class="input " style="float:right; width: 60%" id="hp" type="text">
+          <input class="input " style="float:right; width: 60%" id="hp" type="text" onkeypress="return isNumber(event)" maxlength="10">
         </div>
       </div>
       <div class="columns is-gapless level">
         <div class="column is-5 level-left">
           น้ำหนักรถ :
-          <input class="input " style="float:right; width: 60%" id="carweight" type="text">
+          <input class="input " style="float:right; width: 60%" id="carweight" type="text" onkeypress="return isNumber(event)" maxlength="10">
         </div>
         <div class="column is-5 level-right">
           น้ำหนักบรรทุก/น้ำหนักลงเพลา :
-          <input class="input " style="float:right; width: 60%" id="payload" type="text">
+          <input class="input " style="float:right; width: 60%" id="payload" type="text" onkeypress="return isNumber(event)" maxlength="10">
         </div>
       </div>
       <div class="columns is-gapless level">
         <div class="column is-5 level-left">
           น้ำหนักรวม :
-          <input class="input " style="float:right; width: 60%" id="totalweight" type="text">
+          <input class="input " style="float:right; width: 60%" id="totalweight" type="text" onkeypress="return isNumber(event)" maxlength="10">
         </div>
         <div class="column is-5 level-right">
           ที่นั่ง :
-          <input class="input " style="float:right; width: 60%" id="seats" type="text">
+          <input class="input " style="float:right; width: 60%" id="seats" type="text" onkeypress="return isNumber(event)" maxlength="10">
         </div>
       </div>
     </form>
