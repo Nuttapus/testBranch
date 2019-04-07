@@ -1,771 +1,681 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <link rel="shortcut icon" href="../img/logo.png" />
-    <link rel="stylesheet" href="../node_modules/bulma/css/bulma.min.css" />
-    <link
-      rel="stylesheet"
-      href="./node_modules/@fortawesome/fontawesome-free/css/all.css"
-      class="rel"
-    />
-    <title>จัดการพนักงาน</title>
-  </head>
 
-  <body>
-    <script src="../node_modules/axios/dist/axios.min.js"></script>
-    <script>
-      window.onload = function() {
-        var getName = localStorage.getItem("storageName");
-        var getLastName = localStorage.getItem("storageLastName");
-        var getDepartment = localStorage.getItem("storageDepartment");
-        document.getElementById("navName").innerHTML =
-          `<i class="fa fa-fw fa-user"></i> &nbsp;` +
-          getName +
-          " " +
-          getLastName;
-      };
-      var idText,
-        postText,
-        telText,
-        email,
-        password,
-        cfpassword,
-        name,
-        lastname,
-        date,
-        address,
-        tumbon,
-        aumper,
-        city,
-        sex,
-        department,
-        username;
-      var flag = true;
-      var idDB;
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <link rel="shortcut icon" href="../img/logo.png" />
+  <link rel="stylesheet" href="../node_modules/bulma/css/bulma.min.css" />
+  <link rel="stylesheet" href="../node_modules/@fortawesome/fontawesome-free/css/all.css" class="rel" />
+  <link href="../node_modules/please-wait/build/please-wait.css" rel="stylesheet">
+  <link href="../node_modules/spinkit/css/spinkit.css" rel="stylesheet">
+  <link href="./styles.css" rel="stylesheet">
+  <title>จัดการพนักงาน</title>
+</head>
 
-      function isNumber(e) {
-        e = e || window.event;
-        var charCode = e.which ? e.which : e.keyCode;
-        idLength = e.key;
-        return /\d/.test(String.fromCharCode(charCode));
+<body>
+  <script src="../node_modules/please-wait/build/please-wait.js"></script>
+  <script src="../node_modules/axios/dist/axios.min.js"></script>
+  <script>
+    window.onload = function () {
+      var getName = localStorage.getItem("storageName");
+      var getLastName = localStorage.getItem("storageLastName");
+      var getDepartment = localStorage.getItem("storageDepartment");
+      document.getElementById("navName").innerHTML =
+        `<i class="fa fa-fw fa-user"></i> &nbsp;` +
+        getName +
+        " " +
+        getLastName;
+    };
+    var idText,
+      postText,
+      telText,
+      email,
+      password,
+      cfpassword,
+      name,
+      lastname,
+      date,
+      address,
+      tumbon,
+      aumper,
+      city,
+      sex,
+      department,
+      username;
+    var flag = true;
+    var idDB;
+    function isNumber(e) {
+      e = e || window.event;
+      var charCode = e.which ? e.which : e.keyCode;
+      idLength = e.key;
+      return /\d/.test(String.fromCharCode(charCode));
+    }
+
+    function isNotNumber(event) {
+      var charCode = event.which ? event.which : event.keyCode;
+      if (
+        charCode > 31 &&
+        (charCode < 33 ||
+          (charCode > 64 && charCode < 91) ||
+          (charCode > 96 && charCode < 123) ||
+          charCode > 126)
+      )
+        return true;
+      return false;
+    }
+
+    function checkEmail() {
+      var re = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+      if (re.test(document.getElementById("email").value)) {
+        email = document.getElementById("email").value;
+        document.getElementById("email").style.border = "";
+        document.getElementById("pEmail").style.display = "none";
+      } else {
+        flag = false;
+        document.getElementById("email").style.border = "2px solid red";
+        document.getElementById("pEmail").style.display = "block";
       }
+    }
 
-      function isNotNumber(event) {
-        var charCode = event.which ? event.which : event.keyCode;
-        if (
-          charCode > 31 &&
-          (charCode < 33 ||
-            (charCode > 64 && charCode < 91) ||
-            (charCode > 96 && charCode < 123) ||
-            charCode > 126)
-        )
-          return true;
-        return false;
+    function checkPassword() {
+      password = document.getElementById("password").value;
+      cfpassword = document.getElementById("repassword").value;
+      if (password === cfpassword) {
+        document.getElementById("password").style.border = "";
+        document.getElementById("repassword").style.border = "";
+        document.getElementById("pPassword").style.display = "none";
+      } else {
+        document.getElementById("password").style.border = "2px solid red";
+        document.getElementById("repassword").style.border = "2px solid red";
+        document.getElementById("pPassword").style.display = "block";
       }
+    }
+    function cancel() {
+      window.location.reload();
+    }
 
-      function checkEmail() {
-        var re = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
-        if (re.test(document.getElementById("email").value)) {
-          email = document.getElementById("email").value;
-          document.getElementById("email").style.border = "";
-          document.getElementById("pEmail").style.display = "none";
-        } else {
-          flag = false;
-          document.getElementById("email").style.border = "2px solid red";
-          document.getElementById("pEmail").style.display = "block";
-        }
-      }
+    function selectData(td) {
+      selectedRow = td.parentElement.parentElement;
+      idDB = selectedRow.cells[0].innerHTML;
+      document.getElementById("name").value = selectedRow.cells[1].innerHTML;
+      document.getElementById("lastname").value =
+        selectedRow.cells[2].innerHTML;
+      document.getElementById("datepicker").value =
+        selectedRow.cells[3].innerHTML;
+      document.getElementById("id").value = selectedRow.cells[4].innerHTML;
+      document.getElementById("sex").value = selectedRow.cells[5].innerHTML;
+      document.getElementById("email").value = selectedRow.cells[6].innerHTML;
+      document.getElementById("username").value =
+        selectedRow.cells[7].innerHTML;
+      document.getElementById("password").value =
+        selectedRow.cells[8].innerHTML;
+      document.getElementById("address").value =
+        selectedRow.cells[9].innerHTML;
+      document.getElementById("tumbon").value =
+        selectedRow.cells[10].innerHTML;
+      document.getElementById("aumphoe").value =
+        selectedRow.cells[11].innerHTML;
+      document.getElementById("city").value = selectedRow.cells[12].innerHTML;
+      document.getElementById("post").value = selectedRow.cells[13].innerHTML;
+      document.getElementById("mobile").value =
+        selectedRow.cells[14].innerHTML;
+      document.getElementById("department").value =
+        selectedRow.cells[15].innerHTML;
 
-      function checkPassword() {
-        password = document.getElementById("password").value;
-        cfpassword = document.getElementById("repassword").value;
-        if (password === cfpassword) {
-          document.getElementById("password").style.border = "";
-          document.getElementById("repassword").style.border = "";
-          document.getElementById("pPassword").style.display = "none";
-        } else {
-          document.getElementById("password").style.border = "2px solid red";
-          document.getElementById("repassword").style.border = "2px solid red";
-          document.getElementById("pPassword").style.display = "block";
-        }
-      }
-      function cancel() {
-        window.location.reload();
-      }
+      document.getElementById("update").style = "width:10%; display: block;";
+      document.getElementById("submit").style = "width:10%; display: none;";
+      document.getElementById("username").disabled = true;
+    }
 
-      function selectData(td) {
-        selectedRow = td.parentElement.parentElement;
-        idDB = selectedRow.cells[0].innerHTML;
-        document.getElementById("name").value = selectedRow.cells[1].innerHTML;
-        document.getElementById("lastname").value =
-          selectedRow.cells[2].innerHTML;
-        document.getElementById("datepicker").value =
-          selectedRow.cells[3].innerHTML;
-        document.getElementById("id").value = selectedRow.cells[4].innerHTML;
-        document.getElementById("sex").value = selectedRow.cells[5].innerHTML;
-        document.getElementById("email").value = selectedRow.cells[6].innerHTML;
-        document.getElementById("username").value =
-          selectedRow.cells[7].innerHTML;
-        document.getElementById("password").value =
-          selectedRow.cells[8].innerHTML;
-        document.getElementById("address").value =
-          selectedRow.cells[9].innerHTML;
-        document.getElementById("tumbon").value =
-          selectedRow.cells[10].innerHTML;
-        document.getElementById("aumphoe").value =
-          selectedRow.cells[11].innerHTML;
-        document.getElementById("city").value = selectedRow.cells[12].innerHTML;
-        document.getElementById("post").value = selectedRow.cells[13].innerHTML;
-        document.getElementById("mobile").value =
-          selectedRow.cells[14].innerHTML;
-        document.getElementById("department").value =
-          selectedRow.cells[15].innerHTML;
+    function generate_table(a) {
+      var table = document.getElementById("employeeList");
+      console.log(a);
+      console.log("check length " + a.data.length);
+      for (var i = 0; i < a.data.length; i++) {
+        console.log("loop pass");
+        var newRow = table.insertRow(1);
 
-        document.getElementById("update").style = "width:10%; display: block;";
-        document.getElementById("submit").style = "width:10%; display: none;";
-        document.getElementById("username").disabled = true;
-      }
+        var ID_MST_Employee = newRow.insertCell(0);
+        var name = newRow.insertCell(1);
+        var lastname = newRow.insertCell(2);
+        var birthday = newRow.insertCell(3);
+        var idCardNumber = newRow.insertCell(4);
+        var sex = newRow.insertCell(5);
+        var email = newRow.insertCell(6);
+        var username = newRow.insertCell(7);
+        var password = newRow.insertCell(8);
+        var address = newRow.insertCell(9);
+        var tambon = newRow.insertCell(10);
+        var amphoe = newRow.insertCell(11);
+        var city = newRow.insertCell(12);
+        var postcode = newRow.insertCell(13);
+        var tel = newRow.insertCell(14);
+        var department = newRow.insertCell(15);
+        var crud = newRow.insertCell(16);
 
-      function generate_table(a) {
-        var table = document.getElementById("employeeList");
-        console.log(a);
-        console.log("check length " + a.data.length);
-        for (var i = 0; i < a.data.length; i++) {
-          console.log("loop pass");
-          var newRow = table.insertRow(1);
-
-          var ID_MST_Employee = newRow.insertCell(0);
-          var name = newRow.insertCell(1);
-          var lastname = newRow.insertCell(2);
-          var birthday = newRow.insertCell(3);
-          var idCardNumber = newRow.insertCell(4);
-          var sex = newRow.insertCell(5);
-          var email = newRow.insertCell(6);
-          var username = newRow.insertCell(7);
-          var password = newRow.insertCell(8);
-          var address = newRow.insertCell(9);
-          var tambon = newRow.insertCell(10);
-          var amphoe = newRow.insertCell(11);
-          var city = newRow.insertCell(12);
-          var postcode = newRow.insertCell(13);
-          var tel = newRow.insertCell(14);
-          var department = newRow.insertCell(15);
-          var crud = newRow.insertCell(16);
-
-          ID_MST_Employee.innerHTML = a.data[i].ID_MST_Employee;
-          name.innerHTML = a.data[i].name;
-          lastname.innerHTML = a.data[i].lastname;
-          birthday.innerHTML = a.data[i].birthday;
-          idCardNumber.innerHTML = a.data[i].idCardNumber;
-          sex.innerHTML = a.data[i].sex;
-          email.innerHTML = a.data[i].email;
-          username.innerHTML = a.data[i].username;
-          password.innerHTML = a.data[i].password;
-          address.innerHTML = a.data[i].address;
-          tambon.innerHTML = a.data[i].tambon;
-          amphoe.innerHTML = a.data[i].amphoe;
-          city.innerHTML = a.data[i].city;
-          postcode.innerHTML = a.data[i].postcode;
-          tel.innerHTML = a.data[i].tel;
-          department.innerHTML = a.data[i].department;
-          crud.innerHTML = `<a class="button is-warning" onClick="selectData(this)">Edit</a>
+        ID_MST_Employee.innerHTML = a.data[i].ID_MST_Employee;
+        name.innerHTML = a.data[i].name;
+        lastname.innerHTML = a.data[i].lastname;
+        birthday.innerHTML = a.data[i].birthday;
+        idCardNumber.innerHTML = a.data[i].idCardNumber;
+        sex.innerHTML = a.data[i].sex;
+        email.innerHTML = a.data[i].email;
+        username.innerHTML = a.data[i].username;
+        password.innerHTML = a.data[i].password;
+        address.innerHTML = a.data[i].address;
+        tambon.innerHTML = a.data[i].tambon;
+        amphoe.innerHTML = a.data[i].amphoe;
+        city.innerHTML = a.data[i].city;
+        postcode.innerHTML = a.data[i].postcode;
+        tel.innerHTML = a.data[i].tel;
+        department.innerHTML = a.data[i].department;
+        crud.innerHTML = `<a class="button is-warning" onClick="selectData(this)">Edit</a>
                           <a class="button is-danger" onClick="deleteData(this)">Delete</a>`;
-        }
       }
+    }
 
-      function showData() {
-        var b = { type: "MST_Employee" };
-        axios.post("http://localhost:4001/get", b).then(res => {
-          var a = [];
-          a = res.data;
+    function showData() {
+      var b = { type: "MST_Employee" };
+      var a = [];
+      loadScreen("load");
+      axios.post("http://localhost:4001/get", b).then(res => {
+        a = res.data;
+        if (a !== []) {
           generate_table(a);
-        });
-      }
+          loadScreen("loadsuccess");
+        }
+      });
+    }
 
-      function deleteRow(userDel) {
-        console.log(userDel);
-        var checkDelete = confirm("ต้องการจะลบข้อมูลนี้จริงๆหรือไม่");
-        var data = { username: userDel, type: "MST_Employee" };
-        if (checkDelete) {
-          if (userDel !== "") {
-            axios.post("http://localhost:4001/delete", data).then(res => {
-              location.reload();
-            });
-          } else {
-            alert("กรุณาลองใหม่ภายหลัง");
-          }
+    function deleteRow(userDel) {
+      console.log(userDel);
+      var checkDelete = confirm("ต้องการจะลบข้อมูลนี้จริงๆหรือไม่");
+      var data = { username: userDel, type: "MST_Employee" };
+      if (checkDelete) {
+        if (userDel !== "") {
+          axios.post("http://localhost:4001/delete", data).then(res => {
+            location.reload();
+          });
         } else {
-          console.log("cancle");
+          alert("กรุณาลองใหม่ภายหลัง");
         }
+      } else {
+        console.log("cancle");
       }
+    }
 
-      function deleteData(td) {
-        selectedRow = td.parentElement.parentElement;
-        var obj = selectedRow.cells[7].innerHTML;
-        deleteRow(obj);
-      }
+    function deleteData(td) {
+      selectedRow = td.parentElement.parentElement;
+      var obj = selectedRow.cells[7].innerHTML;
+      deleteRow(obj);
+    }
 
-      function submit() {
-        idText = document.getElementById("id").value;
-        username = document.getElementById("username").value;
-        postText = document.getElementById("post").value;
-        telText = document.getElementById("mobile").value;
-        name = document.getElementById("name").value;
-        lastname = document.getElementById("lastname").value;
-        date = document.getElementById("datepicker").value;
-        address = document.getElementById("address").value;
-        tumbon = document.getElementById("tumbon").value;
-        aumper = document.getElementById("aumphoe").value;
-        city = document.getElementById("city").value;
-        sex = document.getElementById("sex").value;
-        department = document.getElementById("department").value;
-        if (
-          idText !== "" &&
-          username !== undefined &&
-          postText !== undefined &&
-          telText !== undefined &&
-          email !== undefined &&
-          password !== undefined &&
-          name !== undefined &&
-          lastname !== undefined &&
-          date !== undefined &&
-          address !== undefined &&
-          tumbon !== undefined &&
-          aumper !== undefined &&
-          city !== undefined &&
-          sex !== undefined
-        ) {
-          var data = {
-            username: username,
-            password: password,
-            email: email,
-            name: name,
-            lastname: lastname,
-            address: address,
-            tumbon: tumbon,
-            aumphoe: aumper,
-            city: city,
-            sex: sex,
-            department: department,
-            post: postText,
-            mobile: telText,
-            date: date,
-            id: idText,
-            type: "MST_Employee"
-          };
+    function submit() {
+      idText = document.getElementById("id").value;
+      username = document.getElementById("username").value;
+      postText = document.getElementById("post").value;
+      telText = document.getElementById("mobile").value;
+      name = document.getElementById("name").value;
+      lastname = document.getElementById("lastname").value;
+      date = document.getElementById("datepicker").value;
+      address = document.getElementById("address").value;
+      tumbon = document.getElementById("tumbon").value;
+      aumper = document.getElementById("aumphoe").value;
+      city = document.getElementById("city").value;
+      sex = document.getElementById("sex").value;
+      department = document.getElementById("department").value;
+      if (
+        idText !== "" &&
+        username !== undefined &&
+        postText !== undefined &&
+        telText !== undefined &&
+        email !== undefined &&
+        password !== undefined &&
+        name !== undefined &&
+        lastname !== undefined &&
+        date !== undefined &&
+        address !== undefined &&
+        tumbon !== undefined &&
+        aumper !== undefined &&
+        city !== undefined &&
+        sex !== undefined
+      ) {
+        var data = {
+          username: username,
+          password: password,
+          email: email,
+          name: name,
+          lastname: lastname,
+          address: address,
+          tumbon: tumbon,
+          aumphoe: aumper,
+          city: city,
+          sex: sex,
+          department: department,
+          post: postText,
+          mobile: telText,
+          date: date,
+          id: idText,
+          type: "MST_Employee"
+        };
 
-          if (password == cfpassword) {
-            axios.post("http://localhost:4001/insert", data).then(res => {
-              if (res.data.status) {
-                alert("สมัครสมาชิกเรียบร้อย");
-                document.getElementById("username").style.border = "";
-                document.getElementById("pId").style.display = "none";
-                window.location.reload();
-              } else {
-                document.getElementById("username").style.border =
-                  "2px solid red";
-                document.getElementById("pId").style.display = "block";
-              }
-            });
-          } else {
-            alert("กรุณาใส่ Password ให้ถูกต้อง");
-          }
-        } else {
-          alert("กรุณาใส่ข้อมูลให้ครบทุกช่อง");
-        }
-      }
-
-      function update() {
-        idText = document.getElementById("id").value;
-        username = document.getElementById("username").value;
-        postText = document.getElementById("post").value;
-        telText = document.getElementById("mobile").value;
-        name = document.getElementById("name").value;
-        lastname = document.getElementById("lastname").value;
-        date = document.getElementById("datepicker").value;
-        address = document.getElementById("address").value;
-        tumbon = document.getElementById("tumbon").value;
-        aumper = document.getElementById("aumphoe").value;
-        city = document.getElementById("city").value;
-        sex = document.getElementById("sex").value;
-        department = document.getElementById("department").value;
-
-        if (document.getElementById("password").value !== password) {
-          password = document.getElementById("password").value;
-        }
-        if (document.getElementById("email").value !== email) {
-          email = document.getElementById("email").value;
-        }
-        if (
-          idText !== "" &&
-          username !== "" &&
-          postText !== "" &&
-          telText !== "" &&
-          email !== "" &&
-          password !== "" &&
-          name !== "" &&
-          lastname !== "" &&
-          date !== "" &&
-          address !== "" &&
-          tumbon !== "" &&
-          aumper !== "" &&
-          city !== "" &&
-          sex !== ""
-        ) {
-          var data = {
-            username: username,
-            password: password,
-            email: email,
-            name: name,
-            lastname: lastname,
-            address: address,
-            tumbon: tumbon,
-            aumphoe: aumper,
-            city: city,
-            sex: sex,
-            department: department,
-            post: postText,
-            mobile: telText,
-            date: date,
-            id: idText,
-            type: "MST_Employee",
-            idDB: idDB
-          };
-          if (password == cfpassword) {
-            axios.post("http://localhost:4001/update", data).then(res => {
-              if (res.data.status) {
-                alert("อัพเดตสำเร็จ");
-              }
+        if (password == cfpassword) {
+          axios.post("http://localhost:4001/insert", data).then(res => {
+            if (res.data.status) {
+              alert("สมัครสมาชิกเรียบร้อย");
+              document.getElementById("username").style.border = "";
+              document.getElementById("pId").style.display = "none";
               window.location.reload();
-            });
-          } else {
-            alert("กรุณาใส่ข้อมูลให้ครบทุกช่อง....");
-          }
+            } else {
+              document.getElementById("username").style.border =
+                "2px solid red";
+              document.getElementById("pId").style.display = "block";
+            }
+          });
+        } else {
+          alert("กรุณาใส่ Password ให้ถูกต้อง");
+        }
+      } else {
+        alert("กรุณาใส่ข้อมูลให้ครบทุกช่อง");
+      }
+    }
+
+    function update() {
+      idText = document.getElementById("id").value;
+      username = document.getElementById("username").value;
+      postText = document.getElementById("post").value;
+      telText = document.getElementById("mobile").value;
+      name = document.getElementById("name").value;
+      lastname = document.getElementById("lastname").value;
+      date = document.getElementById("datepicker").value;
+      address = document.getElementById("address").value;
+      tumbon = document.getElementById("tumbon").value;
+      aumper = document.getElementById("aumphoe").value;
+      city = document.getElementById("city").value;
+      sex = document.getElementById("sex").value;
+      department = document.getElementById("department").value;
+
+      if (document.getElementById("password").value !== password) {
+        password = document.getElementById("password").value;
+      }
+      if (document.getElementById("email").value !== email) {
+        email = document.getElementById("email").value;
+      }
+      if (
+        idText !== "" &&
+        username !== "" &&
+        postText !== "" &&
+        telText !== "" &&
+        email !== "" &&
+        password !== "" &&
+        name !== "" &&
+        lastname !== "" &&
+        date !== "" &&
+        address !== "" &&
+        tumbon !== "" &&
+        aumper !== "" &&
+        city !== "" &&
+        sex !== ""
+      ) {
+        var data = {
+          username: username,
+          password: password,
+          email: email,
+          name: name,
+          lastname: lastname,
+          address: address,
+          tumbon: tumbon,
+          aumphoe: aumper,
+          city: city,
+          sex: sex,
+          department: department,
+          post: postText,
+          mobile: telText,
+          date: date,
+          id: idText,
+          type: "MST_Employee",
+          idDB: idDB
+        };
+        if (password == cfpassword) {
+          axios.post("http://localhost:4001/update", data).then(res => {
+            if (res.data.status) {
+              alert("อัพเดตสำเร็จ");
+            }
+            window.location.reload();
+          });
+        } else {
+          alert("กรุณาใส่ข้อมูลให้ครบทุกช่อง....");
         }
       }
-      document.addEventListener("DOMContentLoaded", showData());
-    </script>
+    }
+    document.addEventListener("DOMContentLoaded", showData());
 
-    <nav class="navbar is-info" role="navigation" aria-label="main navigation">
-      <div class="navbar-brand">
-        <a class="navbar-item" href="./หน้าหลัก.html">
-          <img src="../img/logo.png" width="112" height="28" />
-        </a>
+    function loadScreen(a) {
+      var loading_screen
+      if (a === "load") {
+        loading_screen  = pleaseWait({
+          backgroundColor: 'rgb(240, 240, 240)',
+          loadingHtml: "<div class='sk-spinner sk-spinner-double-bounce'><div class='sk-wandering-cubes'><div class='sk-cube sk-cube1'></div><div class='sk-cube sk-cube2'></div></div></div></div>",
+          template: "<div class='pg-loading-inner'><div class='pg-loading-center-outer'><div class='pg-loading-center-middle'><div class='pg-loading-html'></div></div></div></div>"
+        }).finish()
+      } 
+    }
+  </script>
 
-        <a
-          role="button"
-          class="navbar-burger burger"
-          aria-label="menu"
-          aria-expanded="false"
-          data-target="navbarBasicExample"
-        >
-          <span aria-hidden="true"></span> <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-        </a>
+  <nav class="navbar is-info" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="./หน้าหลัก.html">
+        <img src="../img/logo.png" width="112" height="28" />
+      </a>
+
+      <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
+        data-target="navbarBasicExample">
+        <span aria-hidden="true"></span> <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
+    </div>
+
+    <div id="navbarBasicExample" class="navbar-menu">
+      <div class="navbar-start">
+        <a class="navbar-item" href="./หน้าหลัก.html">หน้าหลัก</a>
+        <a class="navbar-item" href="./ค้นหารถ.html">ซื้อรถ</a>
+        <a class="navbar-item" href="./หน้าขาย1.html">ขายรถ</a>
+        <a class="navbar-item" href="./เดินทะเบียน.html">เดินทะเบียน</a>
+        <a class="navbar-item" href="./ซ่อมรถ.html">ซ่อม</a>
+        <a class="navbar-item" href="./ข้อมูลลูกค้า.html">ข้อมูลลูกค้า</a>
+        <a class="navbar-item is-active" href="./จัดการพนักงาน.html">จัดการพนักงาน</a>
       </div>
+      <div class="navbar-end">
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" id="navName">
+            <i class="fa fa-fw fa-user"></i> &nbsp; ชื่อผู้ใช้
+          </a>
 
-      <div id="navbarBasicExample" class="navbar-menu">
-        <div class="navbar-start">
-          <a class="navbar-item" href="./หน้าหลัก.html">หน้าหลัก</a>
-          <a class="navbar-item" href="./ค้นหารถ.html">ซื้อรถ</a>
-          <a class="navbar-item" href="./หน้าขาย1.html">ขายรถ</a>
-          <a class="navbar-item" href="./เดินทะเบียน.html">เดินทะเบียน</a>
-          <a class="navbar-item" href="./ซ่อมรถ.html">ซ่อม</a>
-          <a class="navbar-item" href="./ข้อมูลลูกค้า.html">ข้อมูลลูกค้า</a>
-          <a class="navbar-item is-active" href="./จัดการพนักงาน.html"
-            >จัดการพนักงาน</a
-          >
-        </div>
-        <div class="navbar-end">
-          <div class="navbar-item has-dropdown is-hoverable">
-            <a class="navbar-link" id="navName">
-              <i class="fa fa-fw fa-user"></i> &nbsp; ชื่อผู้ใช้
-            </a>
-
-            <div class="navbar-dropdown">
-              <a class="navbar-item" href="../ล็อกอิน.html"> ออกจากระบบ </a>
-            </div>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="../ล็อกอิน.html"> ออกจากระบบ </a>
           </div>
         </div>
       </div>
-    </nav>
+    </div>
+  </nav>
 
-    <div class="container">
-      <br />
-      <h1 class="title has-text-centered">จัดการพนักงาน</h1>
-      <div class="columns">
-        <div class="column">
-          <div class="field is-horizontal">
-            <div class="field-label is-normal">
-              <label class="label">Username</label>
-            </div>
+  <div class="container">
+    <br />
+    <h1 class="title has-text-centered">จัดการพนักงาน</h1>
+    <div class="columns">
+      <div class="column">
+        <div class="field is-horizontal">
+          <div class="field-label is-normal">
+            <label class="label">Username</label>
+          </div>
 
-            <div class="field-body">
-              <div class="field">
-                <div class="control">
-                  <input
-                    id="username"
-                    class="input"
-                    type="text"
-                    placeholder="username"
-                    maxlength="16"
-                  />
-                </div>
-                <p id="pId" class="help is-danger" style="display:none">
-                  username นี้มีผู้ใช้แล้ว
-                </p>
+          <div class="field-body">
+            <div class="field">
+              <div class="control">
+                <input id="username" class="input" type="text" placeholder="username" maxlength="16" />
+              </div>
+              <p id="pId" class="help is-danger" style="display:none">
+                username นี้มีผู้ใช้แล้ว
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="field is-horizontal">
+          <div class="field-label is-normal">
+            <label class="label">Password</label>
+          </div>
+          <div class="field-body">
+            <div class="field">
+              <div class="control">
+                <input id="password" class="input" type="password" placeholder="password" onchange="checkPassword()"
+                  maxlength="16" />
               </div>
             </div>
           </div>
+        </div>
+        <div class="field is-horizontal">
+          <div class="field-label is-normal">
+            <label class="label">Re-Password</label>
+          </div>
+          <div class="field-body">
+            <div class="field">
+              <div class="control">
+                <input id="repassword" class="input" type="password" placeholder="re-password"
+                  onchange="checkPassword()" maxlength="16" />
+              </div>
+              <p id="pPassword" class="help is-danger" style="display:none">
+                password ไม่ตรงกัน
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="field">
           <div class="field is-horizontal">
             <div class="field-label is-normal">
-              <label class="label">Password</label>
-            </div>
-            <div class="field-body">
-              <div class="field">
-                <div class="control">
-                  <input
-                    id="password"
-                    class="input"
-                    type="password"
-                    placeholder="password"
-                    onchange="checkPassword()"
-                    maxlength="16"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="field is-horizontal">
-            <div class="field-label is-normal">
-              <label class="label">Re-Password</label>
-            </div>
-            <div class="field-body">
-              <div class="field">
-                <div class="control">
-                  <input
-                    id="repassword"
-                    class="input"
-                    type="password"
-                    placeholder="re-password"
-                    onchange="checkPassword()"
-                    maxlength="16"
-                  />
-                </div>
-                <p id="pPassword" class="help is-danger" style="display:none">
-                  password ไม่ตรงกัน
-                </p>
-              </div>
-            </div>
-          </div>
-          <div class="field">
-            <div class="field is-horizontal">
-              <div class="field-label is-normal">
-                <label class="label">Email</label>
-              </div>
-              <div class="field-body">
-                <div class="field">
-                  <div class="control">
-                    <input
-                      id="email"
-                      class="input"
-                      type="text"
-                      placeholder="email"
-                      onchange="checkEmail()"
-                      maxlength="30"
-                    />
-                  </div>
-                  <p id="pEmail" class="help is-danger" style="display:none">
-                    อีเมลล์ไม่ถูกต้อง
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="field is-horizontal">
-            <div class="field-label is-normal">
-              <label class="label">ที่อยู่</label>
+              <label class="label">Email</label>
             </div>
             <div class="field-body">
               <div class="field">
                 <div class="control">
-                  <input
-                    id="address"
-                    class="input"
-                    type="text"
-                    placeholder="ที่อยู่"
-                    maxlength="20"
-                  />
+                  <input id="email" class="input" type="text" placeholder="email" onchange="checkEmail()"
+                    maxlength="30" />
                 </div>
-              </div>
-            </div>
-          </div>
-          <div class="field is-horizontal">
-            <div class="field-label is-normal">
-              <label class="label">อำเภอ</label>
-            </div>
-            <div class="field-body">
-              <div class="field">
-                <div class="control">
-                  <input
-                    id="aumphoe"
-                    class="input"
-                    type="text"
-                    placeholder="อำเภอ"
-                    onkeypress="return isNotNumber(event);"
-                    maxlength="20"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="field is-horizontal">
-            <div class="field-label is-normal">
-              <label class="label">เบอร์โทรศัพท์</label>
-            </div>
-            <div class="field-body">
-              <div class="field">
-                <div class="control">
-                  <input
-                    id="mobile"
-                    class="input"
-                    type="text"
-                    placeholder="เบอร์โทรศัพท์"
-                    maxlength="10"
-                    onkeypress="return isNumber(event);"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="field is-horizontal">
-            <div class="field-label is-normal">
-              <label class="label">แผนก</label>
-            </div>
-            <div class="field-body">
-              <div class="field ">
-                <p class="control ">
-                  <span class="select is-fullwidth">
-                    <select required id="department">
-                      <option disabled selected hidden>เลือก... </option>
-                      <option value="ขาย">ขาย</option>
-                      <option value="ซื้อ">ซื้อ</option>
-                      <option value="ช่าง">ช่าง</option>
-                      <option value="ธุรการ">ธุรการ</option>
-                      <option value="ประชาสัมพันธ์">ประชาสัมพันธ์</option>
-                    </select>
-                  </span>
+                <p id="pEmail" class="help is-danger" style="display:none">
+                  อีเมลล์ไม่ถูกต้อง
                 </p>
               </div>
             </div>
           </div>
         </div>
-        <div class="column">
-          <div class="field is-horizontal">
-            <div class="field-label is-normal">
-              <label class="label">ชื่อ</label>
-            </div>
-            <div class="field-body">
-              <div class="field">
-                <div class="control">
-                  <input
-                    id="name"
-                    class="input"
-                    type="text"
-                    placeholder="ชื่อ"
-                    onkeypress="return isNotNumber(event);"
-                    maxlength="20"
-                  />
-                </div>
+        <div class="field is-horizontal">
+          <div class="field-label is-normal">
+            <label class="label">ที่อยู่</label>
+          </div>
+          <div class="field-body">
+            <div class="field">
+              <div class="control">
+                <input id="address" class="input" type="text" placeholder="ที่อยู่" maxlength="20" />
               </div>
             </div>
           </div>
-          <div class="field is-horizontal">
-            <div class="field-label is-normal">
-              <label class="label">นามสกุล</label>
-            </div>
-            <div class="field-body">
-              <div class="field">
-                <div class="control">
-                  <input
-                    id="lastname"
-                    class="input"
-                    type="text"
-                    placeholder="นามสกุล"
-                    onkeypress="return isNotNumber(event);"
-                    maxlength="20"
-                  />
-                </div>
+        </div>
+        <div class="field is-horizontal">
+          <div class="field-label is-normal">
+            <label class="label">อำเภอ</label>
+          </div>
+          <div class="field-body">
+            <div class="field">
+              <div class="control">
+                <input id="aumphoe" class="input" type="text" placeholder="อำเภอ"
+                  onkeypress="return isNotNumber(event);" maxlength="20" />
               </div>
             </div>
           </div>
-          <div class="field is-horizontal">
-            <div class="field-label is-normal">
-              <label class="label">วัน/เดือน/ปี</label>
-            </div>
-            <div class="field-body">
-              <div class="field">
-                <div class="control">
-                  <input
-                    id="datepicker"
-                    class="input"
-                    type="date"
-                    placeholder=""
-                  />
-                </div>
+        </div>
+        <div class="field is-horizontal">
+          <div class="field-label is-normal">
+            <label class="label">เบอร์โทรศัพท์</label>
+          </div>
+          <div class="field-body">
+            <div class="field">
+              <div class="control">
+                <input id="mobile" class="input" type="text" placeholder="เบอร์โทรศัพท์" maxlength="10"
+                  onkeypress="return isNumber(event);" />
               </div>
             </div>
           </div>
-          <div class="field is-horizontal">
-            <div class="field-label is-normal">
-              <label class="label">บัตรประชาชน</label>
-            </div>
-            <div class="field-body">
-              <div class="field">
-                <div class="control">
-                  <input
-                    id="id"
-                    class="input"
-                    type="text"
-                    placeholder="เลขบัตรประชาชน"
-                    maxlength="13"
-                    onkeypress="return isNumber(event);"
-                  />
-                </div>
-              </div>
-            </div>
+        </div>
+        <div class="field is-horizontal">
+          <div class="field-label is-normal">
+            <label class="label">แผนก</label>
           </div>
-          <div class="field is-horizontal">
-            <div class="field-label is-normal">
-              <label class="label">ตำบล</label>
-            </div>
-            <div class="field-body">
-              <div class="field">
-                <div class="control">
-                  <input
-                    id="tumbon"
-                    class="input"
-                    type="text"
-                    placeholder="ตำบล"
-                    onkeypress="return isNotNumber(event);"
-                    maxlength="20"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="field is-horizontal">
-            <div class="field-label is-normal">
-              <label class="label">จังหวัด</label>
-            </div>
-            <div class="field-body">
-              <div class="field">
-                <div class="control">
-                  <input
-                    id="city"
-                    class="input"
-                    type="text"
-                    placeholder="จังหวัด"
-                    onkeypress="return isNotNumber(event);"
-                    maxlength="20"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="field is-horizontal">
-            <div class="field-label is-normal">
-              <label class="label">รหัสไปรษณีย์</label>
-            </div>
-            <div class="field-body">
-              <div class="field">
-                <div class="control">
-                  <input
-                    id="post"
-                    class="input"
-                    type="text"
-                    placeholder="รหัสไปรษณีย์"
-                    maxlength="5"
-                    onkeypress="return isNumber(event);"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="field is-horizontal">
-            <div class="field-label is-normal">
-              <label class="label">เพศ</label>
-            </div>
-            <div class="field-body">
-              <div class="field ">
-                <p class="control ">
-                  <span class="select is-fullwidth">
-                    <select required id="sex">
-                      <option disabled selected hidden>เลือก... </option>
-                      <option value="ชาย">ชาย</option>
-                      <option value="หญิง">หญิง</option>
-                      <option value="อื่นๆ">อื่นๆ</option>
-                    </select>
-                  </span>
-                </p>
-              </div>
+          <div class="field-body">
+            <div class="field ">
+              <p class="control ">
+                <span class="select is-fullwidth">
+                  <select required id="department">
+                    <option disabled selected hidden>เลือก... </option>
+                    <option value="ขาย">ขาย</option>
+                    <option value="ซื้อ">ซื้อ</option>
+                    <option value="ช่าง">ช่าง</option>
+                    <option value="ธุรการ">ธุรการ</option>
+                    <option value="ประชาสัมพันธ์">ประชาสัมพันธ์</option>
+                  </select>
+                </span>
+              </p>
             </div>
           </div>
         </div>
       </div>
-      <br />
-      <div class="buttons  is-right">
-        <a
-          class="button is-info is-outlined"
-          style="width:10%; display: none;"
-          onclick="update()"
-          id="update"
-          >แก้ไข</a
-        >
-        <a
-          class="button is-info is-outlined"
-          style="width:10%"
-          id="submit"
-          onclick="submit()"
-          >เพิ่ม</a
-        >
-        <a
-          class="button is-info is-outlined"
-          style="width:10%"
-          onclick="cancel()"
-          >ยกเลิก</a
-        >
+      <div class="column">
+        <div class="field is-horizontal">
+          <div class="field-label is-normal">
+            <label class="label">ชื่อ</label>
+          </div>
+          <div class="field-body">
+            <div class="field">
+              <div class="control">
+                <input id="name" class="input" type="text" placeholder="ชื่อ" onkeypress="return isNotNumber(event);"
+                  maxlength="20" />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="field is-horizontal">
+          <div class="field-label is-normal">
+            <label class="label">นามสกุล</label>
+          </div>
+          <div class="field-body">
+            <div class="field">
+              <div class="control">
+                <input id="lastname" class="input" type="text" placeholder="นามสกุล"
+                  onkeypress="return isNotNumber(event);" maxlength="20" />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="field is-horizontal">
+          <div class="field-label is-normal">
+            <label class="label">วัน/เดือน/ปี</label>
+          </div>
+          <div class="field-body">
+            <div class="field">
+              <div class="control">
+                <input id="datepicker" class="input" type="date" placeholder="" />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="field is-horizontal">
+          <div class="field-label is-normal">
+            <label class="label">บัตรประชาชน</label>
+          </div>
+          <div class="field-body">
+            <div class="field">
+              <div class="control">
+                <input id="id" class="input" type="text" placeholder="เลขบัตรประชาชน" maxlength="13"
+                  onkeypress="return isNumber(event);" />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="field is-horizontal">
+          <div class="field-label is-normal">
+            <label class="label">ตำบล</label>
+          </div>
+          <div class="field-body">
+            <div class="field">
+              <div class="control">
+                <input id="tumbon" class="input" type="text" placeholder="ตำบล" onkeypress="return isNotNumber(event);"
+                  maxlength="20" />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="field is-horizontal">
+          <div class="field-label is-normal">
+            <label class="label">จังหวัด</label>
+          </div>
+          <div class="field-body">
+            <div class="field">
+              <div class="control">
+                <input id="city" class="input" type="text" placeholder="จังหวัด" onkeypress="return isNotNumber(event);"
+                  maxlength="20" />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="field is-horizontal">
+          <div class="field-label is-normal">
+            <label class="label">รหัสไปรษณีย์</label>
+          </div>
+          <div class="field-body">
+            <div class="field">
+              <div class="control">
+                <input id="post" class="input" type="text" placeholder="รหัสไปรษณีย์" maxlength="5"
+                  onkeypress="return isNumber(event);" />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="field is-horizontal">
+          <div class="field-label is-normal">
+            <label class="label">เพศ</label>
+          </div>
+          <div class="field-body">
+            <div class="field ">
+              <p class="control ">
+                <span class="select is-fullwidth">
+                  <select required id="sex">
+                    <option disabled selected hidden>เลือก... </option>
+                    <option value="ชาย">ชาย</option>
+                    <option value="หญิง">หญิง</option>
+                    <option value="อื่นๆ">อื่นๆ</option>
+                  </select>
+                </span>
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     <br />
-    <center>
-      <table class="table table is-bordered " id="employeeList">
-        <thead>
-          <tr>
-            <th>id</th>
-            <th>ชื่อ</th>
-            <th>นามสกุล</th>
-            <th>วัน/เดือน/ปี เกิด</th>
-            <th>เลขประจำตัวประชาชน</th>
-            <th>เพศ</th>
-            <th>Email</th>
-            <th>Username</th>
-            <th>Password</th>
-            <th>ที่อยู่</th>
-            <th>ตำบล</th>
-            <th>อำเภอ</th>
-            <th>จังหวัด</th>
-            <th>รหัสไปรษณีย์</th>
-            <th>เบอร์โทรศัพท์</th>
-            <th>แผนก</th>
-            <th>จัดการพนักงาน</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
-    </center>
-  </body>
+    <div class="buttons  is-right">
+      <a class="button is-info is-outlined" style="width:10%; display: none;" onclick="update()" id="update">แก้ไข</a>
+      <a class="button is-info is-outlined" style="width:10%" id="submit" onclick="submit()">เพิ่ม</a>
+      <a class="button is-info is-outlined" style="width:10%" onclick="cancel()">ยกเลิก</a>
+    </div>
+  </div>
+  <br />
+  <center>
+    <table class="table table is-bordered " id="employeeList">
+      <thead>
+        <tr>
+          <th>id</th>
+          <th>ชื่อ</th>
+          <th>นามสกุล</th>
+          <th>วัน/เดือน/ปี เกิด</th>
+          <th>เลขประจำตัวประชาชน</th>
+          <th>เพศ</th>
+          <th>Email</th>
+          <th>Username</th>
+          <th>Password</th>
+          <th>ที่อยู่</th>
+          <th>ตำบล</th>
+          <th>อำเภอ</th>
+          <th>จังหวัด</th>
+          <th>รหัสไปรษณีย์</th>
+          <th>เบอร์โทรศัพท์</th>
+          <th>แผนก</th>
+          <th>จัดการพนักงาน</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+    <!-- </div> -->
+  </center>
+</body>
+
 </html>

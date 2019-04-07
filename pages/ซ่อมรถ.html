@@ -7,19 +7,28 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="shortcut icon" href="../img/logo.png">
     <link rel="stylesheet" href="../node_modules/bulma/css/bulma.min.css">
+    <link href="../node_modules/please-wait/build/please-wait.css" rel="stylesheet">
+    <link rel="stylesheet" href="../node_modules/@fortawesome/fontawesome-free/css/all.css" class="rel" />
+    <link href="../node_modules/spinkit/css/spinkit.css" rel="stylesheet">
     <title>ซ่อมรถ</title>
 
 </head>
 
 <body>
     <script src="../node_modules/axios/dist/axios.min.js"></script>
+    <script src="../node_modules/please-wait/build/please-wait.js"></script>
     <script>
         var getNameEm
+        var loading_screen = pleaseWait({
+            backgroundColor: 'rgb(240, 240, 240)',
+            loadingHtml: "<div class='sk-spinner sk-spinner-double-bounce'><div class='sk-wandering-cubes'><div class='sk-cube sk-cube1'></div><div class='sk-cube sk-cube2'></div></div></div></div>",
+            template: "<div class='pg-loading-inner'><div class='pg-loading-center-outer'><div class='pg-loading-center-middle'><div class='pg-loading-html'></div></div></div></div>"
+        })
         window.onload = function () {
             var getName = localStorage.getItem("storageName");
             var getLastName = localStorage.getItem("storageLastName");
             var getDepartment = localStorage.getItem("storageDepartment");
-            document.getElementById("name").innerHTML = `<i class="fa fa-fw fa-user"></i> &nbsp;` + getName + " " + getLastName;
+            document.getElementById("navName").innerHTML = `<i class="fa fa-fw fa-user"></i> &nbsp;` + getName + " " + getLastName;
             getNameEm = getName
         }
         function isNumber(e) {
@@ -27,6 +36,14 @@
             var charCode = e.which ? e.which : e.keyCode;
             idLength = e.key
             return /\d/.test(String.fromCharCode(charCode));
+        }
+        function isText(e) {
+            var key = e.keyCode;
+            if ((key >= 65 && key <= 90) || key == 8 || key >= 97 && key <= 122 || key >= 3585 && key <= 3661) {
+                return true
+            } else {
+                return false
+            }
         }
         function cancel() {
             window.location.reload();
@@ -150,6 +167,7 @@
                 var data = []
                 data = res.data
                 generate_table(data)
+                loading_screen.finish()
             })
         }
         document.addEventListener("DOMContentLoaded", showData());
@@ -180,7 +198,7 @@
             </div>
             <div class="navbar-end">
                 <div class="navbar-item has-dropdown is-hoverable">
-                    <a class="navbar-link" id="name">
+                    <a class="navbar-link" id="navName">
                         <i class="fa fa-fw fa-user"></i> &nbsp; ชื่อผู้ใช้
                     </a>
 
@@ -207,7 +225,7 @@
                     <div class="field-body">
                         <div class="field">
                             <div class="control">
-                                <input id="brand" class="input" type="text" placeholder="ยี่ห้อ" maxlength="20">
+                                <input id="brand" class="input" type="text" placeholder="ยี่ห้อ" maxlength="20" onkeypress="return isText(event)">
                             </div>
                         </div>
                     </div>
@@ -219,7 +237,7 @@
                     <div class="field-body">
                         <div class="field">
                             <div class="control">
-                                <input id="model" class="input" type="text" placeholder="รุ่น" maxlength="20">
+                                <input id="model" class="input" type="text" placeholder="รุ่น" maxlength="20" onkeypress="return isText(event)">
                             </div>
                         </div>
                     </div>
@@ -245,7 +263,7 @@
                             <div class="field">
                                 <div class="control">
                                     <textarea class="textarea has-fixed-size" rows="4" id="pointsRepair"
-                                        maxlength="50"></textarea>
+                                        maxlength="50" onkeypress="return isText(event)"></textarea>
                                 </div>
                             </div>
                         </div>
@@ -261,7 +279,7 @@
                     <div class="field-body">
                         <div class="field">
                             <div class="control">
-                                <input id="empoyee" class="input" type="text" placeholder="ชื่อพนักงาน" maxlength="20">
+                                <input id="empoyee" class="input" type="text" placeholder="ชื่อพนักงาน" maxlength="20" onkeypress="return isText(event)">
                             </div>
                         </div>
                     </div>
@@ -274,7 +292,7 @@
                         <div class="field">
                             <div class="control">
                                 <input id="namePartner" class="input" type="text" placeholder="ชื่อผู้ประเมินราคา"
-                                    maxlength="20">
+                                    maxlength="20" onkeypress="return isText(event)">
                             </div>
                         </div>
                     </div>
@@ -287,7 +305,7 @@
                         <div class="field">
                             <div class="control">
                                 <input id="nameTechnician" class="input" type="text" placeholder="ชื่อช่างซ่อม"
-                                    maxlength="20">
+                                    maxlength="20" onkeypress="return isText(event)">
                             </div>
                         </div>
                     </div>
@@ -300,7 +318,7 @@
                         <div class="field">
                             <div class="control">
                                 <input id="nameTester" class="input" type="text" placeholder="ผู้ตรวจสอบ"
-                                    maxlength="20">
+                                    maxlength="20" onkeypress="return isText(event)">
                             </div>
                         </div>
                     </div>
@@ -311,7 +329,8 @@
         <div class="buttons  is-right">
             <a class="button is-info is-outlined" style="width:10%; display: none;" onclick="print()"
                 id="update">พิมพ์</a>
-            <a class="button is-success is-outlined" style="width:10%" id="list" onclick="window.location.href='./รายการซ่อมรถ.html'">รายการซ่อมรถ</a>
+            <a class="button is-success is-outlined" style="width:10%" id="list"
+                onclick="window.location.href='./รายการซ่อมรถ.html'">รายการซ่อมรถ</a>
             <a class="button is-info is-outlined" style="width:10%" id="submit" onclick="submit()">เพิ่ม</a>
             <a class="button is-info is-outlined" style="width:10%" onclick="cancel()">ยกเลิก</a>
         </div>

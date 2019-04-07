@@ -18,7 +18,9 @@
     "cors": "^2.8.5",
     "express": "^4.16.4",
     "jquery": "^3.3.1",
-    "mongodb": "^3.1.13"
+    "mongodb": "^3.1.13",
+    "please-wait": "0.0.5",
+    "spinkit": "^1.2.5"
   },
   "devDependencies": {
     "@fortawesome/fontawesome-free": "^5.8.1"
