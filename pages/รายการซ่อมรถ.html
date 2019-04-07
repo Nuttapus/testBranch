@@ -8,65 +8,95 @@
     <link rel="stylesheet" href="../node_modules/bulma/css/bulma.css">
     <link rel="stylesheet" href="../node_modules/bulma/css/bulma.min.css">
     <script src="../node_modules/jquery/dist/jquery.min.js"></script>
+    <link rel="stylesheet" href="../node_modules/@fortawesome/fontawesome-free/css/all.css" />
     <link rel="shortcut icon" href="../img/logo.png">
-
-
-    <title>repairDetail</title>
+    <link rel="stylesheet" href="./styles.css" />
+    <title>รายการซ่อมรถ</title>
 </head>
 
 <body>
     <script src="../node_modules/axios/dist/axios.min.js"></script>
-
     <script>
         var count = 0
+        var getPart = [];
+        var getAmong = [];
+        var getPrice = [];
+        var setPrice = 0;
+        var nameEmp 
+        window.onload = function () {
+            var getName = localStorage.getItem("storageName");
+            var getLastName = localStorage.getItem("storageLastName");
+            var getDepartment = localStorage.getItem("storageDepartment");
+
+            document.getElementById("navName").innerHTML = `<i class="fa fa-fw fa-user"></i> &nbsp;` + getName + " " + getLastName;
+            nameEmp = getName + " " +getLastName
+        }
         function isNumber(e) {
             e = e || window.event;
             var charCode = e.which ? e.which : e.keyCode;
             idLength = e.key
             return /\d/.test(String.fromCharCode(charCode));
         }
+        function isText(e) {
+            var key = e.keyCode;
+            if ((key >= 65 && key <= 90) || key == 8 || key >= 97 && key <= 122 || key >= 3585 && key <= 3661) {
+                return true
+            } else {
+                return false
+            }
+        }
         function submit() {
             var table = document.getElementById("inventory");
             table.parentElement.parentElement
-            console.log(table.rows[1].cells[2].id.among)
-            // var total = document.getElementById('total').value;
-            // var among = document.getElementById('among').value;
-            // var nameTechnician = document.getElementById('nameTechnician').value;
-            // var nameTester = document.getElementById('nameTester').value;
-            // var part = document.getElementById('part').value;
-
-            // if (total !== "" && among !== "" && nameTechnician !== "" && nameTester !== "" &&
-            //     part !== "") {
-
-            //     const data = {
-            //         total: total,
-            //         among: among,
-            //         nameTechnician: nameTechnician,
-            //         nameTester: nameTester,
-            //         part: part,
-            //         type: "TRN_Repair"
-            //     }
-            //     console.log(data)
-            //     axios.post("http://localhost:4001/insert", data).then((res) => {
-            //         console.log(data)
-            //         alert("สำเร็จ");
-            //     })
-            // } else {
-            //     alert("กรุณากรอกข้อมูลให้ครบ");
-            // }
-
-
+            for (var i = 1; i < table.rows.length; i++) {
+                getPart.push(table.rows[i].cells[1].firstChild.data)
+                getAmong.push(table.rows[i].cells[2].firstChild.data)
+                getPrice.push(table.rows[i].cells[3].firstChild.data)
+            }
+            var total = document.getElementById('total').value;
+            var nameTechnician = document.getElementById('nameTechnician').value;
+            var nameTester = document.getElementById('nameTester').value;
+            if (total !== "" && getPart !== [] && nameTechnician !== "" && nameTester !== "" &&
+                getPart !== []) {
+                var data = {
+                    total: total,
+                    among: getAmong,
+                    nameTechnician: nameTechnician,
+                    nameTester: nameTester,
+                    part: getPart,
+                    priceperpart: getPrice,
+                    nameEmp: nameEmp,
+                    type: "TRN_RepairDetail"
+                }
+                axios.post("http://localhost:4001/insert", data).then((res) => {
+                        alert("สำเร็จ");
+                })
+            } else {
+                alert("กรุณากรอกข้อมูลให้ครบ");
+            }
         }
-
         function addRow() {
-            var str = '<tr class="boxType"><td>' +(count+=1)+'</td>\
+            var priceTotal = 0;
+            var str = '<tr class="boxType"><td>' + (count += 1) + '</td>\
                 <td id="namePart">'+ $('#part').val() + '</td>\
-                <td id="among">'+ $('#among').val() + '</td>\ <td id="price">'+ $('#priceperpart').val()
-                +'</td>\</tr>'
+                <td id="among">'+ $('#among').val() + '</td>\ <td id="price">' + $('#priceperpart').val()
+                + '</td>\</tr>'
             $('#screen').append(str);
             localStorage.setItem("data", $('#screen').html());
+            var table = document.getElementById("inventory");
+            table.parentElement.parentElement
+            for (var i = 1; i < table.rows.length; i++) {
+                var a = parseInt(table.rows[i].cells[2].firstChild.data)
+                var b = parseInt(table.rows[i].cells[3].firstChild.data)
+                priceTotal += a * b;
+            }
+            document.getElementById("total").value = priceTotal;
         }
-
+        function cancelPart() {
+            document.getElementById("part").value = "";
+            document.getElementById("among").value = "";
+            document.getElementById("priceperpart").value = "";
+        }
     </script>
 
     <nav class="navbar is-info" role="navigation" aria-label="main navigation">
@@ -94,7 +124,7 @@
             </div>
             <div class="navbar-end">
                 <div class="navbar-item has-dropdown is-hoverable">
-                    <a class="navbar-link" id="name">
+                    <a class="navbar-link" id="navName">
                         <i class="fa fa-fw fa-user"></i> &nbsp; ชื่อผู้ใช้
                     </a>
 
@@ -106,104 +136,132 @@
         </div>
     </nav>
     <br>
-    <center>
-        <h1 class="title">รายการซ่อม</h1>
-    </center><br>
+    <div class="container">
+        <center>
+            <h1 class="title">รายการซ่อม</h1>
+        </center>
 
-    <div>
-        <table class="card is-bordered" style=" width:90%  ; margin-left: 5% ; margin-right: 5% " id="inventory">
-            <thead>
-                <tr>
-                    <th>ลำดับ</th>
-                    <th>รายการอะไหล่</th>
-                    <th>จำนวน</th>
-                    <th>ราคา</th>
-                </tr>
-            </thead>
-            <tbody id="screen">
-            </tbody>
-        </table>
-    </div><br>
+        <h1 style="font-size: 20px ; margin-left: 4%">กรอกข้อมูล</h1>
 
-    <h1 style="font-size: 20px ; margin-left: 4%">กรอกข้อมูล</h1><br>
-
-    <div class="box" style="border-style:solid ; border-width: 1px ;width:92%  ; margin-left: 4% ; margin-right: 4% ">
-        <br>
-        <div class="row">
-            <div class="row">
-                <div class="columns">
-
-                    <div class="column is-1">
-                        <label class="label">ราคารวม :</label>
-                    </div>
-                    <div class="column">
-                        <input style="width:300px" class="input" type="text" id="total"
-                            onkeypress="return isNumber(event);">&nbsp&nbsp <label>บาท </label>
-                    </div>
-
-                    <div class="column is-1">
-                        <label class="label">อะไหล่ :</label>
-                    </div>
-                    <div class="column">
-                        <input style="width:300px" class="input" type="text" id="part">
-                    </div>
-
-                </div>
-            </div><br>
-
-            <div class="row">
-                <div class="columns">
-
-                    <div class="column is-1">
-                        <label class="label">ผู้ตรวจสอบ :</label>
-                    </div>
-                    <div class="column">
-                        <input style="width:300px" class="input" type="text" id="nameTester">
-                    </div>
-
-                    <div class="column is-1">
-                        <label class="label">จำนวน :</label>
-                    </div>
-                    <div class="column">
-                        <input style="width:300px" class="input" type="text" id="among"
-                            onkeypress="return isNumber(event);">
-                    </div>
-
-                </div>
-            </div><br>
-
-            <div class="row">
-                <div class="columns">
-
-                    <div class="column is-1">
-                        <label class="label">ช่างซ่อม :</label>
-                    </div>
-                    <div class="column is-5">
-                        <input style="width:300px" class="input" type="text" id="nameTechnician">
-                    </div>
-                    <div class="column is-1">
-                            <label class="label">ราคา :</label>
+        <div class="box"
+            style="border-style:solid ; border-width: 1px ;width:92%  ; margin-left: 4% ; margin-right: 4% ">
+            <div class="columns">
+                <div class="column is-6">
+                    <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                            <label class="label">ราคารวม: </label>
                         </div>
-                        <div class="column is-8">
-                            <input style="width:300px" class="input" type="text" id="priceperpart" onkeypress="return isNumber(event);"> 
+                        <div class="field-body">
+                            <div class="field">
+                                <div class="control">
+                                    <input style="width:300px" class="input " type="text"
+                                        onkeypress="return isNumber(event);" maxlength="10" id="total" disabled>
+                                    &nbsp;บาท
+                                </div>
+                            </div>
                         </div>
+                    </div>
+                    <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                            <label class="label">ผู้ตรวจสอบ: </label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <div class="control">
+                                    <input style="width:300px" class="input " type="text"
+                                        onkeypress="return isText(event);" maxlength="10" id="nameTester">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                            <label class="label">ช่างซ่อม: </label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <div class="control">
+                                    <input style="width:300px" class="input " type="text"
+                                        onkeypress="return isText(event);" maxlength="10" id="nameTechnician">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div><br>
 
-            <div class="buttons  is-right" style="margin-right:5%">
-                <a class="button is-info is-outlined" style="width:10%" onclick="addRow()">ตกลง</a>
-                <a class="button is-info is-outlined" style="width:10%" onclick="cancelPart()">ยกเลิก</a>
+                <div class="column">
+                    <h1 style="font-size: 20px ; margin-left: 4%">กรอกอะไหล่</h1>
+                    <div class="box" style="border-style:solid; border-width: 1px; width:95% ; ">
+                        <div class="field is-horizontal">
+                            <div class="field-label is-normal">
+                                <label class="label">อะไหล่: </label>
+                            </div>
+                            <div class="field-body">
+                                <div class="field">
+                                    <div class="control">
+                                        <input style="width:300px" class="input " type="text"
+                                            onkeypress="return isText(event);" maxlength="10" id="part">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="field is-horizontal">
+                            <div class="field-label is-normal">
+                                <label class="label">จำนวน: </label>
+                            </div>
+                            <div class="field-body">
+                                <div class="field">
+                                    <div class="control">
+                                        <input style="width:300px" class="input " type="text"
+                                            onkeypress="return isNumber(event);" maxlength="10" id="among">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="field is-horizontal">
+                            <div class="field-label is-normal">
+                                <label class="label">ราคา: </label>
+                            </div>
+                            <div class="field-body">
+                                <div class="field">
+                                    <div class="control">
+                                        <input style="width:300px" class="input " type="text"
+                                            onkeypress="return isNumber(event);" maxlength="10" id="priceperpart">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="buttons  is-right" style="margin-right:5%">
+                            <a class="button is-info is-outlined" style="width:20%" onclick="addRow()">ตกลง</a>
+                            <a class="button is-info is-outlined" style="width:20%" onclick="cancelPart()">ยกเลิก</a>
+                        </div>
+                    </div>
+                </div><br>
             </div>
 
         </div>
+        <br>
+        <div class="buttons  is-right" style="margin-right:5%">
+            <a class="button is-info is-outlined" style="width:10%" onclick="submit()">เพิ่มข้อมูล</a>
+            <a class="button is-info is-outlined" style="width:10%" onclick="cancel()">ยกเลิก</a>
+        </div>
+        <div>
+            <table class="card is-bordered" style=" width:90%  ; margin-left: 5% ; margin-right: 5% " id="inventory">
+                <thead>
+                    <tr>
+                        <th>ลำดับ</th>
+                        <th>รายการอะไหล่</th>
+                        <th>จำนวน</th>
+                        <th>ราคา</th>
+                    </tr>
+                </thead>
+                <tbody id="screen">
+                </tbody>
+            </table>
+        </div>
+    </div>
     </div>
 
-
-
-    <div class="buttons  is-right" style="margin-right:5%">
-        <a class="button is-info is-outlined" style="width:10%" onclick="submit()">ตกลง</a>
-        <a class="button is-info is-outlined" style="width:10%" onclick="cancel()">ยกเลิก</a>
-    </div>
 
     <footer class="footer">
         <div class="content has-text-centered">
@@ -212,6 +270,7 @@
             </p>
         </div>
     </footer>
+
 
 </body>
 

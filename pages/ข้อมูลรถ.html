@@ -9,6 +9,7 @@
     <link rel="stylesheet" type="text/css" href="../node_modules/bulma/css/bulma.min.css">
     <link rel="shortcut icon" href="../img/logo.png" />
     <link href="../node_modules/please-wait/build/please-wait.css" rel="stylesheet">
+    <link rel="stylesheet" href="../node_modules/@fortawesome/fontawesome-free/css/all.css" />
     <link href="../node_modules/spinkit/css/spinkit.css" rel="stylesheet">
     <title>ข้อมูลรถ</title>
 </head>
@@ -28,7 +29,7 @@
             var getLastName = localStorage.getItem("storageLastName");
             var getDepartment = localStorage.getItem("storageDepartment");
 
-            document.getElementById("name").innerHTML = `<i class="fa fa-fw fa-user"></i> &nbsp;` + getName + " " + getLastName;
+            document.getElementById("navName").innerHTML = `<i class="fa fa-fw fa-user"></i> &nbsp;` + getName + " " + getLastName;
         }
 
         function showData() {
@@ -118,7 +119,7 @@
             </div>
             <div class="navbar-end">
                 <div class="navbar-item has-dropdown is-hoverable">
-                    <a class="navbar-link" id="name">
+                    <a class="navbar-link" id="navName">
                         <i class="fa fa-fw fa-user"></i> &nbsp; ชื่อผู้ใช้
                     </a>
 
