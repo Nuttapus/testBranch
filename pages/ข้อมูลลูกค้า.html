@@ -161,7 +161,8 @@
 
     function deleteRow(userDel) {
       var checkDelete = confirm("ต้องการจะลบข้อมูลนี้จริงๆหรือไม่");
-      var data = { username: userDel, type: "MST_Customer" };
+      console.log(userDel)
+      var data = { idCardNumber: userDel, type: "MST_Customer" };
       if (checkDelete) {
         if (userDel !== "") {
           axios.post("http://localhost:4001/delete", data).then(res => {
@@ -177,7 +178,7 @@
 
     function deleteData(td) {
       selectedRow = td.parentElement.parentElement;
-      var obj = selectedRow.cells[7].innerHTML;
+      var obj = selectedRow.cells[4].innerHTML;
       deleteRow(obj);
     }
     function submit() {
