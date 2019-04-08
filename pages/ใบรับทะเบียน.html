@@ -49,11 +49,13 @@
             var data = {
                 type: "TRN_RegistrationReceipt",
                 date: document.getElementById("date").value,
+                registration: document.getElementById("carId").value,
                 idCar: idCar,
                 nameCustomer: document.getElementById("customer").value,
                 telCustomer: document.getElementById("tel").value,
                 name_MST_Employee: nameEm
             }
+            console.log(data)
             axios.post("http://localhost:4001/insert", data).then((res) => {
                 if (res.data.status) {
                     alert("เรียบร้อย")

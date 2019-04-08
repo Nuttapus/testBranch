@@ -3,8 +3,8 @@ const bodyParser = require('body-parser')
 const cors = require('cors')
 const mongoClient = require('mongodb').MongoClient
 const ObjectId = require('mongodb').ObjectID
-const url = 'mongodb://admin:a123456@ds227325.mlab.com:27325/softsource'
-const dbName = 'softsource';
+const url = 'mongodb+srv://admin:a123456@cluster0-wp2ii.mongodb.net/test?retryWrites=true'
+const dbName = 'sourcesoft';
 const app = express()
 const port = 4001
 
@@ -197,11 +197,9 @@ app.post('/insert', (req, res) => {
                     const newDetail = {
                         "ID_TRN_RepairDetail": "rpd" + count,
                         "total": req.body.total,
-                        "among": req.body.among,
                         "nameTechnician": req.body.nameTechnician,
                         "nameTester": req.body.nameTester,
                         "part": req.body.part,
-                        "priceperpart": req.body.priceperpart,
                         "name_MST_Employee": req.body.nameEmp
                     }
                     if (result1 === null) {
@@ -294,6 +292,7 @@ app.post('/insert', (req, res) => {
                             ID_TRN_RegistrationReceipt: "RTR" + count,
                             date: req.body.date,
                             registration: req.body.registration,
+                            idCar: req.body.idCar,
                             nameCustomer: req.body.nameCustomer,
                             telCustomer: req.body.telCustomer,
                             name_MST_Employee: req.body.name_MST_Employee,

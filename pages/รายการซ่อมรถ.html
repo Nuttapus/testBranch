@@ -22,14 +22,14 @@
         var getAmong = [];
         var getPrice = [];
         var setPrice = 0;
-        var nameEmp 
+        var nameEmp
         window.onload = function () {
             var getName = localStorage.getItem("storageName");
             var getLastName = localStorage.getItem("storageLastName");
             var getDepartment = localStorage.getItem("storageDepartment");
 
             document.getElementById("navName").innerHTML = `<i class="fa fa-fw fa-user"></i> &nbsp;` + getName + " " + getLastName;
-            nameEmp = getName + " " +getLastName
+            nameEmp = getName + " " + getLastName
         }
         function isNumber(e) {
             e = e || window.event;
@@ -60,16 +60,18 @@
                 getPart !== []) {
                 var data = {
                     total: total,
-                    among: getAmong,
                     nameTechnician: nameTechnician,
                     nameTester: nameTester,
-                    part: getPart,
-                    priceperpart: getPrice,
+                    part: {
+                        namePart: getPart, among: getAmong,
+                        priceperpart: getPrice
+                    },
                     nameEmp: nameEmp,
                     type: "TRN_RepairDetail"
                 }
                 axios.post("http://localhost:4001/insert", data).then((res) => {
-                        alert("สำเร็จ");
+                    alert("สำเร็จ");
+                    winndow.location.href = "./ซ่อมรถ.html"
                 })
             } else {
                 alert("กรุณากรอกข้อมูลให้ครบ");
@@ -97,7 +99,7 @@
             document.getElementById("among").value = "";
             document.getElementById("priceperpart").value = "";
         }
-        function back(){
+        function back() {
             window.location.href = "./ซ่อมรถ.html"
         }
     </script>
