@@ -9,6 +9,21 @@
     <link rel="stylesheet" href="../node_modules/bulma-divider/dist/css/bulma-divider.min.css" class="rel">
     <link rel="shortcut icon" href="../img/logo.png" />
     <title>สัญญาซื้อขาย</title>
+    <style>
+        fieldset.scheduler-border {
+            border: 1px groove #ddd !important;
+            padding: 0 1.4em 1.4em 1.4em !important;
+            margin: 0 0 1.5em 0 !important;
+            -webkit-box-shadow: 0px 0px 0px 0px #000;
+            box-shadow: 0px 0px 0px 0px #000;
+        }
+        
+        legend.scheduler-border {
+            font-size: 1.2em !important;
+            font-weight: bold !important;
+            text-align: left !important;
+        }
+    </style>
 </head>
 <script src="../node_modules/axios/dist/axios.min.js"></script>
 <script>
@@ -18,6 +33,7 @@
         idLength = e.key
         return /\d/.test(String.fromCharCode(charCode));
     }
+
     function isText(e) {
         var key = e.keyCode;
         if ((key >= 65 && key <= 90) || key == 8 || key >= 97 && key <= 122 || key >= 3585 && key <= 3661) {
@@ -26,6 +42,7 @@
             return false
         }
     }
+
     function cancel() {
         window.location.href = "./หน้าหลัก.html";
     }
@@ -33,8 +50,12 @@
     function showData() {
 
         var getID = localStorage.getItem("sendID");
-        var data = { type: "car", ID_TRN_Sell: getID }
+        var data = {
+            type: "car",
+            ID_TRN_Sell: getID
+        }
 
+        var salePrice;
         axios.post("http://localhost:4001/get", data).then((res) => {
             var a = res.data
             document.getElementById("brand").value = a.data.brand
@@ -45,12 +66,12 @@
             document.getElementById("numberRegistration").value = a.data.numberRegistration
             document.getElementById("numberEngine").value = a.data.numberEngine
             document.getElementById("numberTank").value = a.data.numberTank
-            // document.getElementById("carNumber").value = a.data.generateYear
-            // document.getElementById("cost").value = a.data.salePrice
+                // document.getElementById("carNumber").value = a.data.generateYear
+            this.salePrice = a.data.salePrice
             console.log(a)
         });
     }
-    window.onload = function () {
+    window.onload = function() {
         var today = new Date();
         var dd = String(today.getDate()).padStart(2, '0');
         var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
@@ -61,6 +82,28 @@
         document.getElementById("total").value = total
     }
     document.addEventListener("DOMContentLoaded", showData());
+
+    function submit() {
+        localStorage.setItem("namebuyerStorage", document.getElementById("nameBuyer").value)
+        localStorage.setItem("numberbuyerStorage", document.getElementById("numberBuyer").value)
+        localStorage.setItem("addressbuyerStorage", document.getElementById("addressBuyer").value)
+        localStorage.setItem("paytypeStorage", document.getElementById("paytype").value)
+        localStorage.setItem("dateStorage", document.getElementById("date").value)
+        var brand = document.getElementById("brand").value
+        var model = document.getElementById("model").value
+        var year = document.getElementById("year").value
+        var gear = document.getElementById("gear").value
+        var color = document.getElementById("color").value
+        var numberRegistration = document.getElementById("numberRegistration").value
+        var numberEngine = document.getElementById("numberEngine").value
+        var numberTank = document.getElementById("numberTank").value
+        var detail = brand + " " + model + " " + year + " " + gear + " " + color + " " + numberRegistration + " " + numberEngine + " " + numberTank;
+        console.log(detail)
+        localStorage.setItem("detailStorage", detail)
+        localStorage.setItem("totalpriceStorage", this.salePrice)
+
+        window.location.href = "./ใบเสร็จ.html";
+    }
 </script>
 
 <body>
@@ -96,168 +139,76 @@
                 </div>
             </div>
         </div>
-        <div class="columns">
-            <div class="column">
-                <label class="label">ระหว่างนาย/นางสาว/นาง :</label>
-                <div class="field-label is-normal">
-                </div>
-                <div class="field-body">
-                    <div class="field">
-                        <div class="control">
-                            <input class="input" type="text" onkeypress="return isText(event)" maxlength="10">
+        <fieldset class="scheduler-border">
+            <legend class="scheduler-border">ผู้ซื้อ</legend>
+            <br>
+            <div class="columns">
+                <div class="column">
+                    <label class="label">ชื่อ-นามสกุล:</label>
+                    <div class="field-body">
+                        <div class="field">
+                            <div class="control">
+                                <input class="input" type="text" id="nameBuyer" onkeypress="return isText(event)" maxlength="50">
+                            </div>
                         </div>
                     </div>
                 </div>
+                <div class="column">
+                    <label class="label">เลขประจำตัวประชาชน:</label>
+                    <div class="field-body">
+                        <div class="field">
+                            <div class="control">
+                                <input class="input" type="text" id="numberBuyer" onkeypress="return isNumber(event)" maxlength="13">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <label class="label">ที่อยู่ :</label>
+            <div class="field-body">
+                <div class="field">
+                    <div class="control">
+                        <textarea class="textarea" id="addressBuyer" placeholder="บ้านเลขที่ หมู่ ถนน อำเภอ ตำบล จังหวัด รหัสไปรษณีย์ เบอร์โทรศัพท์" maxlength="100"></textarea>
+                    </div>
+                </div>
+            </div>
 
-            </div>
-            <div class="column">
-                <label class="label">อายุ :</label>
-                <div class="field-label is-normal">
-                </div>
-                <div class="field-body">
-                    <div class="field">
-                        <div class="control">
-                            <input class="input" type="text" onkeypress="return isNumber(event)" maxlength="2">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="columns">
-            <div class="column">
-                <label class="label">อยู่บ้านเลขที่ :</label>
-                <div class="field-label is-normal">
-                </div>
-                <div class="field-body">
-                    <div class="field">
-                        <div class="control">
-                            <input class="input" type="text" maxlength="10">
-                        </div>
-                    </div>
-                </div>
+        </fieldset>
 
-            </div>
-            <div class="column">
-                <label class="label">ซอยเเละตำบล/เเขวง :</label>
-                <div class="field-label is-normal">
+        <fieldset class="scheduler-border">
+            <legend class="scheduler-border">ผู้ค้ำ</legend>
+            <br>
+            <div class="columns">
+                <div class="column">
+                    <label class="label">ชื่อ-นามสกุล:</label>
+                    <div class="field-body">
+                        <div class="field">
+                            <div class="control">
+                                <input class="input" type="text" id="nameGuarantor" onkeypress="return isText(event)" maxlength="50">
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="field-body">
-                    <div class="field">
-                        <div class="control">
-                            <input class="input" type="text" onkeypress="return isText(event)" maxlength="15">
+                <div class="column">
+                    <label class="label">เลขประจำตัวประชาชน:</label>
+                    <div class="field-body">
+                        <div class="field">
+                            <div class="control">
+                                <input class="input" type="text" id="numberGuarantor" onkeypress="return isNumber(event)" maxlength="13">
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="columns">
-            <div class="column">
-                <label class="label">อำเภอ/เขต :</label>
-                <div class="field-label is-normal">
-                </div>
-                <div class="field-body">
-                    <div class="field">
-                        <div class="control">
-                            <input class="input" type="text" onkeypress="return isText(event)" maxlength="15">
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-            <div class="column">
-                <label class="label">จังหวัด :</label>
-                <div class="field-label is-normal">
-                </div>
-                <div class="field-body">
-                    <div class="field">
-                        <div class="control">
-                            <input class="input" type="text" onkeypress="return isText(event)" maxlength="20">
-                        </div>
+            <label class="label">ที่อยู่ :</label>
+            <div class="field-body">
+                <div class="field">
+                    <div class="control">
+                        <textarea class="textarea" id="addressGuarantor" placeholder="บ้านเลขที่ หมู่ ถนน อำเภอ ตำบล จังหวัด รหัสไปรษณีย์ เบอร์โทรศัพท์" maxlength="100"></textarea>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="columns">
-            <div class="column">
-                <label class="label">นาย/นางสาว/นาง :</label>
-                <div class="field-label is-normal">
-                </div>
-                <div class="field-body">
-                    <div class="field">
-                        <div class="control">
-                            <input class="input" type="text" onkeypress="return isText(event)" maxlength="20">
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-            <div class="column">
-                <label class="label">อายุ :</label>
-                <div class="field-label is-normal">
-                </div>
-                <div class="field-body">
-                    <div class="field">
-                        <div class="control">
-                            <input class="input" type="text" onkeypress="return isNumber(event)" maxlength="2">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="columns">
-            <div class="column">
-                <label class="label">อยู่บ้านเลขที่ :</label>
-                <div class="field-label is-normal">
-                </div>
-                <div class="field-body">
-                    <div class="field">
-                        <div class="control">
-                            <input class="input" type="text" maxlength="20">
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-            <div class="column">
-                <label class="label">ซอยเเละตำบล/เเขวง :</label>
-                <div class="field-label is-normal">
-                </div>
-                <div class="field-body">
-                    <div class="field">
-                        <div class="control">
-                            <input class="input" type="text" onkeypress="return isText(event)" maxlength="20">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="columns">
-            <div class="column">
-                <label class="label">อำเภอ/เขต :</label>
-                <div class="field-label is-normal">
-                </div>
-                <div class="field-body">
-                    <div class="field">
-                        <div class="control">
-                            <input class="input" type="text" onkeypress="return isText(event)" maxlength="20">
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-            <div class="column">
-                <label class="label">จังหวัด :</label>
-                <div class="field-label is-normal">
-                </div>
-                <div class="field-body">
-                    <div class="field">
-                        <div class="control">
-                            <input class="input" type="text" onkeypress="return isText(event)" maxlength="20">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        </fieldset>
         <div class="columns">
             <div class="column">
                 <label class="label">คู่สัญญาตกลงเงื่อนไขสัญญากันไว้โดยมีรายละเอีดยดังนี้<br>
@@ -403,16 +354,15 @@
                 </div>
                 <div class="field-body">
                     <div class="field">
-                        <label class="checkbox">
-                            <input type="checkbox"> เงินสด
+                        <label>
+                            <input type="radio" name="paytype" id="paytype" value="เงินสด"> เงินสด
                         </label>
                         <br>
-                        <label class="checkbox">
-                            <input type="checkbox"> บัตรเครดิต
+                        <label>
+                            <input type="radio" name="paytype" id="paytype" value="บัตรเครดิต"> บัตรเครดิต
                         </label>
                     </div>
                 </div>
-
             </div>
 
         </div>
