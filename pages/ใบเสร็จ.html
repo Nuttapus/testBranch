@@ -13,7 +13,43 @@
 
 <body>
     <script src="../node_modules/axios/dist/axios.min.js"></script>
-    <br>
+    <script>
+        window.onload = function() {
+            document.getElementById("taxpayerNo").innerHTML = "1234567890123"
+            document.getElementById("no").innerHTML = "A100012410"
+            document.getElementById("nameBuyer").innerHTML = localStorage.getItem("namebuyerStorage")
+            document.getElementById("numberBuyer").innerHTML = localStorage.getItem("numberbuyerStorage")
+            document.getElementById("addressBuyer").innerHTML = localStorage.getItem("addressbuyerStorage")
+            document.getElementById("paytype").innerHTML = localStorage.getItem("paytypeStorage")
+            document.getElementById("date").innerHTML = localStorage.getItem("dateStorage")
+            document.getElementById("totalprice").innerHTML = localStorage.getItem("totalpriceStorage")
+            document.getElementById("taxprice").innerHTML = 0;
+            document.getElementById("price").innerHTML = localStorage.getItem("totalpriceStorage")
+
+
+            generate_productList();
+
+        }
+
+        function generate_productList() {
+            var table = document.getElementById("productList");
+            var newRow = table.insertRow(1);
+
+            var order = newRow.insertCell(0);
+            var detail = newRow.insertCell(1);
+            var amout = newRow.insertCell(2);
+            var price = newRow.insertCell(3);
+            var totalprice = newRow.insertCell(4);
+
+
+            order.innerHTML = "1";
+            detail.innerHTML = localStorage.getItem("detailStorage");
+            amout.innerHTML = "1";
+            price.innerHTML = localStorage.getItem("totalpriceStorage");
+            totalprice.innerHTML = localStorage.getItem("totalpriceStorage");
+
+        }
+    </script>
     <br>
     <div class="container">
         <div class="card">
@@ -29,20 +65,32 @@
                         <div class="field-body">
                             <div class="field">
                                 <div class="control">
-                                    <input class="input" type="text">
+                                    <p id="taxpayerNo"></p>
                                 </div>
                             </div>
                         </div>
-
                     </div>
                     <div class="column">
-                        <label class="label">เลขที่ No.</label>
+                        <label class="label has-text-centered">เลขที่ No.</label>
                         <div class="field-label is-normal">
                         </div>
                         <div class="field-body">
                             <div class="field">
                                 <div class="control">
-                                    <input class="input" type="text">
+                                    <p class="has-text-centered" id="no">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="column">
+                        <label class="label has-text-right">วันที่ Date.</label>
+                        <div class="field-label is-normal">
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <div class="control">
+                                    <p class="has-text-right" id="date">
                                 </div>
                             </div>
                         </div>
@@ -56,34 +104,7 @@
                         <div class="field-body">
                             <div class="field">
                                 <div class="control">
-                                    <input class="input" type="text">
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="column">
-                        <label class="label">วันที่ DATE</label>
-                        <div class="field-label is-normal">
-                        </div>
-                        <div class="field-body">
-                            <div class="field">
-                                <div class="control">
-                                    <input class="input" type="date">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="columns">
-                    <div class="column">
-                        <label class="label">ที่อยู่ ADDRESS</label>
-                        <div class="field-label is-normal">
-                        </div>
-                        <div class="field-body">
-                            <div class="field">
-                                <div class="control">
-                                    <input class="input" type="text">
+                                    <p id="nameBuyer"></p>
                                 </div>
                             </div>
                         </div>
@@ -96,25 +117,23 @@
                         <div class="field-body">
                             <div class="field">
                                 <div class="control">
-                                    <input class="input" type="text">
+                                    <p id="numberBuyer"></p>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <label class="label">เบอร์โทร TEL</label>
-                <div class="field-label is-normal">
-                </div>
+                <label class="label">ที่อยู่ :</label>
                 <div class="field-body">
                     <div class="field">
                         <div class="control">
-                            <input class="input" type="text" style="width: 660px">
+                            <p id="addressBuyer" placeholder="บ้านเลขที่ หมู่ ถนน อำเภอ ตำบล จังหวัด รหัสไปรษณีย์ เบอร์โทรศัพท์"></p>
                         </div>
                     </div>
                 </div>
                 <br>
-                <div class="has-text-centered" style="margin-left:35%">
-                    <table class="table table is-bordered ">
+                <div class="has-text-centered" style="margin-left:15%">
+                    <table class="table table is-bordered" id="productList">
                         <thead>
                             <tr>
                                 <th>ลำดับ</th>
@@ -124,19 +143,12 @@
                                 <th>จำนวนเงิน</th>
                             </tr>
                         </thead>
+                        <tbody></tbody>
                     </table>
                 </div>
                 <br><br>
-                <label class="label">ชำระโดย PAID BY</label>
-                <br>
-
-                <label class="checkbox">
-                    <input type="checkbox"> เงินสด
-                </label>
-                <br>
-                <label class="checkbox">
-                    <input type="checkbox"> บัตรเครดิต
-                </label>
+                <label class="label">ชำระโดย PAID BY :</label>
+                <p id="paytype"></p>
                 <div>
                     <div class="card" style="margin-left:70%">
                         <div class="card-content">
@@ -149,7 +161,7 @@
                                 </div>
                                 <div class="level-item">
                                     <div class="field has-addons">
-                                        <p class="control">
+                                        <p class="control" id="totalprice">
 
                                         </p>
                                     </div>
@@ -164,7 +176,7 @@
                                 </div>
                                 <div class="level-item">
                                     <div class="field has-addons">
-                                        <p class="control">
+                                        <p class="control" id="taxprice">
 
                                         </p>
 
@@ -180,7 +192,7 @@
                                 </div>
                                 <div class="level-item">
                                     <div class="field has-addons">
-                                        <p class="control">
+                                        <p class="control" id="price">
 
                                         </p>
                                     </div>
@@ -299,12 +311,13 @@
             </div>
         </div>
         <br>
-                <div class="buttons  is-right" style="margin-right:5%">
-                    <a class="button is-info is-outlined" style="width:10%">ตกลง</a>
-                    <a class="button is-info is-outlined" style="width:10%">ยกเลิก</a>
-                </div>
-            </div>
+        <div class="buttons  is-right" style="margin-right:5%">
+            <a class="button is-info is-outlined" style="width:10%" onclick="window.print();">พิมพ์</a>
+            <a class="button is-info is-outlined" style="width:10%" onclick="submit()">ตกลง</a>
+            <a class="button is-info is-outlined" style="width:10%" onclick="window.history.back()">ยกเลิก</a>
         </div>
+    </div>
+    </div>
     </div>
 
 
