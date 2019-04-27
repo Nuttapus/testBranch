@@ -36,6 +36,7 @@
     <script>
         var datadetail, datatotalprice;
         window.onload = function() {
+            window.open('./ใบกำกับภาษี.html', "_blank")
             var typeReceipt = localStorage.getItem("typereceiptStorage");
             if (typeReceipt === "buy") {
                 document.getElementById("typecus").innerHTML = "ผู้ซื้อ : "
@@ -58,6 +59,7 @@
                 document.getElementById("datetypeget").style.display = "block"
             } else if (typeReceipt === "regis") {
                 document.getElementById("typecus").innerHTML = "ผู้รับทะเบียน : "
+                document.getElementById("date").innerHTML = localStorage.getItem("dateStorage")
                 document.getElementById("nameCus").innerHTML = localStorage.getItem("namecusStorage")
                 document.getElementById("taxpayerNo").innerHTML = "1234567890123"
                 document.getElementById("no").innerHTML = "D100012410"
@@ -74,7 +76,6 @@
             } else if (typeReceipt === "fix") {
 
             }
-
             generate_productList();
         }
 
