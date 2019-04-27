@@ -9,36 +9,133 @@
     <link rel="stylesheet" href="../node_modules/bulma-divider/dist/css/bulma-divider.min.css" class="rel">
     <link rel="shortcut icon" href="../img/logo.png" />
     <title>ใบกำกับภาษี</title>
+    <style>
+        @media print {
+            #btnprint {
+                display: none;
+            }
+            #btnback {
+                display: none;
+            }
+            #details {
+                margin-left: 2%;
+                margin-right: 2%;
+            }
+        }
+        
+        @page {
+            margin: 0;
+        }
+    </style>
 </head>
+<!-- ซื้อ>t ซ่อม>f เดินทะเบียน>f
+ใบเสร็จ คู่กับ ใบกำกับภาษี -->
 
 <body>
+    <script src="../node_modules/axios/dist/axios.min.js"></script>
+    <script>
+        var datadetail, datatotalprice;
+        window.onload = function() {
+            var typeReceipt = localStorage.getItem("typereceiptStorage");
+            if (typeReceipt === "buy") {
+                document.getElementById("typecus").innerHTML = "ผู้ซื้อ : "
+                document.getElementById("taxpayerNo").innerHTML = "1234567890123"
+                document.getElementById("no").innerHTML = "A100012410"
+                document.getElementById("nameCus").innerHTML = localStorage.getItem("namebuyerStorage")
+                document.getElementById("typeslot").innerHTML = "เลขบัตรประชาชน : "
+                document.getElementById("numberCus").innerHTML = localStorage.getItem("numberbuyerStorage")
+                document.getElementById("typeslot2").innerHTML = "ที่อยู่ : "
+                document.getElementById("addressCus").innerHTML = localStorage.getItem("addressbuyerStorage")
+                document.getElementById("paytype").innerHTML = localStorage.getItem("paytypeStorage")
+                document.getElementById("date").innerHTML = localStorage.getItem("dateStorage")
+                document.getElementById("totalprice").innerHTML = localStorage.getItem("totalpriceStorage")
+                document.getElementById("taxprice").innerHTML = 0;
+                document.getElementById("price").innerHTML = localStorage.getItem("totalpriceStorage")
+                datadetail = localStorage.getItem("detailStorage");
+                datatotalprice = localStorage.getItem("totalpriceStorage");
+                document.getElementById("typecus1").innerHTML = "ผู้ซื้อ : _____________________"
+                document.getElementById("typeget").innerHTML = "พยาน : _____________________"
+                document.getElementById("datetypeget").style.display = "block"
+            } else if (typeReceipt === "regis") {
+                document.getElementById("typecus").innerHTML = "ผู้รับทะเบียน : "
+                document.getElementById("nameCus").innerHTML = localStorage.getItem("namecusStorage")
+                document.getElementById("taxpayerNo").innerHTML = "1234567890123"
+                document.getElementById("no").innerHTML = "D100012410"
+                document.getElementById("typeslot").innerHTML = "เบอร์โทรศัพท์ : "
+                document.getElementById("numberCus").innerHTML = localStorage.getItem("telcusStorage")
+                datadetail = localStorage.getItem("detailStorage");
+                document.getElementById("paytype").innerHTML = "เงินสด"
+                datatotalprice = "350"
+                document.getElementById("totalprice").innerHTML = datatotalprice
+                document.getElementById("taxprice").innerHTML = 0;
+                document.getElementById("price").innerHTML = datatotalprice
+                document.getElementById("typecus1").innerHTML = "ผู้รับทะเบียน : _____________________"
+                datadetail = localStorage.getItem("idCar") + " ต่อทะเบียน";
+            } else if (typeReceipt === "fix") {
+
+            }
+
+            generate_productList();
+        }
+
+        function generate_productList() {
+            var table = document.getElementById("productList");
+            var newRow = table.insertRow(1);
+
+            var order = newRow.insertCell(0);
+            var detail = newRow.insertCell(1);
+            var amout = newRow.insertCell(2);
+            var price = newRow.insertCell(3);
+            var totalprice = newRow.insertCell(4);
+
+
+            order.innerHTML = "1";
+            detail.innerHTML = datadetail
+            amout.innerHTML = "1";
+            price.innerHTML = datatotalprice
+            totalprice.innerHTML = datatotalprice
+
+        }
+    </script>
     <br>
-    <br>
-    <div class="container">
-        <h1 class="title has-text-centered"> ใบกำกับภาษี </h1>
+    <div class="container" id="details">
+        <h1 class="title has-text-centered"> ใบเสร็จกำกับภาษี </h1>
+        <p class="has-text-centered"> บริษัทโชคทวีออโต้เซล </p>
         <br>
-        <div class="card">
-                <div class="card-content">
         <div class="columns">
             <div class="column">
-                    <h1 class="title has-text-centered">บริษัทโชคทวีออโต้เซล</h1>
-                <div class="field-label is-normal">
-                </div>
-                <div class="field-body">
-                    <div class="field">
-                      
-                    </div>
-                </div>
-
-            </div>
-            <div class="column">
-                <label class="label">เลขที่ No.</label>
+                <label class="label">เลขประจำตัวผู้เสียภาษีอากร : </label>
                 <div class="field-label is-normal">
                 </div>
                 <div class="field-body">
                     <div class="field">
                         <div class="control">
-                            <input class="input" type="text">
+                            <p id="taxpayerNo"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="column">
+                <label class="label has-text-centered">เลขที่ : </label>
+                <div class="field-label is-normal">
+                </div>
+                <div class="field-body">
+                    <div class="field">
+                        <div class="control">
+                            <p class="has-text-centered" id="no">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="column">
+                <label class="label has-text-right">วันที่ : </label>
+                <div class="field-label is-normal">
+                </div>
+                <div class="field-body">
+                    <div class="field">
+                        <div class="control">
+                            <p class="has-text-right" id="date">
                         </div>
                     </div>
                 </div>
@@ -46,78 +143,61 @@
         </div>
         <div class="columns">
             <div class="column">
-                <label class="label">ผู้ซื้อ BUYER</label>
+                <label class="label" id="typecus"></label>
                 <div class="field-label is-normal">
                 </div>
                 <div class="field-body">
                     <div class="field">
                         <div class="control">
-                            <input class="input" type="text">
+                            <p id="nameCus"></p>
                         </div>
                     </div>
                 </div>
-
             </div>
             <div class="column">
-                <label class="label">เลขประจำตัวผู้เสียภาษีอากร</label>
+                <label class="label" id="typeslot"></label>
                 <div class="field-label is-normal">
                 </div>
                 <div class="field-body">
                     <div class="field">
                         <div class="control">
-                            <input class="input" type="text">
+                            <p id="numberCus"></p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="columns">
-            <div class="column">
-                <label class="label">ที่อยู่ ADDRESS</label>
-                <div class="field-label is-normal">
-                </div>
-                <div class="field-body">
-                    <div class="field">
-                        <div class="control">
-                            <input class="input" type="text">
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-            <div class="column">
-                <label class="label">วันที่</label>
-                <div class="field-label is-normal">
-                </div>
-                <div class="field-body">
-                    <div class="field">
-                        <div class="control">
-                            <input class="input" type="date">
-                        </div>
-                    </div>
+        <label class="label" id="typeslot2"></label>
+        <div class="field-body">
+            <div class="field">
+                <div class="control">
+                    <p id="addressCus"></p>
                 </div>
             </div>
         </div>
         <br>
-        <div class="has-text-centered" style="margin-left:35%">
-            <table class="table table is-bordered ">
+        <div class="has-text-centered">
+            <table class="table table is-bordered container" id="productList">
                 <thead>
                     <tr>
                         <th>ลำดับ</th>
-                        <th>รายนการ</th>
+                        <th>รหัสสินค้า/รายละเอียด</th>
                         <th>จำนวน</th>
                         <th>ราคา/หน่วย</th>
                         <th>จำนวนเงิน</th>
                     </tr>
                 </thead>
+                <tbody>
             </table>
         </div>
         <br><br>
-        <div style="margin-right:20%">
-            <div class="card">
+        <label class="label">ชำระโดย :</label>
+        <p id="paytype"></p>
+        <div>
+            <div class="card" style="margin-left:70%">
                 <div class="card-content">
 
-                    <div class="level-right">
+                    <div class="level-left">
                         <div class="level-item">
                             <p class="subtitle is-5">
                                 <p>ราคารวมทั้งสิ้น</p>
@@ -125,14 +205,14 @@
                         </div>
                         <div class="level-item">
                             <div class="field has-addons">
-                                <p class="control">
+                                <p class="control" id="totalprice">
 
                                 </p>
                             </div>
                         </div>
                     </div>
                     <br>
-                    <div class="level-right">
+                    <div class="level-left">
                         <div class="level-item">
                             <p class="subtitle is-5">
                                 <p>ภาษีมูลค่าเพิ่ม</p>
@@ -140,15 +220,13 @@
                         </div>
                         <div class="level-item">
                             <div class="field has-addons">
-                                <p class="control">
-
+                                <p class="control" id="taxprice">
                                 </p>
-
                             </div>
                         </div>
                     </div>
                     <br>
-                    <div class="level-right">
+                    <div class="level-left">
                         <div class="level-item">
                             <p class="subtitle is-5">
                                 <p>จำนวนเงินรวม</p>
@@ -156,7 +234,7 @@
                         </div>
                         <div class="level-item">
                             <div class="field has-addons">
-                                <p class="control">
+                                <p class="control" id="price">
 
                                 </p>
                             </div>
@@ -166,70 +244,67 @@
             </div>
         </div>
         <br>
-        <div class="column">
-                <label class="label">จำนวนเงินรวม(ตัวอักษร)</label>
-                <div class="field-label is-normal">
+        <div class="level-left">
+            <div class="level-item">
+                <p class="subtitle is-5">
+                    <p>จำนวนเงิน(ตัวอักษร) :</p>
+                </p>
+            </div>
+            <div class="level-item">
+                <div class="field has-addons">
+                    <p class="control">
+                        ____________________________________________________________________________________
+                    </p>
                 </div>
-                <div class="field-body">
-                    <div class="field">
-                        <div class="control">
-                            <input class="input" type="text">
-                        </div>
-                    </div>
-                </div>
-
             </div>
         </div>
-    </div>
         <br>
-       
-        <div class="card">
-                <div class="card-content">
         <div class="columns">
             <div class="column">
-                                <label class="label">ลงชื่อ</label>
-                                <div class="field-label is-normal">
-                                </div>
-                                <div class="field-body">
-                                    <div class="field">
-                                        <div class="control">
-                                            <input class="input" type="text" placeholder="ผู้ขาย">
-                                        </div>
-                                    </div>
-                                </div>
+                <div class="field is-horizontal">
+                    <label class="label" id="typecus1"></label>
+                </div>
+            </div>
+            <div class="column">
+                <div class="field is-horizontal">
+                    <label class="label" id="typeget"></label>
+                </div>
+            </div>
+            <div class="column">
+                <div class="field is-horizontal">
+                    <label class="label">ผู้รับเงิน : _____________________</label>
+                    <div class="field-label is-normal">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="columns">
+            <div class="column">
+                <div class="field is-horizontal">
+                    <label class="label">วันที่ : _____________________</label>
+                </div>
 
             </div>
             <div class="column">
-                    <div class="columns">
-                            <div class="column">
-                                <label class="label">ลงชื่อ</label>
-                                <div class="field-label is-normal">
-                                </div>
-                                <div class="field-body">
-                                    <div class="field">
-                                        <div class="control">
-                                            <input class="input" type="text" placeholder="ผู้รับสินค้า">
-                                        </div>
-                                    </div>
-                                </div>
+                <div class="field is-horizontal">
+                    <label class="label" id="datetypeget" style="display:none;">วันที่ : _____________________</label>
+                </div>
             </div>
-        
+            <div class="column">
+                <div class="field is-horizontal">
+                    <label class="label">วันที่ : _____________________</label>
                 </div>
             </div>
         </div>
-                </div>
-        </div>
+
+
         <br>
         <div class="buttons  is-right" style="margin-right:5%">
-            <a class="button is-info is-outlined" style="width:10%">ตกลง</a>
-            <a class="button is-info is-outlined" style="width:10%">ยกเลิก</a>
+            <a class="button is-info is-outlined" id="btnprint" style="width:10%" onclick="window.print();">พิมพ์</a>
+            <a class="button is-info is-outlined" id="btnback" style="width:10%" onclick="window.close()">ปิด</a>
         </div>
     </div>
-    </div>
-    </div>
-
-
-
 </body>
 
 </html>
