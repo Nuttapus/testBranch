@@ -18,25 +18,25 @@
             font-size: 14px;
             font-weight: 300;
         }
-
+        
         .hero.is-success {
             background: #F2F6FA;
         }
-
+        
         .hero .nav,
         .hero.is-success .nav {
             -webkit-box-shadow: none;
             box-shadow: none;
         }
-
+        
         input {
             font-weight: 300;
         }
-
+        
         p {
             font-weight: 700;
         }
-
+        
         p.subtitle {
             padding-top: 1rem;
         }
@@ -50,14 +50,17 @@
         var name = "";
         var lastname = "";
         var department = "";
+
         function checkLogin() {
             var arrayEmployee = [];
             var checkUsername;
             var checkPassword;
-            var data = { type: "login"}
+            var data = {
+                type: "login"
+            }
             checkUsername = document.getElementById("username").value;
             checkPassword = document.getElementById("password").value;
-            
+
             axios.post("http://localhost:4001/get", data).then((res) => {
                 arrayEmployee = res.data;
                 for (i = 0; i < arrayEmployee.data.length; i++) {
@@ -88,6 +91,7 @@
                 alert("เข้าสู่ระบบใหม่อีกครั้ง")
             }
         }
+
         function gotoRegister() {
             window.location.href = "./pages/สมัครสมาชิก.html";
         }
@@ -128,16 +132,14 @@
                         <div class="field">
                             <div class="control">
                                 <p class="has-text-grey has-text-right">
-                                    <a href="./pages/ลืมรหัสผ่าน.html" type="submit"
-                                        onclick="gotoForgotPassword()">ลืมรหัสผ่าน</a>
+                                    <a href="./pages/ลืมรหัสผ่าน.html" type="submit" onclick="gotoForgotPassword()">ลืมรหัสผ่าน</a>
                                 </p>
                             </div>
                         </div>
 
                         <div class="field">
                             <div class="control">
-                                <a class="button is-info is-outlined is-large is-fullwidth" type="submit"
-                                    onclick="checkLogin()">เข้าสู่ระบบ</a>
+                                <a class="button is-info is-outlined is-large is-fullwidth" type="submit" onclick="checkLogin()">เข้าสู่ระบบ</a>
                             </div>
                         </div>
                     </form>
