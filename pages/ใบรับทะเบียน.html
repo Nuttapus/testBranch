@@ -9,13 +9,27 @@
     <link rel="stylesheet" href="../node_modules/bulma-divider/dist/css/bulma-divider.min.css" class="rel">
     <link rel="shortcut icon" href="../img/logo.png" />
     <title>ใบรับทะเบียน</title>
+    <style>
+        @media print {
+            #btnprint {
+                display: none;
+            }
+            #btnback {
+                display: none;
+            }
+        }
+        
+        @page {
+            margin: 0;
+        }
+    </style>
 </head>
 
 <body>
     <script src="../node_modules/axios/dist/axios.min.js"></script>
     <script>
         var nameEm, idCar
-        window.onload = function () {
+        window.onload = function() {
             var getName = localStorage.getItem("storageName");
             var getLastName = localStorage.getItem("storageLastName");
             var getDepartment = localStorage.getItem("storageDepartment");
@@ -31,6 +45,7 @@
             document.getElementById("licensePlateCar").value = idCar;
             document.getElementById("carId").value = "RT" + idCar;
         }
+
         function isText(e) {
             var key = e.keyCode;
             if ((key >= 65 && key <= 90) || key == 8 || key >= 97 && key <= 122 || key >= 3585 && key <= 3661) {
@@ -39,12 +54,14 @@
                 return false
             }
         }
+
         function isNumber(e) {
             e = e || window.event;
             var charCode = e.which ? e.which : e.keyCode;
             idLength = e.key
             return /\d/.test(String.fromCharCode(charCode));
         }
+
         function submit() {
             var data = {
                 type: "TRN_RegistrationReceipt",
@@ -60,9 +77,12 @@
                 if (res.data.status) {
                     alert("เรียบร้อย")
                     window.print()
+                    localStorage.setItem("typereceiptStorage", "regis");
+                    window.open('./ใบเสร็จ.html', '_blank');
                 }
             })
         }
+
         function back() {
             window.location.href = "./เดินทะเบียน.html"
         }
@@ -161,7 +181,7 @@
                 <div class="level-item">
                     <div class="field has-addons">
                         <p class="control">
-                            <input class="input" type="text" id="tel"onkeypress="return isNumber(event)" maxlength="10">
+                            <input class="input" type="text" id="tel" onkeypress="return isNumber(event)" maxlength="10">
                         </p>
                     </div>
                 </div>
@@ -188,8 +208,7 @@
                 <div class="level-item">
                     <div class="field has-addons">
                         <p class="control">
-                            (&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)
+                            (&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)
                         </p>
                         <p>
                         </p>
@@ -206,8 +225,8 @@
     </div>
     <br>
     <div class="buttons  is-right" style="margin-right:5%">
-        <a class="button is-info is-outlined" style="width:10%" onclick="submit()">ตกลง</a>
-        <a class="button is-info is-outlined" style="width:10%" onclick="back()">ยกเลิก</a>
+        <a class="button is-info is-outlined" id="btnprint" style="width:10%" onclick="submit()">ตกลง</a>
+        <a class="button is-info is-outlined" id="btnback" style="width:10%" onclick="back()">ยกเลิก</a>
     </div>
 </body>
 

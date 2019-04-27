@@ -42,7 +42,7 @@
         // console.log(getPicidCard1)
         // console.log(getPicidCard2)
 
-        window.onload = function () {
+        window.onload = function() {
             var getName = localStorage.getItem("storageName");
             var getLastName = localStorage.getItem("storageLastName");
             var getDepartment = localStorage.getItem("storageDepartment");
@@ -79,12 +79,12 @@
                         "textID": document.getElementById("textID").value,
                         "call": document.getElementById("call").value
                     },
-                    name_MST_Employee: "บรรชา จิตรอ่อน"
+                    name_MST_Employee: getName + " " + getLastName
                 }
                 console.log(obj)
                 axios.post("http://localhost:4001/insert", obj).then((res) => {
                     if (res.data.status) {
-                        location.reload();
+                        window.reload();
                     } else {
                         alert("username นี้มีอยู่แล้วในระบบ")
                     }
@@ -92,7 +92,6 @@
             } else {
                 alert(alertText)
             }
-
         }
 
         function isNumber(e) {
@@ -131,16 +130,16 @@
                     return false
                 }
             } else {
-                alert("กรอก email ให้ถูกต้อง")
+                alertText = "กรอก email ให้ถูกต้อง"
             }
 
         }
-
 
         function validateEmail(email) {
             var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
             return re.test(email);
         }
+
         function checkEmail() {
             if (validateEmail(document.getElementById("email").value)) {
                 return true;
@@ -148,6 +147,7 @@
                 return false;
             }
         }
+
         function validate(evt) {
             var theEvent = evt || window.event;
             // Handle paste
@@ -164,50 +164,42 @@
                 if (theEvent.preventDefault) theEvent.preventDefault();
             }
         }
-
-
     </script>
 
-       <nav class="navbar is-info" role="navigation" aria-label="main navigation">
-      <div class="navbar-brand">
-        <a class="navbar-item" href="./หน้าหลัก.html">
-          <img src="../img/logo.png" width="112" height="28" />
-        </a>
-
-        <a
-          role="button"
-          class="navbar-burger burger"
-          aria-label="menu"
-          aria-expanded="false"
-          data-target="navbarBasicExample"
-        >
-          <span aria-hidden="true"></span> <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-        </a>
-      </div>
-
-      <div id="navbarBasicExample" class="navbar-menu">
-        <div class="navbar-start">
-          <a class="navbar-item" href="./หน้าหลัก.html">หน้าหลัก</a>
-          <a class="navbar-item" href="./ค้นหารถ.html">ซื้อรถ</a>
-          <a class="navbar-item is-active" href="./หน้าขาย1.html">ขายรถ</a>
-          <a class="navbar-item" href="./เดินทะเบียน.html">เดินทะเบียน</a>
-          <a class="navbar-item" href="./ซ่อมรถ.html">ซ่อม</a>
-          <a class="navbar-item" href="./ข้อมูลลูกค้า.html">ข้อมูลลูกค้า</a>
-          <a class="navbar-item" href="./จัดการพนักงาน.html">จัดการพนักงาน</a>
-        </div>
-        <div class="navbar-end">
-          <div class="navbar-item has-dropdown is-hoverable">
-            <a class="navbar-link" id="name">
-              <i class="fa fa-fw fa-user"></i> &nbsp; ชื่อผู้ใช้
+    <nav class="navbar is-info" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+            <a class="navbar-item" href="./หน้าหลัก.html">
+                <img src="../img/logo.png" width="112" height="28" />
             </a>
 
-            <div class="navbar-dropdown">
-              <a class="navbar-item" href="../ล็อกอิน.html"> ออกจากระบบ </a>
-            </div>
-          </div>
+            <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+                <span aria-hidden="true"></span> <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
         </div>
-      </div>
+
+        <div id="navbarBasicExample" class="navbar-menu">
+            <div class="navbar-start">
+                <a class="navbar-item" href="./หน้าหลัก.html">หน้าหลัก</a>
+                <a class="navbar-item" href="./ค้นหารถ.html">ซื้อรถ</a>
+                <a class="navbar-item is-active" href="./หน้าขาย1.html">ขายรถ</a>
+                <a class="navbar-item" href="./เดินทะเบียน.html">เดินทะเบียน</a>
+                <a class="navbar-item" href="./ซ่อมรถ.html">ซ่อม</a>
+                <a class="navbar-item" href="./ข้อมูลลูกค้า.html">ข้อมูลลูกค้า</a>
+                <a class="navbar-item" href="./จัดการพนักงาน.html">จัดการพนักงาน</a>
+            </div>
+            <div class="navbar-end">
+                <div class="navbar-item has-dropdown is-hoverable">
+                    <a class="navbar-link" id="name">
+                        <i class="fa fa-fw fa-user"></i> &nbsp; ชื่อผู้ใช้
+                    </a>
+
+                    <div class="navbar-dropdown">
+                        <a class="navbar-item" href="../ล็อกอิน.html"> ออกจากระบบ </a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </nav>
     <br>
     <div class="container">
@@ -229,8 +221,7 @@
             <div class="row">
                 <div class="column is-6">
                     <label>email</label>
-                    <input class="input is-2" type="text" placeholder="ตัวอย่าง : aaa@gmail.com" id="email"
-                        onkeypress="return (event.charCode >= 64 && event.charCode <= 90) || (event.charCode >= 95 && event.charCode <= 122) || (event.charCode >= 45 && event.charCode <= 57)">
+                    <input class="input is-2" type="text" placeholder="ตัวอย่าง : aaa@gmail.com" id="email" onkeypress="return (event.charCode >= 64 && event.charCode <= 90) || (event.charCode >= 95 && event.charCode <= 122) || (event.charCode >= 45 && event.charCode <= 57)">
                 </div>
             </div>
             <div class="row">
