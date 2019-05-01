@@ -23,20 +23,36 @@
         var getPrice = [];
         var setPrice = 0;
         var nameEmp
-        window.onload = function () {
+
+        var idtrn;
+        var brand;
+        var model;
+        var nametech;
+        var nametest;
+        window.onload = function() {
             var getName = localStorage.getItem("storageName");
             var getLastName = localStorage.getItem("storageLastName");
             var getDepartment = localStorage.getItem("storageDepartment");
 
             document.getElementById("navName").innerHTML = `<i class="fa fa-fw fa-user"></i> &nbsp;` + getName + " " + getLastName;
             nameEmp = getName + " " + getLastName
+
+            nametech = localStorage.getItem("techStorage");
+            nametest = localStorage.getItem("testStorage")
+            document.getElementById("nameTechnician").value = nametech
+            document.getElementById("nameTester").value = nametest
+            idtrn = localStorage.getItem("idStorage")
+            brand = localStorage.getItem("brandStorage")
+            model = localStorage.getItem("modelStorage")
         }
+
         function isNumber(e) {
             e = e || window.event;
             var charCode = e.which ? e.which : e.keyCode;
             idLength = e.key
             return /\d/.test(String.fromCharCode(charCode));
         }
+
         function isText(e) {
             var key = e.keyCode;
             if ((key >= 65 && key <= 90) || key == 8 || key >= 97 && key <= 122 || key >= 3585 && key <= 3661) {
@@ -45,6 +61,7 @@
                 return false
             }
         }
+
         function submit() {
             var table = document.getElementById("inventory");
             table.parentElement.parentElement
@@ -63,26 +80,33 @@
                     nameTechnician: nameTechnician,
                     nameTester: nameTester,
                     part: {
-                        namePart: getPart, among: getAmong,
+                        namePart: getPart,
+                        among: getAmong,
                         priceperpart: getPrice
                     },
+                    idtrn: idtrn,
                     nameEmp: nameEmp,
                     type: "TRN_RepairDetail"
                 }
                 axios.post("http://localhost:4001/insert", data).then((res) => {
                     alert("สำเร็จ");
-                    winndow.location.href = "./ซ่อมรถ.html"
+                    localStorage.setItem("detailStorage", JSON.stringify(data))
+                    localStorage.setItem("modalcarStorage", brand + " " + model)
+                    localStorage.setItem("nameEmpStorage", nameEmp)
+                    localStorage.setItem("typereceiptStorage", "fix")
+                    window.open('./ใบเสร็จ.html', "_blank")
                 })
             } else {
                 alert("กรุณากรอกข้อมูลให้ครบ");
             }
         }
+
         function addRow() {
             var priceTotal = 0;
             var str = '<tr class="boxType"><td>' + (count += 1) + '</td>\
-                <td id="namePart">'+ $('#part').val() + '</td>\
-                <td id="among">'+ $('#among').val() + '</td>\ <td id="price">' + $('#priceperpart').val()
-                + '</td>\</tr>'
+                <td id="namePart">' + $('#part').val() + '</td>\
+                <td id="among">' + $('#among').val() + '</td>\ <td id="price">' + $('#priceperpart').val() +
+                '</td>\</tr>'
             $('#screen').append(str);
             localStorage.setItem("data", $('#screen').html());
             var table = document.getElementById("inventory");
@@ -94,11 +118,13 @@
             }
             document.getElementById("total").value = priceTotal;
         }
+
         function cancelPart() {
             document.getElementById("part").value = "";
             document.getElementById("among").value = "";
             document.getElementById("priceperpart").value = "";
         }
+
         function back() {
             window.location.href = "./ซ่อมรถ.html"
         }
@@ -110,8 +136,7 @@
                 <img src="../img/logo.png" width="112" height="28" />
             </a>
 
-            <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
-                data-target="navbarBasicExample">
+            <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
                 <span aria-hidden="true"></span> <span aria-hidden="true"></span>
                 <span aria-hidden="true"></span>
             </a>
@@ -148,8 +173,7 @@
 
         <h1 style="font-size: 20px ; margin-left: 4%">กรอกข้อมูล</h1>
 
-        <div class="box"
-            style="border-style:solid ; border-width: 1px ;width:92%  ; margin-left: 4% ; margin-right: 4% ">
+        <div class="box" style="border-style:solid ; border-width: 1px ;width:92%  ; margin-left: 4% ; margin-right: 4% ">
             <div class="columns">
                 <div class="column is-6">
                     <div class="field is-horizontal">
@@ -159,9 +183,7 @@
                         <div class="field-body">
                             <div class="field">
                                 <div class="control">
-                                    <input style="width:300px" class="input " type="text"
-                                        onkeypress="return isNumber(event);" maxlength="10" id="total" disabled>
-                                    &nbsp;บาท
+                                    <input style="width:300px" class="input " type="text" onkeypress="return isNumber(event);" maxlength="10" id="total" disabled> &nbsp;บาท
                                 </div>
                             </div>
                         </div>
@@ -173,8 +195,7 @@
                         <div class="field-body">
                             <div class="field">
                                 <div class="control">
-                                    <input style="width:300px" class="input " type="text"
-                                        onkeypress="return isText(event);" maxlength="10" id="nameTester">
+                                    <input style="width:300px" class="input " type="text" onkeypress="return isText(event);" maxlength="10" id="nameTester" disabled>
                                 </div>
                             </div>
                         </div>
@@ -186,8 +207,7 @@
                         <div class="field-body">
                             <div class="field">
                                 <div class="control">
-                                    <input style="width:300px" class="input " type="text"
-                                        onkeypress="return isText(event);" maxlength="10" id="nameTechnician">
+                                    <input style="width:300px" class="input " type="text" onkeypress="return isText(event);" maxlength="10" id="nameTechnician" disabled>
                                 </div>
                             </div>
                         </div>
@@ -204,8 +224,7 @@
                             <div class="field-body">
                                 <div class="field">
                                     <div class="control">
-                                        <input style="width:300px" class="input " type="text"
-                                            onkeypress="return isText(event);" maxlength="10" id="part">
+                                        <input style="width:300px" class="input " type="text" onkeypress="return isText(event);" maxlength="10" id="part">
                                     </div>
                                 </div>
                             </div>
@@ -217,8 +236,7 @@
                             <div class="field-body">
                                 <div class="field">
                                     <div class="control">
-                                        <input style="width:300px" class="input " type="text"
-                                            onkeypress="return isNumber(event);" maxlength="10" id="among">
+                                        <input style="width:300px" class="input " type="text" onkeypress="return isNumber(event);" maxlength="10" id="among">
                                     </div>
                                 </div>
                             </div>
@@ -230,8 +248,7 @@
                             <div class="field-body">
                                 <div class="field">
                                     <div class="control">
-                                        <input style="width:300px" class="input " type="text"
-                                            onkeypress="return isNumber(event);" maxlength="10" id="priceperpart">
+                                        <input style="width:300px" class="input " type="text" onkeypress="return isNumber(event);" maxlength="10" id="priceperpart">
                                     </div>
                                 </div>
                             </div>

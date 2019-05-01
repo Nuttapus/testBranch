@@ -200,6 +200,7 @@ app.post('/insert', (req, res) => {
                         "nameTechnician": req.body.nameTechnician,
                         "nameTester": req.body.nameTester,
                         "part": req.body.part,
+                        "id_TRN_Repair": req.body.idtrn,
                         "name_MST_Employee": req.body.nameEmp
                     }
                     if (result1 === null) {
@@ -326,6 +327,147 @@ app.post('/insert', (req, res) => {
                             client.close()
                             res.json({ status: true })
                         })
+                    } else {
+                        res.json({ status: false })
+                        client.close()
+                    }
+                })
+            })
+
+        } else if (req.body.type === "TRN_Invoice") {
+            db.collection('TRN_Invoice').find({}).toArray(function(err, result) {
+                var count = result.length
+                count += 1
+                db.collection('TRN_Invoice').findOne({ TRN_Invoice: req.body.TRN_Invoice }, (err, result) => {
+
+                    if (result === null) {
+                        if (req.body.invoiceType === "buy") {
+                            const newInvoice = {
+                                TRN_Invoice: "Iv" + count,
+                                invoidNumber: req.body.invoidNumber,
+                                nameCus: req.body.nameCus,
+                                idCardNumber: req.body.idCardNumber,
+                                date: req.body.date,
+                                address: req.body.address,
+                                invoiceType: req.body.invoiceType,
+                                listProduct: req.body.listProduct,
+                                total: req.body.total,
+                                tax: req.body.tax,
+                                allTotal: req.body.allTotal,
+                                name_MST_Employee: req.body.name_MST_Employee,
+                            };
+                            db.collection('TRN_Invoice').insertOne(newInvoice, (err, result) => {
+                                client.close()
+                                res.json({ status: true })
+                            })
+                        }
+                        if (req.body.invoiceType === "regis") {
+                            const newInvoice = {
+                                TRN_Invoice: "Iv" + count,
+                                invoidNumber: req.body.invoidNumber,
+                                nameCus: req.body.nameCus,
+                                tel: req.body.tel,
+                                date: req.body.date,
+                                invoiceType: req.body.invoiceType,
+                                listProduct: req.body.listProduct,
+                                total: req.body.total,
+                                tax: req.body.tax,
+                                allTotal: req.body.allTotal,
+                                name_MST_Employee: req.body.name_MST_Employee,
+                            };
+                            db.collection('TRN_Invoice').insertOne(newInvoice, (err, result) => {
+                                client.close()
+                                res.json({ status: true })
+                            })
+                        }
+                        if (req.body.invoiceType === "fix") {
+                            const newInvoice = {
+                                TRN_Invoice: "Iv" + count,
+                                invoiceNumber: req.body.invoiceNumber,
+                                modelCar: req.body.modelCar,
+                                date: req.body.date,
+                                invoiceType: req.body.invoiceType,
+                                listProduct: req.body.listProduct,
+                                total: req.body.total,
+                                tax: req.body.tax,
+                                allTotal: req.body.allTotal,
+                                name_MST_Employee: req.body.name_MST_Employee,
+                            };
+                            db.collection('TRN_Invoice').insertOne(newInvoice, (err, result) => {
+                                client.close()
+                                res.json({ status: true })
+                            })
+                        }
+                    } else {
+                        res.json({ status: false })
+                        client.close()
+                    }
+                })
+            })
+        } else if (req.body.type === "TRN_Bill") {
+            db.collection('TRN_Bill').find({}).toArray(function(err, result) {
+                var count = result.length
+                count += 1
+                db.collection('TRN_Bill').findOne({ TRN_Bill: req.body.TRN_Bill }, (err, result) => {
+
+                    if (result === null) {
+                        if (req.body.billType === "buy") {
+                            const newBill = {
+                                TRN_Invoice: "Iv" + count,
+                                invoidNumber: req.body.invoidNumber,
+                                nameCus: req.body.nameCus,
+                                idCardNumber: req.body.idCardNumber,
+                                date: req.body.date,
+                                address: req.body.address,
+                                billType: req.body.billType,
+                                listProduct: req.body.listProduct,
+                                total: req.body.total,
+                                tax: req.body.tax,
+                                allTotal: req.body.allTotal,
+                                name_MST_Employee: req.body.name_MST_Employee,
+                            };
+                            db.collection('TRN_Bill').insertOne(newBill, (err, result) => {
+                                client.close()
+                                res.json({ status: true })
+                            })
+                        }
+                        if (req.body.billType === "regis") {
+                            const newBill = {
+                                TRN_Invoice: "Iv" + count,
+                                invoidNumber: req.body.invoidNumber,
+                                nameCus: req.body.nameCus,
+                                tel: req.body.tel,
+                                date: req.body.date,
+                                billType: req.body.billType,
+                                listProduct: req.body.listProduct,
+                                total: req.body.total,
+                                tax: req.body.tax,
+                                allTotal: req.body.allTotal,
+                                name_MST_Employee: req.body.name_MST_Employee,
+                            };
+                            db.collection('TRN_Bill').insertOne(newBill, (err, result) => {
+                                client.close()
+                                res.json({ status: true })
+                            })
+                        }
+                        if (req.body.billType === "fix") {
+                            const newBill = {
+                                TRN_Invoice: "Iv" + count,
+                                invoiceNumber: req.body.invoiceNumber,
+                                modelCar: req.body.modelCar,
+                                date: req.body.date,
+                                billType: req.body.billType,
+                                listProduct: req.body.listProduct,
+                                total: req.body.total,
+                                tax: req.body.tax,
+                                allTotal: req.body.allTotal,
+                                name_MST_Employee: req.body.name_MST_Employee,
+                            };
+                            db.collection('TRN_Bill').insertOne(newBill, (err, result) => {
+                                client.close()
+                                res.json({ status: true })
+                            })
+                        }
                     } else {
                         res.json({ status: false })
                         client.close()

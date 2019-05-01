@@ -21,33 +21,41 @@
                 margin-left: 2%;
                 margin-right: 2%;
             }
-        }
-        
-        @page {
-            margin: 0;
+            @page {
+                margin: 0;
+            }
         }
     </style>
 </head>
-<!-- ซื้อ>t ซ่อม>f เดินทะเบียน>f
-ใบเสร็จ คู่กับ ใบกำกับภาษี -->
+
 
 <body>
     <script src="../node_modules/axios/dist/axios.min.js"></script>
     <script>
-        var datadetail, datatotalprice;
+        var today, nameEmp, nameCus, totaltax, numberCus, date, datadetail, modelCar, datatotalprice, typeReceipt, size, addressbuyer, tel;
         window.onload = function() {
-            var typeReceipt = localStorage.getItem("typereceiptStorage");
+            typeReceipt = localStorage.getItem("typereceiptStorage");
+            nameEmp = localStorage.getItem("nameEmpStorage")
+            today = new Date();
+            var dd = String(today.getDate()).padStart(2, '0');
+            var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+            var yyyy = today.getFullYear();
+            today = mm + '/' + dd + '/' + yyyy;
             if (typeReceipt === "buy") {
                 document.getElementById("typecus").innerHTML = "ผู้ซื้อ : "
                 document.getElementById("taxpayerNo").innerHTML = "1234567890123"
                 document.getElementById("no").innerHTML = "A100012410"
-                document.getElementById("nameCus").innerHTML = localStorage.getItem("namebuyerStorage")
+                nameCus = localStorage.getItem("namebuyerStorage")
+                document.getElementById("nameCus").innerHTML = nameCus
                 document.getElementById("typeslot").innerHTML = "เลขบัตรประชาชน : "
-                document.getElementById("numberCus").innerHTML = localStorage.getItem("numberbuyerStorage")
+                numberCus = localStorage.getItem("numberbuyerStorage")
+                document.getElementById("numberCus").innerHTML = numberCus
                 document.getElementById("typeslot2").innerHTML = "ที่อยู่ : "
-                document.getElementById("addressCus").innerHTML = localStorage.getItem("addressbuyerStorage")
+                var addressbuyer = localStorage.getItem("addressbuyerStorage")
+                document.getElementById("addressCus").innerHTML = addressbuyer
                 document.getElementById("paytype").innerHTML = localStorage.getItem("paytypeStorage")
-                document.getElementById("date").innerHTML = localStorage.getItem("dateStorage")
+                date = localStorage.getItem("dateStorage")
+                document.getElementById("date").innerHTML = date
                 document.getElementById("totalprice").innerHTML = localStorage.getItem("totalpriceStorage")
                 document.getElementById("taxprice").innerHTML = 0;
                 document.getElementById("price").innerHTML = localStorage.getItem("totalpriceStorage")
@@ -56,51 +64,135 @@
                 document.getElementById("typecus1").innerHTML = "ผู้ซื้อ : _____________________"
                 document.getElementById("typeget").innerHTML = "พยาน : _____________________"
                 document.getElementById("datetypeget").style.display = "block"
-            } else if (typeReceipt === "regis") {
+            }
+            if (typeReceipt === "regis") {
                 document.getElementById("typecus").innerHTML = "ผู้รับทะเบียน : "
-                document.getElementById("nameCus").innerHTML = localStorage.getItem("namecusStorage")
+                date = localStorage.getItem("dateStorage")
+                document.getElementById("date").innerHTML = date
+                nameCus = localStorage.getItem("namecusStorage")
+                document.getElementById("nameCus").innerHTML = nameCus
                 document.getElementById("taxpayerNo").innerHTML = "1234567890123"
                 document.getElementById("no").innerHTML = "D100012410"
                 document.getElementById("typeslot").innerHTML = "เบอร์โทรศัพท์ : "
-                document.getElementById("numberCus").innerHTML = localStorage.getItem("telcusStorage")
+                tel = localStorage.getItem("telcusStorage")
+                document.getElementById("numberCus").innerHTML = tel
                 datadetail = localStorage.getItem("detailStorage");
                 document.getElementById("paytype").innerHTML = "เงินสด"
                 datatotalprice = "350"
-                document.getElementById("date").innerHTML = localStorage.getItem("dateStorage")
                 document.getElementById("totalprice").innerHTML = datatotalprice
                 document.getElementById("taxprice").innerHTML = 0;
                 document.getElementById("price").innerHTML = datatotalprice
                 document.getElementById("typecus1").innerHTML = "ผู้รับทะเบียน : _____________________"
                 datadetail = localStorage.getItem("idCar") + " ต่อทะเบียน";
-            } else if (typeReceipt === "fix") {
-
             }
-
+            if (typeReceipt === "fix") {
+                date = localStorage.getItem("dateStorage")
+                document.getElementById("date").innerHTML = date
+                document.getElementById("taxpayerNo").innerHTML = "1234567890123"
+                document.getElementById("no").innerHTML = "F100012410"
+                document.getElementById("typeslot2").innerHTML = "รุ่นรถ : "
+                modelCar = localStorage.getItem("modalcarStorage")
+                document.getElementById("addressCus").innerHTML = modelCar
+                datadetail = JSON.parse(localStorage.getItem("detailStorage"));
+                size = datadetail.part.among.length
+                document.getElementById("paytype").innerHTML = "เงินสด"
+                datatotalprice = datadetail.part.priceperpartp
+                document.getElementById("totalprice").innerHTML = datadetail.total
+                totaltax = (datadetail.total * 0.07).toFixed(2)
+                document.getElementById("taxprice").innerHTML = totaltax;
+                document.getElementById("price").innerHTML = (datadetail.total - totaltax).toFixed(2);
+                document.getElementById("typecus1").innerHTML = "ผู้จ่ายเงิน : _____________________"
+            }
             generate_productList();
         }
 
         function generate_productList() {
             var table = document.getElementById("productList");
-            var newRow = table.insertRow(1);
+            console.log(datadetail)
+            if (typeReceipt === "fix") {
+                for (var i = 1; i <= size; i++) {
+                    var newRow = table.insertRow(i);
+                    var order = newRow.insertCell(0);
+                    var detail = newRow.insertCell(1);
+                    var amout = newRow.insertCell(2);
+                    var price = newRow.insertCell(3);
+                    var totalprice = newRow.insertCell(4);
+                    order.innerHTML = i
+                    detail.innerHTML = datadetail.part.namePart[i - 1]
+                    amout.innerHTML = datadetail.part.among[i - 1]
+                    price.innerHTML = datadetail.part.priceperpart[i - 1]
+                    totalprice.innerHTML = datadetail.part.among[i - 1] * datadetail.part.priceperpart[i - 1]
+                }
+            } else {
+                var newRow = table.insertRow(1);
+                var order = newRow.insertCell(0);
+                var detail = newRow.insertCell(1);
+                var amout = newRow.insertCell(2);
+                var price = newRow.insertCell(3);
+                var totalprice = newRow.insertCell(4);
 
-            var order = newRow.insertCell(0);
-            var detail = newRow.insertCell(1);
-            var amout = newRow.insertCell(2);
-            var price = newRow.insertCell(3);
-            var totalprice = newRow.insertCell(4);
+                order.innerHTML = "1";
+                detail.innerHTML = datadetail
+                amout.innerHTML = "1";
+                price.innerHTML = datatotalprice
+                totalprice.innerHTML = datatotalprice
+            }
+        }
 
-
-            order.innerHTML = "1";
-            detail.innerHTML = datadetail
-            amout.innerHTML = "1";
-            price.innerHTML = datatotalprice
-            totalprice.innerHTML = datatotalprice
-
+        function submitPrint() {
+            var data = {}
+            if (typeReceipt === "buy") {
+                data = {
+                    type: "TRN_Invoice",
+                    invoiceNumber: "1234567890123",
+                    nameCus: nameCus,
+                    idCardNumber: numberCus,
+                    date: date,
+                    address: addressbuyer,
+                    invoiceType: "buy",
+                    listProduct: datadetail,
+                    total: datatotalprice,
+                    tax: "0",
+                    allTotal: datatotalprice,
+                    name_MST_Employee: nameEmp
+                }
+            } else if (typeReceipt === "regis") {
+                data = {
+                    type: "TRN_Invoice",
+                    invoiceNumber: "1234567890123",
+                    nameCus: nameCus,
+                    tel: tel,
+                    date: date,
+                    invoiceType: "regis",
+                    listProduct: datadetail,
+                    total: datatotalprice,
+                    tax: "0",
+                    allTotal: datatotalprice,
+                    name_MST_Employee: nameEmp
+                }
+            } else if (typeReceipt === "fix") {
+                data = {
+                    type: "TRN_Invoice",
+                    invoiceNumber: "1234567890123",
+                    modelCar: modelCar,
+                    date: today,
+                    invoiceType: "fix",
+                    listProduct: datadetail.part,
+                    total: datadetail.total,
+                    tax: totaltax,
+                    allTotal: datadetail.total - totaltax,
+                    name_MST_Employee: nameEmp
+                }
+            }
+            axios.post("http://localhost:4001/insert", data).then((res) => {
+                alert("สำเร็จ");
+            })
+            window.print();
         }
     </script>
     <br>
     <div class="container" id="details">
-        <h1 class="title has-text-centered"> ใบเสร็จกำกับภาษี </h1>
+        <h1 class="title has-text-centered"> ใบกำกับภาษี </h1>
         <p class="has-text-centered"> บริษัทโชคทวีออโต้เซล </p>
         <br>
         <div class="columns">
@@ -302,7 +394,7 @@
 
         <br>
         <div class="buttons  is-right" style="margin-right:5%">
-            <a class="button is-info is-outlined" id="btnprint" style="width:10%" onclick="window.print();">พิมพ์</a>
+            <a class="button is-info is-outlined" id="btnprint" style="width:10%" onclick="submitPrint()">พิมพ์</a>
             <a class="button is-info is-outlined" id="btnback" style="width:10%" onclick="window.close()">ปิด</a>
         </div>
     </div>

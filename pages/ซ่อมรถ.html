@@ -24,19 +24,21 @@
             loadingHtml: "<div class='sk-spinner sk-spinner-double-bounce'><div class='sk-wandering-cubes'><div class='sk-cube sk-cube1'></div><div class='sk-cube sk-cube2'></div></div></div></div>",
             template: "<div class='pg-loading-inner'><div class='pg-loading-center-outer'><div class='pg-loading-center-middle'><div class='pg-loading-html'></div></div></div></div>"
         })
-        window.onload = function () {
+        window.onload = function() {
             var getName = localStorage.getItem("storageName");
             var getLastName = localStorage.getItem("storageLastName");
             var getDepartment = localStorage.getItem("storageDepartment");
             document.getElementById("navName").innerHTML = `<i class="fa fa-fw fa-user"></i> &nbsp;` + getName + " " + getLastName;
             getNameEm = getName
         }
+
         function isNumber(e) {
             e = e || window.event;
             var charCode = e.which ? e.which : e.keyCode;
             idLength = e.key
             return /\d/.test(String.fromCharCode(charCode));
         }
+
         function isText(e) {
             var key = e.keyCode;
             if ((key >= 65 && key <= 90) || key == 8 || key >= 97 && key <= 122 || key >= 3585 && key <= 3661) {
@@ -45,14 +47,17 @@
                 return false
             }
         }
+
         function cancel() {
             window.location.reload();
         }
+
         function print() {
             localStorage.setItem("idNumber", document.getElementById("idNumber").value)
             localStorage.setItem("model", document.getElementById("model").value)
             window.location.href = "./ใบรับรถ.html"
         }
+
         function generate_table(a) {
             var table = document.getElementById("employeeList");
             console.log(a)
@@ -81,10 +86,28 @@
                 nameAppraise.innerHTML = a.data[i].nameAppraise
                 nameTechnician.innerHTML = a.data[i].nameTechnician
                 nameTester.innerHTML = a.data[i].nameTester
-                crud.innerHTML = `<a class="button is-warning" onClick="selectData(this)">Print</a>
-                          <a class="button is-danger" onClick="deleteData(this)">Delete</a>`;
+                crud.innerHTML = `<a class="button is-info is-outlined" onclick="selectData(this)">ใบรับรถ</a>
+                <a class="button is-info is-outlined" onclick="gotoPageListfix(this)">รายการซ่อมรถ</a>
+                          <a class="button is-info is-outlined" onclick="deleteData(this)">ลบ</a>`;
             }
         }
+
+        function gotoPageListfix(td) {
+            selectedRow = td.parentElement.parentElement;
+            idDB = selectedRow.cells[0].innerHTML;
+            b = selectedRow.cells[1].innerHTML;
+            m = selectedRow.cells[2].innerHTML;
+            tech = selectedRow.cells[7].innerHTML;
+            test = selectedRow.cells[8].innerHTML;
+            localStorage.setItem("idStorage", idDB)
+            localStorage.setItem("brandStorage", b)
+            localStorage.setItem("modelStorage", m)
+            localStorage.setItem("techStorage", tech)
+            localStorage.setItem("testStorage", test)
+            window.location.href = './รายการซ่อมรถ.html';
+
+        }
+
         function selectData(td) {
             selectedRow = td.parentElement.parentElement;
             idDB = selectedRow.cells[0].innerHTML;
@@ -99,10 +122,9 @@
 
             document.getElementById('update').style = "width:10%; display: block;"
             document.getElementById('submit').style = "width:10%; display: none;"
-            document.getElementById('list').style = "width:10%; display: none;"
-
             blockInput()
         }
+
         function blockInput() {
             document.getElementById('brand').disabled = true;
             document.getElementById('model').disabled = true;
@@ -114,15 +136,20 @@
             document.getElementById('nameTester').disabled = true;
 
         }
+
         function deleteData(td) {
             selectedRow = td.parentElement.parentElement;
             var obj = selectedRow.cells[3].innerHTML;
             deleteRow(obj)
         }
+
         function deleteRow(idCar) {
             console.log(idCar)
             var checkDelete = confirm("ต้องการจะลบข้อมูลนี้จริงๆหรือไม่")
-            var data = { machineNumber: idCar, type: "TRN_Repair" }
+            var data = {
+                machineNumber: idCar,
+                type: "TRN_Repair"
+            }
             if (checkDelete) {
                 if (idCar !== "") {
                     axios.post("http://localhost:4001/delete", data).then((res) => {
@@ -135,6 +162,7 @@
                 console.log("cancle")
             }
         }
+
         function submit() {
             brand = document.getElementById('brand').value
             model = document.getElementById('model').value;
@@ -145,24 +173,35 @@
             nameTechnician = document.getElementById("nameTechnician").value;
             nameTester = document.getElementById("nameTester").value;
 
-            if (brand !== "" && model !== undefined && machineNumber !== undefined && pointsRepair !== undefined && nameEmployee !== undefined
-                && nameAppraise !== undefined && nameTechnician !== undefined && nameTester !== undefined) {
+            if (brand !== "" && model !== undefined && machineNumber !== undefined && pointsRepair !== undefined && nameEmployee !== undefined &&
+                nameAppraise !== undefined && nameTechnician !== undefined && nameTester !== undefined) {
                 var data = {
-                    brand: brand, model: model, machineNumber: machineNumber, pointsRepair: pointsRepair, nameEmployee: nameEmployee, nameAppraise: nameAppraise,
-                    nameTechnician: nameTechnician, nameTester: nameTester, empoyee: getNameEm, type: "TRN_Repair"
+                    brand: brand,
+                    model: model,
+                    machineNumber: machineNumber,
+                    pointsRepair: pointsRepair,
+                    nameEmployee: nameEmployee,
+                    nameAppraise: nameAppraise,
+                    nameTechnician: nameTechnician,
+                    nameTester: nameTester,
+                    empoyee: getNameEm,
+                    type: "TRN_Repair"
                 }
                 axios.post("http://localhost:4001/insert", data).then((res) => {
                     if (res.data.status) {
                         alert("เพิ่มข้อมูลเรียบร้อย")
-                        window.location.reload();
+                        window.location.href = './ใบเสร็จ.html'
                     }
                 })
             } else {
                 alert("กรุณาใส่ข้อมูลให้ครบทุกช่อง")
             }
         }
+
         function showData() {
-            var showData = { type: "TRN_Repair" }
+            var showData = {
+                type: "TRN_Repair"
+            }
             axios.post("http://localhost:4001/get", showData).then((res) => {
                 var data = []
                 data = res.data
@@ -179,8 +218,7 @@
                 <img src="../img/logo.png" width="112" height="28" />
             </a>
 
-            <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
-                data-target="navbarBasicExample">
+            <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
                 <span aria-hidden="true"></span> <span aria-hidden="true"></span>
                 <span aria-hidden="true"></span>
             </a>
@@ -262,8 +300,7 @@
                         <div class="field-body">
                             <div class="field">
                                 <div class="control">
-                                    <textarea class="textarea has-fixed-size" rows="4" id="pointsRepair"
-                                        maxlength="50" onkeypress="return isText(event)"></textarea>
+                                    <textarea class="textarea has-fixed-size" rows="4" id="pointsRepair" maxlength="50" onkeypress="return isText(event)"></textarea>
                                 </div>
                             </div>
                         </div>
@@ -291,8 +328,7 @@
                     <div class="field-body">
                         <div class="field">
                             <div class="control">
-                                <input id="namePartner" class="input" type="text" placeholder="ชื่อผู้ประเมินราคา"
-                                    maxlength="20" onkeypress="return isText(event)">
+                                <input id="namePartner" class="input" type="text" placeholder="ชื่อผู้ประเมินราคา" maxlength="20" onkeypress="return isText(event)">
                             </div>
                         </div>
                     </div>
@@ -304,8 +340,7 @@
                     <div class="field-body">
                         <div class="field">
                             <div class="control">
-                                <input id="nameTechnician" class="input" type="text" placeholder="ชื่อช่างซ่อม"
-                                    maxlength="20" onkeypress="return isText(event)">
+                                <input id="nameTechnician" class="input" type="text" placeholder="ชื่อช่างซ่อม" maxlength="20" onkeypress="return isText(event)">
                             </div>
                         </div>
                     </div>
@@ -317,8 +352,7 @@
                     <div class="field-body">
                         <div class="field">
                             <div class="control">
-                                <input id="nameTester" class="input" type="text" placeholder="ผู้ตรวจสอบ"
-                                    maxlength="20" onkeypress="return isText(event)">
+                                <input id="nameTester" class="input" type="text" placeholder="ผู้ตรวจสอบ" maxlength="20" onkeypress="return isText(event)">
                             </div>
                         </div>
                     </div>
@@ -326,11 +360,8 @@
             </div>
         </div>
         <br />
-        <div class="buttons  is-right">
-            <a class="button is-info is-outlined" style="width:10%; display: none;" onclick="print()"
-                id="update">พิมพ์</a>
-            <a class="button is-success is-outlined" style="width:10%" id="list"
-                onclick="window.location.href='./รายการซ่อมรถ.html'">รายการซ่อมรถ</a>
+        <div class="buttons is-right">
+            <a class="button is-info is-outlined" style="width:10%; display: none;" onclick="print()" id="update">พิมพ์</a>
             <a class="button is-info is-outlined" style="width:10%" id="submit" onclick="submit()">เพิ่ม</a>
             <a class="button is-info is-outlined" style="width:10%" onclick="cancel()">ยกเลิก</a>
         </div>
