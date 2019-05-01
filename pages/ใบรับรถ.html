@@ -9,6 +9,20 @@
     <link rel="stylesheet" href="../node_modules/bulma-divider/dist/css/bulma-divider.min.css" class="rel">
     <link rel="shortcut icon" href="../img/logo.png" />
     <title>ใบรับรถ</title>
+    <style>
+        @media print {
+            #btnprint {
+                display: none;
+            }
+            #btnback {
+                display: none;
+            }
+        }
+        
+        @page {
+            margin: 0;
+        }
+    </style>
 </head>
 
 <body>
@@ -61,10 +75,6 @@
             }
             axios.post("http://localhost:4001/insert", data).then((res) => {
                 if (res.data.status) {
-                    localStorage.setItem("dateStorage", document.getElementById("date").value)
-                    localStorage.setItem("namecusStorage", document.getElementById("customer").value)
-                    localStorage.setItem("telcusStorage", document.getElementById("tel").value)
-                    localStorage.setItem("detailStorage", idCar + " " + getModel)
                     alert("เรียบร้อย")
                     window.print()
                 }
@@ -211,8 +221,8 @@
     </div>
     <br>
     <div class="buttons  is-right" style="margin-right:5%">
-        <a class="button is-info is-outlined" style="width:10%" onclick="submit()">ตกลง</a>
-        <a class="button is-info is-outlined" style="width:10%" onclick="back()">กลับ</a>
+        <a class="button is-info is-outlined" id="btnprint" style="width:10%" onclick="submit()">ตกลง</a>
+        <a class="button is-info is-outlined" id="btnback" style="width:10%" onclick="back()">กลับ</a>
     </div>
 </body>
 

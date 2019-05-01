@@ -43,6 +43,7 @@
             var getLastName = localStorage.getItem("storageLastName");
             getDepartment = localStorage.getItem("storageDepartment");
             document.getElementById("navName").innerHTML = `<i class="fa fa-fw fa-user"></i> &nbsp;` + getName + " " + getLastName;
+            localStorage.setItem("nameEmpStorage", getName + " " + getLastName)
             if (getDepartment === "ซื้อ") {
                 document.getElementById("card2").style.cursor = "auto"
                 document.getElementById("card3").style.cursor = "auto"

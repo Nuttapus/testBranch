@@ -19,12 +19,15 @@
     <script src="../node_modules/please-wait/build/please-wait.js"></script>
     <script>
         var getID, getPic
+        var seePic1
+        var seePic2
+        var seePic3
         var loading_screen = pleaseWait({
             backgroundColor: 'rgb(240, 240, 240)',
             loadingHtml: "<div class='sk-spinner sk-spinner-double-bounce'><div class='sk-wandering-cubes'><div class='sk-cube sk-cube1'></div><div class='sk-cube sk-cube2'></div></div></div></div>",
             template: "<div class='pg-loading-inner'><div class='pg-loading-center-outer'><div class='pg-loading-center-middle'><div class='pg-loading-html'></div></div></div></div>"
         })
-        window.onload = function () {
+        window.onload = function() {
             var getName = localStorage.getItem("storageName");
             var getLastName = localStorage.getItem("storageLastName");
             var getDepartment = localStorage.getItem("storageDepartment");
@@ -35,7 +38,10 @@
         function showData() {
             loadScreen("load")
             getID = localStorage.getItem("sendID");
-            var data = { type: "car", ID_TRN_Sell: getID }
+            var data = {
+                type: "car",
+                ID_TRN_Sell: getID
+            }
             axios.post("http://localhost:4001/get", data).then((res) => {
                 var a = res.data
                 document.getElementById("brand").innerHTML = a.data.brand
@@ -59,20 +65,23 @@
                 for (var i = 1; i <= 3; i++) {
                     var toAdd = document.createDocumentFragment();
                     var newDiv = document.createElement('img');
-                    console.log(a.data.picture.pic)
+                    //console.log(a.data.picture.pic)
                     toAdd.appendChild(newDiv);
                     if (i === 1) {
                         newDiv.src = a.data.picture.pic1
+                        seePic1 = newDiv.src
                         newDiv.alt = "picture"
                         document.getElementById('pic1').appendChild(toAdd);
                     } else if (i === 2) {
                         newDiv.src = a.data.picture.pic2
+                        seePic2 = newDiv.src
                         newDiv.alt = "picture"
                         document.getElementById('pic2').appendChild(toAdd);
                         picBig.src = a.data.picture.pic2
                         picBig.alt = "picture"
                     } else {
                         newDiv.src = a.data.picture.pic3
+                        seePic3 = newDiv.src
                         newDiv.alt = "picture"
                         document.getElementById('pic3').appendChild(toAdd);
                     }
@@ -82,9 +91,22 @@
         }
         document.addEventListener("DOMContentLoaded", showData());
 
+        function seeCar(a) {
+            var output = document.getElementById('picBig');
+            if (a === 1) {
+
+                output.src = seePic1;
+            } else if (a === 2) {
+                output.src = seePic2;
+            } else {
+                output.src = seePic3;
+            }
+        }
+
         function buy() {
             window.location.href = "./ซื้อรถ.html"
         }
+
         function loadScreen(a) {
             if (a === "load") {
                 //loading_screen
@@ -100,8 +122,7 @@
                 <img src="../img/logo.png" width="112" height="28" />
             </a>
 
-            <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
-                data-target="navbarBasicExample">
+            <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
                 <span aria-hidden="true"></span> <span aria-hidden="true"></span>
                 <span aria-hidden="true"></span>
             </a>
@@ -136,13 +157,13 @@
     <div class="container">
         <div class="columns">
             <div class="column is-2">
-                <div class="card" id="pic1">
+                <div class="card" id="pic1" onclick="seeCar(1)">
 
                 </div>
-                <div class="card" id="pic2">
+                <div class="card" id="pic2" onclick="seeCar(2)">
 
                 </div>
-                <div class="card" id="pic3">
+                <div class="card" id="pic3" onclick="seeCar(3)">
 
                 </div>
             </div>

@@ -20,30 +20,29 @@
             box-sizing: border-box;
             height: 30px;
         }
-
+        
         .topic {
             padding-left: 25px !important;
         }
-
+        
         .imageRon {
             display: block;
             position: relative;
             border: 1px;
         }
-
+        
         .imageRon img {
             display: block;
             height: auto;
             width: 100%;
             border: 1;
         }
-
+        
         .imageRon img.is-rounded {
             border-radius: 290486px;
             border: 1;
-
         }
-
+        
         .imageRon.is-square img,
         .imageRon.is-1by1 img,
         .imageRon.is-5by4 img,
@@ -64,13 +63,13 @@
             width: 100%;
             border: 1;
         }
-
+        
         .imageRon.is-48x48 {
             height: 48px;
             width: 48px;
             border: 1;
         }
-
+        
         .choose_file {
             position: relative;
             display: inline-block;
@@ -85,7 +84,7 @@
             text-align: center;
             background: rgb(65, 133, 235)
         }
-
+        
         .choose_file input[type="file"] {
             -webkit-appearance: none;
             position: absolute;
@@ -95,7 +94,7 @@
             opacity: 0;
             width: 100%
         }
-
+        
         .choose_file2 {
             position: relative;
             display: inline-block;
@@ -110,7 +109,7 @@
             text-align: center;
             background: rgb(65, 133, 235)
         }
-
+        
         .choose_file2 input[type="file"] {
             -webkit-appearance: none;
             position: absolute;
@@ -120,7 +119,7 @@
             opacity: 0;
             width: 98%
         }
-
+        
         .choose_file3 {
             position: relative;
             display: inline-block;
@@ -136,7 +135,7 @@
             text-align: center;
             background: rgb(65, 133, 235)
         }
-
+        
         .choose_file3 input[type="file"] {
             -webkit-appearance: none;
             position: absolute;
@@ -146,7 +145,7 @@
             opacity: 0;
             width: 100%
         }
-
+        
         .imageOutput {
             width: 400px;
             height: 400px;
@@ -162,7 +161,7 @@
         var idPicture
 
 
-        window.onload = function () {
+        window.onload = function() {
             var getName = localStorage.getItem("storageName");
             var getLastName = localStorage.getItem("storageLastName");
             var getDepartment = localStorage.getItem("storageDepartment");
@@ -176,11 +175,16 @@
             var namePic
 
 
-            reader.onloadend = function () {
-                console.log("check 1")
+            reader.onloadend = function() {
                 idPicture = reader.result;
+                if (count > 3) {
+                    count = 1
+                    localStorage.setItem("carPicture" + count, "");
+                }
                 localStorage.setItem("carPicture" + count, idPicture);
+                console.log(count)
             }
+
             if (file) {
                 reader.readAsDataURL(file); //reads the data as a URL
             } else {
@@ -190,36 +194,34 @@
             loadFile(event)
         }
 
-        var loadFile = function (event) {
+        var loadFile = function(event) {
             var output = document.getElementById('outputCar' + count);
             output.src = URL.createObjectURL(event.target.files[0]);
-            count++
+            if (count === 4) {
+                count = 1
+            } else {
+                count++
+            }
         };
 
         function nextPage() {
             window.location.href = "./หน้าขาย3.html";
         }
     </script>
-      <nav class="navbar is-info" role="navigation" aria-label="main navigation">
-            <div class="navbar-brand">
-              <a class="navbar-item" href="./หน้าหลัก.html">
+    <nav class="navbar is-info" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+            <a class="navbar-item" href="./หน้าหลัก.html">
                 <img src="../img/logo.png" width="112" height="28" />
-              </a>
-      
-              <a
-                role="button"
-                class="navbar-burger burger"
-                aria-label="menu"
-                aria-expanded="false"
-                data-target="navbarBasicExample"
-              >
+            </a>
+
+            <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
                 <span aria-hidden="true"></span> <span aria-hidden="true"></span>
                 <span aria-hidden="true"></span>
-              </a>
-            </div>
-      
-            <div id="navbarBasicExample" class="navbar-menu">
-              <div class="navbar-start">
+            </a>
+        </div>
+
+        <div id="navbarBasicExample" class="navbar-menu">
+            <div class="navbar-start">
                 <a class="navbar-item" href="./หน้าหลัก.html">หน้าหลัก</a>
                 <a class="navbar-item" href="./ค้นหารถ.html">ซื้อรถ</a>
                 <a class="navbar-item is-active" href="./หน้าขาย1.html">ขายรถ</a>
@@ -227,20 +229,20 @@
                 <a class="navbar-item" href="./ซ่อมรถ.html">ซ่อม</a>
                 <a class="navbar-item" href="./ข้อมูลลูกค้า.html">ข้อมูลลูกค้า</a>
                 <a class="navbar-item" href="./จัดการพนักงาน.html">จัดการพนักงาน</a>
-              </div>
-              <div class="navbar-end">
-                <div class="navbar-item has-dropdown is-hoverable">
-                  <a class="navbar-link" id="name">
-                    <i class="fa fa-fw fa-user"></i> &nbsp; ชื่อผู้ใช้
-                  </a>
-      
-                  <div class="navbar-dropdown">
-                    <a class="navbar-item" href="../ล็อกอิน.html"> ออกจากระบบ </a>
-                  </div>
-                </div>
-              </div>
             </div>
-          </nav>
+            <div class="navbar-end">
+                <div class="navbar-item has-dropdown is-hoverable">
+                    <a class="navbar-link" id="name">
+                        <i class="fa fa-fw fa-user"></i> &nbsp; ชื่อผู้ใช้
+                    </a>
+
+                    <div class="navbar-dropdown">
+                        <a class="navbar-item" href="../ล็อกอิน.html"> ออกจากระบบ </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
     <br>
     <div class="container">
         <div class="title" style="color: red;">
@@ -263,9 +265,7 @@
                 <input class="inputRon input-padding-16" type="file" accept="image/*" onchange="previewFile()">
             </div>
             <p>
-                คุณสามารถอัปโหลดรูปรถได้สูงสุดถึง 21 รูป โดยรูปภาพจะต้องเป็นแนวนอน ไม่มีการตกแต่งภาพใดๆ
-                และอัปโหลดอย่างน้อย 5 รูป นามสกุลไฟล์รูปภาพที่รองรับคือ JPG และ JPEG เท่านั้น
-                โดยแต่ละไฟล์รูปภาพจะต้องมีขนาดระหว่าง 10 KB แต่ไม่เกิน 50 mb.
+                คุณสามารถอัปโหลดรูปรถได้สูงสุดถึง 3 รูป โดยรูปภาพจะต้องเป็นแนวนอน นามสกุลไฟล์รูปภาพที่รองรับคือ JPG และ JPEG เท่านั้น โดยแต่ละไฟล์รูปภาพจะต้องมีขนาดระหว่าง 10 KB แต่ไม่เกิน 50 mb.
             </p>
             <div class="row">
                 <div class="columns">
@@ -289,7 +289,7 @@
             <br>
             <br>
             <br>
-            <div class="buttons is-right" >
+            <div class="buttons is-right">
                 <a class="button is-info is-outlined" style="width:10%" onclick="nextPage()">ถัดไป</a>
             </div>
             <br>
