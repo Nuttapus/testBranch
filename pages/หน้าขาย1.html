@@ -46,6 +46,7 @@
                 localStorage.setItem("textArea", document.getElementById("textArea").value);
                 localStorage.setItem("licensePlate", document.getElementById("licensePlate").value);
                 localStorage.setItem("machineNumber", document.getElementById("machineNumber").value);
+                localStorage.setItem("bodyNumber", document.getElementById("bodyNumber").value);
 
 
                 window.location.href = "./หน้าขาย2.html";
@@ -72,8 +73,13 @@
                                                                 if (document.getElementById("textArea").value !== "") {
                                                                     if (document.getElementById("licensePlate").value !== "") {
                                                                         if (document.getElementById("machineNumber").value !== "") {
-                                                                            console.log("check empty pass")
-                                                                            return true;
+                                                                            if (document.getElementById("bodyNumber").value !== "") {
+                                                                                console.log("check empty pass")
+                                                                                return true;
+                                                                            } else {
+                                                                                alertText = "กรุณากรอกเลขทะเบียน"
+                                                                                return false
+                                                                            }
                                                                         } else {
                                                                             alertText = "กรุณากรอกเลขทะเบียน"
                                                                             return false
@@ -253,6 +259,7 @@
                             onkeypress="return isNumber(event)" id="miles">
                     </div>
                 </div>
+
             </div>
             <div class="column">
                 <div class="field">
@@ -272,6 +279,12 @@
                     <div class="row">
                         <label>เลขเครื่อง</label>
                         <input class="input" type="text" placeholder="ตัวอย่าง : MRHFD16509P201570" id="machineNumber">
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="row">
+                        <label>เลขตัวถัง</label>
+                        <input class="input" type="text" placeholder="ตัวอย่าง : MRHFD16509P201570" id="bodyNumber">
                     </div>
                 </div>
                 <div class="field">
@@ -305,14 +318,14 @@
                 </div>
                 <div class="field">
                     <div class="row ">
-                        <label>หัวข้อที่ต้องการขาย</label>
-                        <textarea class="textarea has-fixed-size" rows="9" id="topic"></textarea>
+                        <label>ที่อยู่</label>
+                        <input class="input" type="text" placeholder="ตัวอย่าง : ชลบุรี" id="textArea">
                     </div>
                 </div>
                 <div class="field">
                     <div class="row ">
-                        <label>ที่อยู่</label>
-                        <input class="input" type="text" placeholder="ตัวอย่าง : ชลบุรี" id="textArea">
+                        <label>หัวข้อที่ต้องการขาย</label>
+                        <textarea class="textarea has-fixed-size" rows="4" id="topic" style="height: 108px;"></textarea>
                     </div>
                 </div>
             </div>
