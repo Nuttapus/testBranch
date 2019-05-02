@@ -32,6 +32,7 @@
         var getTextArea = localStorage.getItem("textArea");
         var getLicensePlate = localStorage.getItem("licensePlate");
         var getMachineNumber = localStorage.getItem("machineNumber");
+        var getBodyNumber = localStorage.getItem("bodyNumber");
         var getCarPic1 = localStorage.getItem("carPicture1");
         var getCarPic2 = localStorage.getItem("carPicture2");
         var getCarPic3 = localStorage.getItem("carPicture3");
@@ -66,6 +67,7 @@
                     textArea: getTextArea,
                     licensePlate: getLicensePlate,
                     machineNumber: getMachineNumber,
+                    bodyNumber: getBodyNumber,
                     picture: {
                         "pic1": getCarPic1,
                         "pic2": getCarPic2,
@@ -86,7 +88,7 @@
                         console.log(res.data)
                         console.log(res.data.id)
                         localStorage.setItem("sendID", res.data.id)
-                        localStorage.setItem("totalPrice", salePrice)
+                        localStorage.setItem("totalPrice", getSalePrice)
                         window.location.href = "./สัญญาซื้อขาย.html"
                     } else {
                         alert("username นี้มีอยู่แล้วในระบบ")
