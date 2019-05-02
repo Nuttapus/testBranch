@@ -30,17 +30,13 @@
         var getSalePrice = localStorage.getItem("salePrice");
         var getTopic = localStorage.getItem("topic");
         var getTextArea = localStorage.getItem("textArea");
+        var getLicensePlate = localStorage.getItem("licensePlate");
+        var getMachineNumber = localStorage.getItem("machineNumber");
         var getCarPic1 = localStorage.getItem("carPicture1");
         var getCarPic2 = localStorage.getItem("carPicture2");
         var getCarPic3 = localStorage.getItem("carPicture3");
         var getPicidCard1 = localStorage.getItem("idCard1");
         var getPicidCard2 = localStorage.getItem("idCard2");
-
-        // console.log(getCarPic1)
-        // console.log(getCarPic2)
-        // console.log(getCarPic3)
-        // console.log(getPicidCard1)
-        // console.log(getPicidCard2)
 
         window.onload = function() {
             var getName = localStorage.getItem("storageName");
@@ -67,6 +63,8 @@
                     salePrice: getSalePrice,
                     topic: getTopic,
                     textArea: getTextArea,
+                    licensePlate : getLicensePlate,
+                    machineNumber : getMachineNumber,
                     picture: {
                         "pic1": getCarPic1,
                         "pic2": getCarPic2,
