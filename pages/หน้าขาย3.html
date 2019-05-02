@@ -37,12 +37,13 @@
         var getCarPic3 = localStorage.getItem("carPicture3");
         var getPicidCard1 = localStorage.getItem("idCard1");
         var getPicidCard2 = localStorage.getItem("idCard2");
+        var getNameEm , getLastNameEm ,getDepartmentEm
 
         window.onload = function() {
-            var getName = localStorage.getItem("storageName");
-            var getLastName = localStorage.getItem("storageLastName");
-            var getDepartment = localStorage.getItem("storageDepartment");
-            document.getElementById("name").innerHTML = `<i class="fa fa-fw fa-user"></i> &nbsp;` + getName + " " + getLastName;
+            getNameEm = localStorage.getItem("storageName");
+            getLastNameEm = localStorage.getItem("storageLastName");
+            getDepartmentEm = localStorage.getItem("storageDepartment");
+            document.getElementById("name").innerHTML = `<i class="fa fa-fw fa-user"></i> &nbsp;` + getNameEm + " " + getLastNameEm;
         }
 
         function insertData() {
@@ -77,12 +78,12 @@
                         "textID": document.getElementById("textID").value,
                         "call": document.getElementById("call").value
                     },
-                    name_MST_Employee: getName + " " + getLastName
+                    name_MST_Employee: getNameEm + " " + getLastNameEm
                 }
                 console.log(obj)
                 axios.post("http://localhost:4001/insert", obj).then((res) => {
                     if (res.data.status) {
-                        window.reload();
+                        window.location.reload();
                     } else {
                         alert("username นี้มีอยู่แล้วในระบบ")
                     }
