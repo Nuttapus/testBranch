@@ -46,6 +46,16 @@ app.post('/get', (req, res) => {
                 res.json({ data: result })
                 client.close();
             })
+        } else if (req.body.type === "TRN_Buy") {
+            db.collection('TRN_Buy').find({}).toArray(function(_, result) {
+                res.json({ data: result })
+                client.close();
+            })
+        } else if (req.body.type === "TRN_Bill") {
+            db.collection('TRN_Bill').find({}).toArray(function(_, result) {
+                res.json({ data: result })
+                client.close();
+            })
         }
     })
 })

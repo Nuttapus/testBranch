@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="../node_modules/bulma/css/bulma.min.css" class="rel">
+    <link rel="stylesheet" href="../node_modules/bulma-divider/dist/css/bulma-divider.min.css" class="rel">
+    <link rel="stylesheet" href="../node_modules/@fortawesome/fontawesome-free/css/all.css" />
+    <link rel="shortcut icon" href="../img/logo.png" />
+    <title>กำไรขาดทุน</title>
+    <style>
+
+    </style>
+</head>
+
+<body>
+    <script src="../node_modules/axios/dist/axios.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+            if ($navbarBurgers.length > 0) {
+                $navbarBurgers.forEach(el => {
+                    el.addEventListener('click', () => {
+
+                        const target = el.dataset.target;
+                        const $target = document.getElementById(target);
+
+                        el.classList.toggle('is-active');
+                        $target.classList.toggle('is-active');
+
+                    });
+                });
+            }
+
+        });
+        var getDepartment
+        var totalexpend = 0;
+        var totalincome = 0;
+
+        window.onload = function() {
+            var getName = localStorage.getItem("storageName");
+            var getLastName = localStorage.getItem("storageLastName");
+            getDepartment = localStorage.getItem("storageDepartment");
+            document.getElementById("navName").innerHTML = `<i class="fa fa-fw fa-user"></i> &nbsp;` + getName + " " + getLastName;
+            setTimeout(getexpend(), 3000)
+            setTimeout(getincome(), 3000)
+        }
+
+
+        function getexpend() {
+            var dataexpend = {
+                type: "TRN_Buy"
+            }
+            axios.post("http://localhost:4001/get", dataexpend).then((res) => {
+                var dataexpend = res.data
+                for (var i = 0; i < dataexpend.data.length; i++) {
+                    totalexpend += dataexpend.data[i].total;
+                }
+                document.getElementById("expend").innerHTML = addCommas(totalexpend);
+                getprofit()
+            })
+        }
+
+        function getincome() {
+            var dataincome = {
+                type: "TRN_Bill"
+            }
+            axios.post("http://localhost:4001/get", dataincome).then((res) => {
+                var dataincome = res.data
+                for (var i = 0; i < dataincome.data.length; i++) {
+                    totalincome += dataincome.data[i].allTotal;
+                }
+                document.getElementById("income").innerHTML = addCommas(totalincome);
+                getprofit()
+            })
+        }
+
+        function getprofit() {
+            var totalprofit = totalincome - totalexpend;
+            document.getElementById("profit").innerHTML = addCommas(totalprofit);
+        }
+
+        function addCommas(nStr) {
+            nStr += '';
+            x = nStr.split('.');
+            x1 = x[0];
+            x2 = x.length > 1 ? '.' + x[1] : '';
+            var rgx = /(\d+)(\d{3})/;
+            while (rgx.test(x1)) {
+                x1 = x1.replace(rgx, '$1' + ',' + '$2');
+            }
+            return x1 + x2;
+        }
+    </script>
+
+    <nav class="navbar is-info" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+            <a class="navbar-item" href="./หน้าหลัก.html">
+                <img src="../img/logo.png" width="112" height="28">
+            </a>
+
+            <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
+        </div>
+
+        <div id="navbarBasicExample" class="navbar-menu">
+            <div class="navbar-start">
+                <a class="navbar-item" href="./หน้าหลัก.html">หน้าหลัก</a>
+                <a class="navbar-item" id="nav1" href="./ค้นหารถ.html">ซื้อรถ</a>
+                <a class="navbar-item" id="nav2" href="./หน้าขาย1.html">ขายรถ</a>
+                <a class="navbar-item" id="nav3" href="./เดินทะเบียน.html">เดินทะเบียน</a>
+                <a class="navbar-item" id="nav4" href="./ซ่อมรถ.html">ซ่อม</a>
+                <a class="navbar-item" id="nav5" href="./ข้อมูลลูกค้า.html">ข้อมูลลูกค้า</a>
+                <a class="navbar-item" id="nav6" href="./จัดการพนักงาน.html">จัดการพนักงาน</a>
+            </div>
+            <div class="navbar-end">
+                <div class="navbar-item has-dropdown is-hoverable">
+                    <a class="navbar-link" id="navName">
+                        <i class="fa fa-fw fa-user"></i> &nbsp; ชื่อผู้ใช้
+                    </a>
+                    <div class="navbar-dropdown">
+                        <a class="navbar-item is-active" id="dashboard" href="./กำไรขาดทุน.html">
+                                รายได้-รายจ่าย
+                              </a>
+                        <a class="navbar-item" href="../ล็อกอิน.html">
+              ออกจากระบบ
+            </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <br>
+
+    <div class="container has-text-centered ">
+        <div class="columns is-variable is-1-mobile is-0-tablet is-3-desktop is-8-widescreen is-2-fullhd is-centered">
+            <div class="column is-half">
+                <div class="tile is-ancestor">
+                    <div class="tile is-parent">
+                        <article class="tile is-child notification is-primary">
+                            <br>
+                            <p class="title">รายได้ทั้งหมด</p>
+                            <p class="subtitle" id="income"></p>
+                            <br>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+
+        <div class="columns is-variable is-1-mobile is-0-tablet is-3-desktop is-8-widescreen is-2-fullhd is-centered">
+            <div class="column is-half">
+                <div class="tile is-ancestor">
+                    <div class="tile is-parent">
+                        <article class="tile is-child notification is-danger">
+                            <br>
+                            <p class="title">รายจ่ายทั้งหมด</p>
+                            <p class="subtitle" id="expend"></p>
+                            <br>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+
+        <div class="columns is-variable is-1-mobile is-0-tablet is-3-desktop is-8-widescreen is-2-fullhd is-centered">
+            <div class="column is-half">
+                <div class="tile is-ancestor">
+                    <div class="tile is-parent">
+                        <article class="tile is-child notification is-warning">
+                            <br>
+                            <p class="title">กำไร</p>
+                            <p class="subtitle" id="profit"></p>
+                            <br>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <br>
+
+    <footer class="footer">
+        <div class="content has-text-centered">
+            <p>
+                <strong>&nbsp;&copy; 2018 - Project</strong> by SourceSoft</a>
+            </p>
+        </div>
+    </footer>
+</body>
+
+</html>
