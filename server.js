@@ -1,7 +1,6 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const cors = require('cors')
-const commaNumber = require('comma-number')
 const mongoClient = require('mongodb').MongoClient
 const ObjectId = require('mongodb').ObjectID
 const url = 'mongodb+srv://admin:a123456@cluster0-wp2ii.mongodb.net/test?retryWrites=true'
@@ -65,13 +64,13 @@ app.post('/insert', (req, res) => {
                             brand: req.body.brand,
                             model: req.body.model,
                             machineNumber: req.body.machineNumber,
-                            purchasePrice: commaNumber(req.body.purchasePrice),
+                            purchasePrice: (req.body.purchasePrice),
                             picture: req.body.picture,
                             transportationCost: req.body.transportationCost,
                             commission: req.body.commission,
                             namePartner: req.body.namePartner,
-                            vat: commaNumber(req.body.vat),
-                            total: commaNumber(req.body.total),
+                            vat: (req.body.vat),
+                            total: (req.body.total),
                             name_MST_Employee: req.body.name_MST_Employee
                         };
                         db.collection('TRN_Buy').insertOne(newBuy, (err, result1) => {
@@ -355,9 +354,9 @@ app.post('/insert', (req, res) => {
                                 address: req.body.address,
                                 invoiceType: req.body.invoiceType,
                                 listProduct: req.body.listProduct,
-                                total: commaNumber(req.body.total),
-                                tax: commaNumber(req.body.tax),
-                                allTotal: commaNumber(req.body.allTotal),
+                                total: (req.body.total),
+                                tax: (req.body.tax),
+                                allTotal: (req.body.allTotal),
                                 name_MST_Employee: req.body.name_MST_Employee,
                             };
                             db.collection('TRN_Invoice').insertOne(newInvoice, (err, result) => {
@@ -374,9 +373,9 @@ app.post('/insert', (req, res) => {
                                 date: req.body.date,
                                 invoiceType: req.body.invoiceType,
                                 listProduct: req.body.listProduct,
-                                total: commaNumber(req.body.total),
-                                tax: commaNumber(req.body.tax),
-                                allTotal: commaNumber(req.body.allTotal),
+                                total: (req.body.total),
+                                tax: (req.body.tax),
+                                allTotal: (req.body.allTotal),
                                 name_MST_Employee: req.body.name_MST_Employee,
                             };
                             db.collection('TRN_Invoice').insertOne(newInvoice, (err, result) => {
@@ -392,9 +391,9 @@ app.post('/insert', (req, res) => {
                                 date: req.body.date,
                                 invoiceType: req.body.invoiceType,
                                 listProduct: req.body.listProduct,
-                                total: commaNumber(req.body.total),
-                                tax: commaNumber(req.body.tax),
-                                allTotal: commaNumber(req.body.allTotal),
+                                total: (req.body.total),
+                                tax: (req.body.tax),
+                                allTotal: (req.body.allTotal),
                                 name_MST_Employee: req.body.name_MST_Employee,
                             };
                             db.collection('TRN_Invoice').insertOne(newInvoice, (err, result) => {
@@ -424,9 +423,9 @@ app.post('/insert', (req, res) => {
                                 address: req.body.address,
                                 billType: req.body.billType,
                                 listProduct: req.body.listProduct,
-                                total: commaNumber(req.body.total),
-                                tax: commaNumber(req.body.tax),
-                                allTotal: commaNumber(req.body.allTotal),
+                                total: (req.body.total),
+                                tax: (req.body.tax),
+                                allTotal: (req.body.allTotal),
                                 name_MST_Employee: req.body.name_MST_Employee,
                             };
                             db.collection('TRN_Bill').insertOne(newBill, (err, result) => {
@@ -443,9 +442,9 @@ app.post('/insert', (req, res) => {
                                 date: req.body.date,
                                 billType: req.body.billType,
                                 listProduct: req.body.listProduct,
-                                total: commaNumber(req.body.total),
-                                tax: commaNumber(req.body.tax),
-                                allTotal: commaNumber(req.body.allTotal),
+                                total: (req.body.total),
+                                tax: (req.body.tax),
+                                allTotal: (req.body.allTotal),
                                 name_MST_Employee: req.body.name_MST_Employee,
                             };
                             db.collection('TRN_Bill').insertOne(newBill, (err, result) => {
@@ -461,9 +460,9 @@ app.post('/insert', (req, res) => {
                                 date: req.body.date,
                                 billType: req.body.billType,
                                 listProduct: req.body.listProduct,
-                                total: commaNumber(req.body.total),
-                                tax: commaNumber(req.body.tax),
-                                allTotal: commaNumber(req.body.allTotal),
+                                total: (req.body.total),
+                                tax: (req.body.tax),
+                                allTotal: (req.body.allTotal),
                                 name_MST_Employee: req.body.name_MST_Employee,
                             };
                             db.collection('TRN_Bill').insertOne(newBill, (err, result) => {
@@ -502,7 +501,7 @@ app.post('/insert', (req, res) => {
                             numberRegistration: req.body.numberRegistration,
                             numberEngine: req.body.numberEngine,
                             numberTank: req.body.numberTank,
-                            total: commaNumber(req.body.total)
+                            total: (req.body.total)
                         };
                         db.collection('TRN_Contracts').insertOne(newContracts, (err, result) => {
                             client.close()

@@ -185,6 +185,7 @@
                     name_MST_Employee: nameEmp
                 }
             }
+            console.log(data)
             axios.post("http://localhost:4001/insert", data).then((res) => {
                 alert("สำเร็จ");
                 window.print();
