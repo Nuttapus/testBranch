@@ -12,7 +12,7 @@
 </head>
 
 <body>
-    
+
     <script>
         var alertText = ""
         window.onload = function () {
@@ -44,6 +44,9 @@
                 localStorage.setItem("salePrice", document.getElementById("salePrice").value);
                 localStorage.setItem("topic", document.getElementById("topic").value);
                 localStorage.setItem("textArea", document.getElementById("textArea").value);
+                localStorage.setItem("licensePlate", document.getElementById("licensePlate").value);
+                localStorage.setItem("machineNumber", document.getElementById("machineNumber").value);
+
 
                 window.location.href = "./หน้าขาย2.html";
 
@@ -67,8 +70,18 @@
                                                         if (document.getElementById("salePrice").value !== "") {
                                                             if (document.getElementById("topic").value !== "") {
                                                                 if (document.getElementById("textArea").value !== "") {
-                                                                    console.log("check empty pass")
-                                                                    return true;
+                                                                    if (document.getElementById("licensePlate").value !== "") {
+                                                                        if (document.getElementById("machineNumber").value !== "") {
+                                                                            console.log("check empty pass")
+                                                                            return true;
+                                                                        } else {
+                                                                            alertText = "กรุณากรอกเลขทะเบียน"
+                                                                            return false
+                                                                        }
+                                                                    } else {
+                                                                        alertText = "กรุณากรอกเลขทะเบียน"
+                                                                        return false
+                                                                    }
                                                                 } else {
                                                                     alertText = "กรุณากรอกที่อยู่ของรถ"
                                                                     return false
@@ -129,46 +142,41 @@
 
     </script>
 
-      <nav class="navbar is-info" role="navigation" aria-label="main navigation">
-      <div class="navbar-brand">
-        <a class="navbar-item" href="./หน้าหลัก.html">
-          <img src="../img/logo.png" width="112" height="28" />
-        </a>
-
-        <a
-          role="button"
-          class="navbar-burger burger"
-          aria-label="menu"
-          aria-expanded="false"
-          data-target="navbarBasicExample"
-        >
-          <span aria-hidden="true"></span> <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-        </a>
-      </div>
-
-      <div id="navbarBasicExample" class="navbar-menu">
-        <div class="navbar-start">
-          <a class="navbar-item" href="./หน้าหลัก.html">หน้าหลัก</a>
-          <a class="navbar-item" href="./ค้นหารถ.html">ซื้อรถ</a>
-          <a class="navbar-item is-active" href="./หน้าขาย1.html">ขายรถ</a>
-          <a class="navbar-item" href="./เดินทะเบียน.html">เดินทะเบียน</a>
-          <a class="navbar-item" href="./ซ่อมรถ.html">ซ่อม</a>
-          <a class="navbar-item" href="./ข้อมูลลูกค้า.html">ข้อมูลลูกค้า</a>
-          <a class="navbar-item" href="./จัดการพนักงาน.html">จัดการพนักงาน</a>
-        </div>
-        <div class="navbar-end">
-          <div class="navbar-item has-dropdown is-hoverable">
-            <a class="navbar-link" id="name">
-              <i class="fa fa-fw fa-user"></i> &nbsp; ชื่อผู้ใช้
+    <nav class="navbar is-info" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+            <a class="navbar-item" href="./หน้าหลัก.html">
+                <img src="../img/logo.png" width="112" height="28" />
             </a>
 
-            <div class="navbar-dropdown">
-              <a class="navbar-item" href="../ล็อกอิน.html"> ออกจากระบบ </a>
-            </div>
-          </div>
+            <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
+                data-target="navbarBasicExample">
+                <span aria-hidden="true"></span> <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
         </div>
-      </div>
+
+        <div id="navbarBasicExample" class="navbar-menu">
+            <div class="navbar-start">
+                <a class="navbar-item" href="./หน้าหลัก.html">หน้าหลัก</a>
+                <a class="navbar-item" href="./ค้นหารถ.html">ซื้อรถ</a>
+                <a class="navbar-item is-active" href="./หน้าขาย1.html">ขายรถ</a>
+                <a class="navbar-item" href="./เดินทะเบียน.html">เดินทะเบียน</a>
+                <a class="navbar-item" href="./ซ่อมรถ.html">ซ่อม</a>
+                <a class="navbar-item" href="./ข้อมูลลูกค้า.html">ข้อมูลลูกค้า</a>
+                <a class="navbar-item" href="./จัดการพนักงาน.html">จัดการพนักงาน</a>
+            </div>
+            <div class="navbar-end">
+                <div class="navbar-item has-dropdown is-hoverable">
+                    <a class="navbar-link" id="name">
+                        <i class="fa fa-fw fa-user"></i> &nbsp; ชื่อผู้ใช้
+                    </a>
+
+                    <div class="navbar-dropdown">
+                        <a class="navbar-item" href="../ล็อกอิน.html"> ออกจากระบบ </a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </nav>
 
     <br>
@@ -256,10 +264,22 @@
                 </div>
                 <div class="field">
                     <div class="row">
+                        <label>เลขทะเบียน</label>
+                        <input class="input" type="text" placeholder="ตัวอย่าง : กก 1111" id="licensePlate">
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="row">
+                        <label>เลขเครื่อง</label>
+                        <input class="input" type="text" placeholder="ตัวอย่าง : MRHFD16509P201570" id="machineNumber">
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="row">
                         <label>สี</label>
                         <div class="field">
                             <div class="control">
-                                <div class="select is-fullwidth" >
+                                <div class="select is-fullwidth">
                                     <select id="color">
                                         <option value="เขียว">เขียว</option>
                                         <option value="แดง">แดง</option>

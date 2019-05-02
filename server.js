@@ -269,6 +269,8 @@ app.post('/insert', (req, res) => {
                             salePrice: req.body.salePrice,
                             topic: req.body.topic,
                             textArea: req.body.textArea,
+                            licensePlate : req.body.licensePlate,
+                            machineNumber : req.body.machineNumber,
                             picture: req.body.picture,
                             detailCustomer: req.body.detailCustomer,
                             name_MST_Employee: req.body.name_MST_Employee
