@@ -17,7 +17,7 @@
             -webkit-box-shadow: 0px 0px 0px 0px #000;
             box-shadow: 0px 0px 0px 0px #000;
         }
-        
+
         legend.scheduler-border {
             font-size: 1.2em !important;
             font-weight: bold !important;
@@ -63,22 +63,21 @@
             document.getElementById("year").value = a.data.carYear
             document.getElementById("gear").value = a.data.gear
             document.getElementById("color").value = a.data.color
-            document.getElementById("numberRegistration").value = a.data.numberRegistration
-            document.getElementById("numberEngine").value = a.data.numberEngine
+            document.getElementById("numberRegistration").value = a.data.licensePlate
+            document.getElementById("numberEngine").value = a.data.machineNumber
             document.getElementById("numberTank").value = a.data.numberTank
-                // document.getElementById("carNumber").value = a.data.generateYear
             this.salePrice = a.data.salePrice
             console.log(a)
         });
     }
-    window.onload = function() {
+    window.onload = function () {
         var today = new Date();
         var dd = String(today.getDate()).padStart(2, '0');
         var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
         var yyyy = today.getFullYear();
         today = mm + '/' + dd + '/' + yyyy;
         document.getElementById("date").value = today;
-        var total = localStorage.getItem("total");
+        var total = localStorage.getItem("totalPrice")
         document.getElementById("total").value = total
     }
     document.addEventListener("DOMContentLoaded", showData());
@@ -102,8 +101,31 @@
         localStorage.setItem("detailStorage", detail)
         localStorage.setItem("totalpriceStorage", this.salePrice)
         localStorage.setItem("typereceiptStorage", "buy");
-
-        window.open('./ใบเสร็จ.html', '_blank');
+        var at = document.getElementById("at").value;
+        var date = document.getElementById("date").value;
+        var nameBuyer = document.getElementById("nameBuyer").value;
+        var numberBuyer = document.getElementById("numberBuyer").value;
+        var addressBuyer = document.getElementById("addressBuyer").value;
+        var nameGuarantor = document.getElementById("nameGuarantor").value;
+        var numberGuarantor = document.getElementById("numberGuarantor").value;
+        var addressGuarantor = document.getElementById("addressGuarantor").value;
+        var textPrice = document.getElementById("textPrice").value;
+        var paytype = document.getElementById("paytype").value;
+        var total = document.getElementById("total").value
+        var data = {
+            at: at, date: date, nameBuyer: nameBuyer, numberBuyer: numberBuyer, addressBuyer: addressBuyer,
+            nameGuarantor: nameGuarantor, numberGuarantor: numberGuarantor, addressGuarantor: addressGuarantor,
+            textPrice: textPrice, paytype: paytype, brand: brand, model: model, year: year, gear: gear,
+            color: color, numberRegistration: numberRegistration, numberEngine: numberEngine,  numberTank: numberTank,
+            total: total,
+            type: "TRN_Contracts"
+        }
+        axios.post("http://localhost:4001/insert", data).then(res => {
+            if (res.data.status) {
+                alert("เพิ่มข้อมูลสำเร็จ");
+                window.open('./ใบเสร็จ.html', '_blank');
+            }
+        });
     }
 </script>
 
@@ -121,7 +143,7 @@
                 <div class="field-body">
                     <div class="field">
                         <div class="control">
-                            <input class="input" type="text" onkeypress="return isText(event)" maxlength="20">
+                            <input class="input" type="text" id="at" onkeypress="return isText(event)" maxlength="20">
                         </div>
                     </div>
                 </div>
@@ -149,7 +171,8 @@
                     <div class="field-body">
                         <div class="field">
                             <div class="control">
-                                <input class="input" type="text" id="nameBuyer" onkeypress="return isText(event)" maxlength="50">
+                                <input class="input" type="text" id="nameBuyer" onkeypress="return isText(event)"
+                                    maxlength="50">
                             </div>
                         </div>
                     </div>
@@ -159,7 +182,8 @@
                     <div class="field-body">
                         <div class="field">
                             <div class="control">
-                                <input class="input" type="text" id="numberBuyer" onkeypress="return isNumber(event)" maxlength="13">
+                                <input class="input" type="text" id="numberBuyer" onkeypress="return isNumber(event)"
+                                    maxlength="13">
                             </div>
                         </div>
                     </div>
@@ -169,7 +193,9 @@
             <div class="field-body">
                 <div class="field">
                     <div class="control">
-                        <textarea class="textarea" id="addressBuyer" placeholder="บ้านเลขที่ หมู่ ถนน อำเภอ ตำบล จังหวัด รหัสไปรษณีย์ เบอร์โทรศัพท์" maxlength="100"></textarea>
+                        <textarea class="textarea" id="addressBuyer"
+                            placeholder="บ้านเลขที่ หมู่ ถนน อำเภอ ตำบล จังหวัด รหัสไปรษณีย์ เบอร์โทรศัพท์"
+                            maxlength="100"></textarea>
                     </div>
                 </div>
             </div>
@@ -185,7 +211,8 @@
                     <div class="field-body">
                         <div class="field">
                             <div class="control">
-                                <input class="input" type="text" id="nameGuarantor" onkeypress="return isText(event)" maxlength="50">
+                                <input class="input" type="text" id="nameGuarantor" onkeypress="return isText(event)"
+                                    maxlength="50">
                             </div>
                         </div>
                     </div>
@@ -195,7 +222,8 @@
                     <div class="field-body">
                         <div class="field">
                             <div class="control">
-                                <input class="input" type="text" id="numberGuarantor" onkeypress="return isNumber(event)" maxlength="13">
+                                <input class="input" type="text" id="numberGuarantor"
+                                    onkeypress="return isNumber(event)" maxlength="13">
                             </div>
                         </div>
                     </div>
@@ -205,7 +233,9 @@
             <div class="field-body">
                 <div class="field">
                     <div class="control">
-                        <textarea class="textarea" id="addressGuarantor" placeholder="บ้านเลขที่ หมู่ ถนน อำเภอ ตำบล จังหวัด รหัสไปรษณีย์ เบอร์โทรศัพท์" maxlength="100"></textarea>
+                        <textarea class="textarea" id="addressGuarantor"
+                            placeholder="บ้านเลขที่ หมู่ ถนน อำเภอ ตำบล จังหวัด รหัสไปรษณีย์ เบอร์โทรศัพท์"
+                            maxlength="100"></textarea>
                     </div>
                 </div>
             </div>
@@ -219,7 +249,8 @@
                 <div class="field-body">
                     <div class="field">
                         <div class="control">
-                            <input class="input" type="text" id="brand" onkeypress="return isText(event)" maxlength="20">
+                            <input class="input" type="text" id="brand" onkeypress="return isText(event)" maxlength="20"
+                                disabled>
                         </div>
                     </div>
                 </div>
@@ -233,7 +264,8 @@
                 <div class="field-body">
                     <div class="field">
                         <div class="control">
-                            <input class="input" type="text" id="model" onkeypress="return isText(event)" maxlength="20">
+                            <input class="input" type="text" id="model" onkeypress="return isText(event)" maxlength="20"
+                                disabled>
                         </div>
                     </div>
                 </div>
@@ -247,20 +279,22 @@
                 <div class="field-body">
                     <div class="field">
                         <div class="control">
-                            <input class="input" type="text" id="year" onkeypress="return isNumber(event)" maxlength="20">
+                            <input class="input" type="text" id="year" onkeypress="return isNumber(event)"
+                                maxlength="20" disabled>
                         </div>
                     </div>
                 </div>
 
             </div>
             <div class="column">
-                <label class="label">เกรียร์ :</label>
+                <label class="label">เกียร์ :</label>
                 <div class="field-label is-normal">
                 </div>
                 <div class="field-body">
                     <div class="field">
                         <div class="control">
-                            <input class="input" type="text" id="gear" onkeypress="return isText(event)" maxlength="15">
+                            <input class="input" type="text" id="gear" onkeypress="return isText(event)" maxlength="15"
+                                disabled>
                         </div>
                     </div>
                 </div>
@@ -274,7 +308,8 @@
                 <div class="field-body">
                     <div class="field">
                         <div class="control">
-                            <input class="input" type="text" id="color" onkeypress="return isText(event)" maxlength="15">
+                            <input class="input" type="text" id="color" onkeypress="return isText(event)" maxlength="15"
+                                disabled>
                         </div>
                     </div>
                 </div>
@@ -287,7 +322,7 @@
                 <div class="field-body">
                     <div class="field">
                         <div class="control">
-                            <input class="input" type="text" id="numberRegistration" maxlength="15">
+                            <input class="input" type="text" id="numberRegistration" maxlength="15" disabled>
                         </div>
                     </div>
                 </div>
@@ -301,7 +336,7 @@
                 <div class="field-body">
                     <div class="field">
                         <div class="control">
-                            <input class="input" type="text" id="numberEngine" maxlength="20">
+                            <input class="input" type="text" id="numberEngine" maxlength="20" disabled>
                         </div>
                     </div>
                 </div>
@@ -314,7 +349,7 @@
                 <div class="field-body">
                     <div class="field">
                         <div class="control">
-                            <input class="input" type="text" id="numberTank" maxlength="20">
+                            <input class="input" type="text" id="numberTank" maxlength="20" disabled>
                         </div>
                     </div>
                 </div>
@@ -328,7 +363,8 @@
                 <div class="field-body">
                     <div class="field">
                         <div class="control">
-                            <input class="input" type="text" id="total" onkeypress="return isNumber(event)" maxlength="10">
+                            <input class="input" type="text" id="total" onkeypress="return isNumber(event)"
+                                maxlength="10" disabled>
                         </div>
                     </div>
                 </div>
@@ -341,7 +377,8 @@
                 <div class="field-body">
                     <div class="field">
                         <div class="control">
-                            <input class="input" type="text" onkeypress="return isText(event)" maxlength="30">
+                            <input class="input" type="text" id="textPrice" onkeypress="return isText(event)"
+                                maxlength="30">
                         </div>
                     </div>
                 </div>
@@ -380,7 +417,7 @@
 
         <div class="buttons  is-right">
             <a class="button is-info is-outlined" style="width:10%" onclick="submit()">ตกลง</a>
-            <a class="button is-info is-outlined" style="width:10%" onclick="cancel()">ยกเลิก</a>
+            <a class="button is-info is-outlined" style="width:10%" onclick="cancel()">ปิด</a>
         </div>
     </div>
     </div>

@@ -109,9 +109,9 @@
                                                 }
                                                 axios.post("http://localhost:4001/insert", data).then((res) => {
                                                   alert("เพิ่มข้อมูลสำเร็จ")
+                                                  window.location.href = "./ใบรับทะเบียน.html"
+                                                  localStorage.setItem("idCar", regisnumber)
                                                 });
-                                                window.location.href = "./ใบรับทะเบียน.html"
-                                                localStorage.setItem("idCar", regisnumber)
                                               } else {
                                                 alert("กรุณากรอกที่นั่ง");
                                               }
