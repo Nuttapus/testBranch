@@ -53,7 +53,7 @@
       idLength = e.key;
       return /\d/.test(String.fromCharCode(charCode));
     }
-    
+
     function isText(e) {
       var key = e.keyCode;
       if ((key >= 65 && key <= 90) || key == 8 || key >= 97 && key <= 122 || key >= 3585 && key <= 3661) {
@@ -358,7 +358,8 @@
           <div class="field-body">
             <div class="field">
               <div class="control">
-                <input id="name" class="input" type="text" placeholder="ชื่อ" onkeypress="return isText(event)" maxlength="20"/>
+                <input id="name" class="input" type="text" placeholder="ชื่อ" onkeypress="return isText(event)"
+                  maxlength="20" />
               </div>
             </div>
           </div>
@@ -453,7 +454,8 @@
           <div class="field-body">
             <div class="field">
               <div class="control">
-                <input id="lastname" class="input" type="text" placeholder="นามสกุล" onkeypress="return isText(event)" maxlength="20"/>
+                <input id="lastname" class="input" type="text" placeholder="นามสกุล" onkeypress="return isText(event)"
+                  maxlength="20" />
               </div>
             </div>
           </div>
@@ -478,7 +480,7 @@
           <div class="field-body">
             <div class="field">
               <div class="control">
-                <input id="address" class="input" type="text" placeholder="ที่อยู่" maxlength="20"/>
+                <input id="address" class="input" type="text" placeholder="ที่อยู่" maxlength="20" />
               </div>
             </div>
           </div>
@@ -491,7 +493,8 @@
           <div class="field-body">
             <div class="field">
               <div class="control">
-                <input id="tumbon" class="input" type="text" placeholder="ตำบล" onkeypress="return isText(event)" maxlength="20"/>
+                <input id="tumbon" class="input" type="text" placeholder="ตำบล" onkeypress="return isText(event)"
+                  maxlength="20" />
               </div>
             </div>
           </div>
@@ -503,7 +506,8 @@
           <div class="field-body">
             <div class="field">
               <div class="control">
-                <input id="aumphoe" class="input" type="text" placeholder="อำเภอ" onkeypress="return isText(event)" maxlength="20"/>
+                <input id="aumphoe" class="input" type="text" placeholder="อำเภอ" onkeypress="return isText(event)"
+                  maxlength="20" />
               </div>
             </div>
           </div>
@@ -515,7 +519,8 @@
           <div class="field-body">
             <div class="field">
               <div class="control">
-                <input id="city" class="input" type="text" placeholder="จังหวัด" onkeypress="return isText(event)" maxlength="20"/>
+                <input id="city" class="input" type="text" placeholder="จังหวัด" onkeypress="return isText(event)"
+                  maxlength="20" />
               </div>
             </div>
           </div>
@@ -544,28 +549,30 @@
   </div>
   <br />
   <center>
-    <table class="table table is-bordered " id="customerList">
-      <thead>
-        <tr>
-          <th>id</th>
-          <th>ชื่อ</th>
-          <th>นามสกุล</th>
-          <th>วัน/เดือน/ปี เกิด</th>
-          <th>เลขประจำตัวประชาชน</th>
-          <th>เพศ</th>
-          <th>Email</th>
-          <th>ที่อยู่</th>
-          <th>ตำบล</th>
-          <th>อำเภอ</th>
-          <th>จังหวัด</th>
-          <th>รหัสไปรษณีย์</th>
-          <th>เบอร์โทรศัพท์</th>
-          <th>ประเภท</th>
-          <th>จัดการลูกค้า</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
+    <div style="overflow-x: auto; ">
+      <table class="table table is-bordered " id="customerList">
+        <thead>
+          <tr>
+            <th>id</th>
+            <th>ชื่อ</th>
+            <th>นามสกุล</th>
+            <th>วัน/เดือน/ปี เกิด</th>
+            <th>เลขประจำตัวประชาชน</th>
+            <th>เพศ</th>
+            <th>Email</th>
+            <th>ที่อยู่</th>
+            <th>ตำบล</th>
+            <th>อำเภอ</th>
+            <th>จังหวัด</th>
+            <th>รหัสไปรษณีย์</th>
+            <th>เบอร์โทรศัพท์</th>
+            <th>ประเภท</th>
+            <th>จัดการลูกค้า</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
   </center>
 </body>
 

@@ -355,12 +355,12 @@
     function loadScreen(a) {
       var loading_screen
       if (a === "load") {
-        loading_screen  = pleaseWait({
+        loading_screen = pleaseWait({
           backgroundColor: 'rgb(240, 240, 240)',
           loadingHtml: "<div class='sk-spinner sk-spinner-double-bounce'><div class='sk-wandering-cubes'><div class='sk-cube sk-cube1'></div><div class='sk-cube sk-cube2'></div></div></div></div>",
           template: "<div class='pg-loading-inner'><div class='pg-loading-center-outer'><div class='pg-loading-center-middle'><div class='pg-loading-html'></div></div></div></div>"
         }).finish()
-      } 
+      }
     }
   </script>
 
@@ -650,31 +650,32 @@
   </div>
   <br />
   <center>
-    <table class="table table is-bordered " id="employeeList">
-      <thead>
-        <tr>
-          <th>id</th>
-          <th>ชื่อ</th>
-          <th>นามสกุล</th>
-          <th>วัน/เดือน/ปี เกิด</th>
-          <th>เลขประจำตัวประชาชน</th>
-          <th>เพศ</th>
-          <th>Email</th>
-          <th>Username</th>
-          <th>Password</th>
-          <th>ที่อยู่</th>
-          <th>ตำบล</th>
-          <th>อำเภอ</th>
-          <th>จังหวัด</th>
-          <th>รหัสไปรษณีย์</th>
-          <th>เบอร์โทรศัพท์</th>
-          <th>แผนก</th>
-          <th>จัดการพนักงาน</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
-    <!-- </div> -->
+    <div style="overflow-x: auto; ">
+      <table class="table table is-bordered " id="employeeList">
+        <thead>
+          <tr>
+            <th>id</th>
+            <th>ชื่อ</th>
+            <th>นามสกุล</th>
+            <th>วัน/เดือน/ปี เกิด</th>
+            <th>เลขประจำตัวประชาชน</th>
+            <th>เพศ</th>
+            <th>Email</th>
+            <th>Username</th>
+            <th>Password</th>
+            <th>ที่อยู่</th>
+            <th>ตำบล</th>
+            <th>อำเภอ</th>
+            <th>จังหวัด</th>
+            <th>รหัสไปรษณีย์</th>
+            <th>เบอร์โทรศัพท์</th>
+            <th>แผนก</th>
+            <th>จัดการพนักงาน</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
   </center>
 </body>
 
