@@ -90,6 +90,7 @@
             total: total,
             name_MST_Employee: employee
           };
+          localStorage.setItem("totalPrice", total);
           axios.post("http://localhost:4001/insert", data).then((res) => {
             console.log(data)
           });
@@ -112,6 +113,7 @@
             total: total,
             name_MST_Employee: employee
           };
+          localStorage.setItem("totalPrice", total);
           axios.post("http://localhost:4001/insert", data).then((res) => {
             console.log(res.data.status)
           });

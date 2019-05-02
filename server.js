@@ -17,22 +17,22 @@ app.post('/get', (req, res) => {
     mongoClient.connect(url, (_, client) => {
         const db = client.db(dbName)
         if (req.body.type === "login") {
-            db.collection('MST_Employee').find({}).toArray(function(_, result) {
+            db.collection('MST_Employee').find({}).toArray(function (_, result) {
                 res.json({ data: result })
                 client.close();
             });
         } else if (req.body.type === "MST_Employee") {
-            db.collection('MST_Employee').find({}).toArray(function(_, result) {
+            db.collection('MST_Employee').find({}).toArray(function (_, result) {
                 res.json({ data: result })
                 client.close();
             })
         } else if (req.body.type === "TRN_Sell") {
-            db.collection('TRN_Sell').find({}).toArray(function(_, result) {
+            db.collection('TRN_Sell').find({}).toArray(function (_, result) {
                 res.json({ data: result })
                 client.close();
             })
         } else if (req.body.type === "MST_Customer") {
-            db.collection('MST_Customer').find({}).toArray(function(_, result) {
+            db.collection('MST_Customer').find({}).toArray(function (_, result) {
                 res.json({ data: result })
                 client.close();
             })
@@ -42,7 +42,7 @@ app.post('/get', (req, res) => {
                 client.close();
             })
         } else if (req.body.type === "TRN_Repair") {
-            db.collection('TRN_Repair').find({}).toArray(function(_, result) {
+            db.collection('TRN_Repair').find({}).toArray(function (_, result) {
                 res.json({ data: result })
                 client.close();
             })
@@ -54,7 +54,7 @@ app.post('/insert', (req, res) => {
     mongoClient.connect(url, (_, client) => {
         const db = client.db(dbName)
         if (req.body.type === "buy") {
-            db.collection('TRN_Buy').find({}).toArray(function(err, result) {
+            db.collection('TRN_Buy').find({}).toArray(function (err, result) {
                 var count = result.length
                 count += 1
                 db.collection('TRN_Buy').findOne({ ID_TRN_Buy: req.body.ID_TRN_Buy }, (err, result) => {
@@ -84,7 +84,7 @@ app.post('/insert', (req, res) => {
                 })
             })
         } else if (req.body.type === "MST_Employee") {
-            db.collection('MST_Employee').find({}).toArray(function(_, result) {
+            db.collection('MST_Employee').find({}).toArray(function (_, result) {
                 var count = result.length
                 count += 1
                 db.collection('MST_Employee').findOne({ username: req.body.username }, (err, result1) => {
@@ -120,7 +120,7 @@ app.post('/insert', (req, res) => {
 
             });
         } else if (req.body.type === "MST_Registration") {
-            db.collection('MST_Registration').find({}).toArray(function(err, result) {
+            db.collection('MST_Registration').find({}).toArray(function (err, result) {
                 var count = result.length
                 count += 1
                 db.collection('MST_Registration').findOne({ registrationNumber: req.body.registrationNumber }, (err, result1) => {
@@ -162,7 +162,7 @@ app.post('/insert', (req, res) => {
                 });
             });
         } else if (req.body.type === "TRN_Repair") {
-            db.collection('TRN_Repair').find({}).toArray(function(err, result) {
+            db.collection('TRN_Repair').find({}).toArray(function (err, result) {
                 var count = result.length
                 count += 1
                 db.collection('TRN_Repair').findOne({ ID_TRN_Repair: "r" + count }, (err, result1) => {
@@ -190,7 +190,7 @@ app.post('/insert', (req, res) => {
                 });
             });
         } else if (req.body.type === "TRN_RepairDetail") {
-            db.collection('TRN_RepairDetail').find({}).toArray(function(_, result) {
+            db.collection('TRN_RepairDetail').find({}).toArray(function (_, result) {
                 var count = result.length
                 count += 1
                 db.collection('TRN_RepairDetail').findOne({ ID_TRN_RepairDetail: "rpd" + count }, (_, result1) => {
@@ -216,7 +216,7 @@ app.post('/insert', (req, res) => {
                 });
             });
         } else if (req.body.type === "MST_Customer") {
-            db.collection('MST_Customer').find({}).toArray(function(err, result) {
+            db.collection('MST_Customer').find({}).toArray(function (err, result) {
                 var count = result.length
                 count += 1
                 db.collection('MST_Customer').findOne({ ID_MST_Customer: req.body.idDB }, (err, result1) => {
@@ -248,7 +248,7 @@ app.post('/insert', (req, res) => {
                 });
             });
         } else if (req.body.type === "sell") {
-            db.collection('TRN_Sell').find({}).toArray(function(err, result) {
+            db.collection('TRN_Sell').find({}).toArray(function (err, result) {
                 var count = result.length
                 count += 1
                 db.collection('TRN_Sell').findOne({ ID_TRN_Sell: req.body.ID_TRN_Sell }, (err, result) => {
@@ -269,15 +269,15 @@ app.post('/insert', (req, res) => {
                             salePrice: req.body.salePrice,
                             topic: req.body.topic,
                             textArea: req.body.textArea,
-                            licensePlate : req.body.licensePlate,
-                            machineNumber : req.body.machineNumber,
+                            licensePlate: req.body.licensePlate,
+                            machineNumber: req.body.machineNumber,
                             picture: req.body.picture,
                             detailCustomer: req.body.detailCustomer,
                             name_MST_Employee: req.body.name_MST_Employee
                         };
                         db.collection('TRN_Sell').insertOne(newBuy, (err, result1) => {
                             client.close()
-                            res.json({ status: true })
+                            res.json({ status: true , id: "sell" + count})
                         })
                     } else {
                         res.json({ status: false })
@@ -286,7 +286,7 @@ app.post('/insert', (req, res) => {
                 })
             })
         } else if (req.body.type === "TRN_RegistrationReceipt") {
-            db.collection('TRN_RegistrationReceipt').find({}).toArray(function(err, result) {
+            db.collection('TRN_RegistrationReceipt').find({}).toArray(function (err, result) {
                 var count = result.length
                 count += 1
                 db.collection('TRN_RegistrationReceipt').findOne({ ID_TRN_RegistrationReceipt: req.body.ID_TRN_RegistrationReceipt }, (err, result) => {
@@ -311,7 +311,7 @@ app.post('/insert', (req, res) => {
                 })
             })
         } else if (req.body.type === "TRN_CarReceipt") {
-            db.collection('TRN_CarReceipt').find({}).toArray(function(err, result) {
+            db.collection('TRN_CarReceipt').find({}).toArray(function (err, result) {
                 var count = result.length
                 count += 1
                 db.collection('TRN_CarReceipt').findOne({ ID_TRN_CarReceipt: req.body.ID_TRN_CarReceipt }, (err, result) => {
@@ -337,7 +337,7 @@ app.post('/insert', (req, res) => {
             })
 
         } else if (req.body.type === "TRN_Invoice") {
-            db.collection('TRN_Invoice').find({}).toArray(function(err, result) {
+            db.collection('TRN_Invoice').find({}).toArray(function (err, result) {
                 var count = result.length
                 count += 1
                 db.collection('TRN_Invoice').findOne({ TRN_Invoice: req.body.TRN_Invoice }, (err, result) => {
@@ -407,7 +407,7 @@ app.post('/insert', (req, res) => {
                 })
             })
         } else if (req.body.type === "TRN_Bill") {
-            db.collection('TRN_Bill').find({}).toArray(function(err, result) {
+            db.collection('TRN_Bill').find({}).toArray(function (err, result) {
                 var count = result.length
                 count += 1
                 db.collection('TRN_Bill').findOne({ TRN_Bill: req.body.TRN_Bill }, (err, result) => {
@@ -476,7 +476,44 @@ app.post('/insert', (req, res) => {
                     }
                 })
             })
-        }
+        } else if (req.body.type === "TRN_Contracts") {
+            db.collection('TRN_Contracts').find({}).toArray(function (err, result) {
+                var count = result.length
+                count += 1
+                db.collection('TRN_Contracts').findOne({ ID_TRN_Contracts: req.body.ID_TRN_Contracts }, (err, result) => {
+                    if (result === null) {
+                        const newContracts = {
+                            at: req.body.at,
+                            date: req.body.date,
+                            nameBuyer: req.body.nameBuyer,
+                            numberBuyer: req.body.numberBuyer,
+                            addressBuyer: req.body.addressBuyer,
+                            nameGuarantor: req.body.nameGuarantor,
+                            numberGuarantor: req.body.numberGuarantor,
+                            addressGuarantor: req.body.addressGuarantor,
+                            textPrice: req.body.textPrice,
+                            paytype: req.body.paytype, 
+                            brand: req.body.brand, 
+                            model: req.body.model, 
+                            year: req.body.year, 
+                            gear: req.body.gear,
+                            color: req.body.color, 
+                            numberRegistration: req.body.numberRegistration, 
+                            numberEngine: req.body.numberEngine, 
+                            numberTank: req.body.numberTank,
+                            total: req.body.total
+                    };
+                    db.collection('TRN_Contracts').insertOne(newContracts, (err, result) => {
+                        client.close()
+                        res.json({ status: true })
+                    })
+                } else {
+                        res.json({ status: false })
+                        client.close()
+                    }
+                })
+        })
+}
     })
 })
 
@@ -502,7 +539,7 @@ app.post('/update', (req, res) => {
                 "tel": req.body.mobile,
                 "department": req.body.department
             }
-            db.collection("MST_Employee").update({ username: req.body.username }, updateData, function(err, result1) {
+            db.collection("MST_Employee").update({ username: req.body.username }, updateData, function (err, result1) {
                 res.json({ status: true })
                 client.close();
             });
@@ -523,7 +560,7 @@ app.post('/update', (req, res) => {
                 "tel": req.body.mobile,
                 "typeCus": req.body.typeCus
             }
-            db.collection("MST_Customer").update({ idCardNumber: req.body.id }, updateData, function(err, result1) {
+            db.collection("MST_Customer").update({ idCardNumber: req.body.id }, updateData, function (err, result1) {
                 res.json({ status: true })
                 client.close();
             });

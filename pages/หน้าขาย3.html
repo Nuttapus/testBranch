@@ -37,9 +37,9 @@
         var getCarPic3 = localStorage.getItem("carPicture3");
         var getPicidCard1 = localStorage.getItem("idCard1");
         var getPicidCard2 = localStorage.getItem("idCard2");
-        var getNameEm , getLastNameEm ,getDepartmentEm
+        var getNameEm, getLastNameEm, getDepartmentEm
 
-        window.onload = function() {
+        window.onload = function () {
             getNameEm = localStorage.getItem("storageName");
             getLastNameEm = localStorage.getItem("storageLastName");
             getDepartmentEm = localStorage.getItem("storageDepartment");
@@ -64,8 +64,8 @@
                     salePrice: getSalePrice,
                     topic: getTopic,
                     textArea: getTextArea,
-                    licensePlate : getLicensePlate,
-                    machineNumber : getMachineNumber,
+                    licensePlate: getLicensePlate,
+                    machineNumber: getMachineNumber,
                     picture: {
                         "pic1": getCarPic1,
                         "pic2": getCarPic2,
@@ -80,10 +80,14 @@
                     },
                     name_MST_Employee: getNameEm + " " + getLastNameEm
                 }
-                console.log(obj)
                 axios.post("http://localhost:4001/insert", obj).then((res) => {
                     if (res.data.status) {
-                        window.location.reload();
+                        alert("เพิ่มข้อมูลเรียบร้อย")
+                        console.log(res.data)
+                        console.log(res.data.id)
+                        localStorage.setItem("sendID", res.data.id)
+                        localStorage.setItem("totalPrice", salePrice)
+                        window.location.href = "./สัญญาซื้อขาย.html"
                     } else {
                         alert("username นี้มีอยู่แล้วในระบบ")
                     }
@@ -171,7 +175,8 @@
                 <img src="../img/logo.png" width="112" height="28" />
             </a>
 
-            <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+            <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
+                data-target="navbarBasicExample">
                 <span aria-hidden="true"></span> <span aria-hidden="true"></span>
                 <span aria-hidden="true"></span>
             </a>
@@ -220,7 +225,8 @@
             <div class="row">
                 <div class="column is-6">
                     <label>email</label>
-                    <input class="input is-2" type="text" placeholder="ตัวอย่าง : aaa@gmail.com" id="email" onkeypress="return (event.charCode >= 64 && event.charCode <= 90) || (event.charCode >= 95 && event.charCode <= 122) || (event.charCode >= 45 && event.charCode <= 57)">
+                    <input class="input is-2" type="text" placeholder="ตัวอย่าง : aaa@gmail.com" id="email"
+                        onkeypress="return (event.charCode >= 64 && event.charCode <= 90) || (event.charCode >= 95 && event.charCode <= 122) || (event.charCode >= 45 && event.charCode <= 57)">
                 </div>
             </div>
             <div class="row">
@@ -238,13 +244,15 @@
             <div class="row">
                 <div class="column is-6">
                     <label>เลขประจำตัวประชาชน หรือ เลขหนังสือเดินทาง</label>
-                    <input class="input is-2" type="text" placeholder="ตัวอย่าง : 1000020202020" id="textID" maxlength="13" onkeypress="return isNumber(event)">
+                    <input class="input is-2" type="text" placeholder="ตัวอย่าง : 1000020202020" id="textID"
+                        maxlength="13" onkeypress="return isNumber(event)">
                 </div>
             </div>
             <div class="row">
                 <div class="column is-6">
                     <label>เบอร์โทรศัพท์</label>
-                    <input class="input is-2" type="text" placeholder="ตัวอย่าง : 0911111111" id="call" maxlength="10" onkeypress="return isNumber(event)">
+                    <input class="input is-2" type="text" placeholder="ตัวอย่าง : 0911111111" id="call" maxlength="10"
+                        onkeypress="return isNumber(event)">
                 </div>
             </div>
         </div>
