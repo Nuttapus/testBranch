@@ -40,11 +40,36 @@
         var getPicidCard2 = localStorage.getItem("idCard2");
         var getNameEm, getLastNameEm, getDepartmentEm
 
-        window.onload = function () {
+        window.onload = function() {
             getNameEm = localStorage.getItem("storageName");
             getLastNameEm = localStorage.getItem("storageLastName");
             getDepartmentEm = localStorage.getItem("storageDepartment");
             document.getElementById("name").innerHTML = `<i class="fa fa-fw fa-user"></i> &nbsp;` + getNameEm + " " + getLastNameEm;
+            if (getDepartmentEm === "ซื้อ") {
+                document.getElementById("nav2").style.display = "none"
+                document.getElementById("nav3").style.display = "none"
+                document.getElementById("nav4").style.display = "none"
+                document.getElementById("nav6").style.display = "none"
+            } else if (getDepartmentEm === "ขาย") {
+                document.getElementById("nav1").style.display = "none"
+                document.getElementById("nav3").style.display = "none"
+                document.getElementById("nav4").style.display = "none"
+                document.getElementById("nav6").style.display = "none"
+            } else if (getDepartmentEm === "เดินทะเบียน") {
+                document.getElementById("nav1").style.display = "none"
+                document.getElementById("nav2").style.display = "none"
+                document.getElementById("nav4").style.display = "none"
+                document.getElementById("nav6").style.display = "none"
+            } else if (getDepartmentEm === "ช่าง") {
+                document.getElementById("nav1").style.display = "none"
+                document.getElementById("nav2").style.display = "none"
+                document.getElementById("nav3").style.display = "none"
+                document.getElementById("nav6").style.display = "none"
+            } else if (getDepartmentEm === "ประชาสัมพันธ์") {
+                document.getElementById("nav3").style.display = "none"
+                document.getElementById("nav4").style.display = "none"
+                document.getElementById("nav6").style.display = "none"
+            }
         }
 
         function insertData() {
@@ -89,6 +114,7 @@
                         console.log(res.data.id)
                         localStorage.setItem("sendID", res.data.id)
                         localStorage.setItem("totalPrice", getSalePrice)
+                        localStorage.setItem("typePageStorage", "ขาย")
                         window.location.href = "./สัญญาซื้อขาย.html"
                     } else {
                         alert("username นี้มีอยู่แล้วในระบบ")
@@ -177,8 +203,7 @@
                 <img src="../img/logo.png" width="112" height="28" />
             </a>
 
-            <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
-                data-target="navbarBasicExample">
+            <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
                 <span aria-hidden="true"></span> <span aria-hidden="true"></span>
                 <span aria-hidden="true"></span>
             </a>
@@ -187,12 +212,12 @@
         <div id="navbarBasicExample" class="navbar-menu">
             <div class="navbar-start">
                 <a class="navbar-item" href="./หน้าหลัก.html">หน้าหลัก</a>
-                <a class="navbar-item" href="./ค้นหารถ.html">ซื้อรถ</a>
-                <a class="navbar-item is-active" href="./หน้าขาย1.html">ขายรถ</a>
-                <a class="navbar-item" href="./เดินทะเบียน.html">เดินทะเบียน</a>
-                <a class="navbar-item" href="./ซ่อมรถ.html">ซ่อม</a>
-                <a class="navbar-item" href="./ข้อมูลลูกค้า.html">ข้อมูลลูกค้า</a>
-                <a class="navbar-item" href="./จัดการพนักงาน.html">จัดการพนักงาน</a>
+                <a class="navbar-item" id="nav1" href="./ค้นหารถ.html">ซื้อรถ</a>
+                <a class="navbar-item is-active" id="nav2" href="./หน้าขาย1.html">ขายรถ</a>
+                <a class="navbar-item" id="nav3" href="./เดินทะเบียน.html">เดินทะเบียน</a>
+                <a class="navbar-item" id="nav4" href="./ซ่อมรถ.html">ซ่อม</a>
+                <a class="navbar-item" id="nav5" href="./ข้อมูลลูกค้า.html">ข้อมูลลูกค้า</a>
+                <a class="navbar-item" id="nav6" href="./จัดการพนักงาน.html">จัดการพนักงาน</a>
             </div>
             <div class="navbar-end">
                 <div class="navbar-item has-dropdown is-hoverable">
@@ -227,8 +252,7 @@
             <div class="row">
                 <div class="column is-6">
                     <label>email</label>
-                    <input class="input is-2" type="text" placeholder="ตัวอย่าง : aaa@gmail.com" id="email"
-                        onkeypress="return (event.charCode >= 64 && event.charCode <= 90) || (event.charCode >= 95 && event.charCode <= 122) || (event.charCode >= 45 && event.charCode <= 57)">
+                    <input class="input is-2" type="text" placeholder="ตัวอย่าง : aaa@gmail.com" id="email" onkeypress="return (event.charCode >= 64 && event.charCode <= 90) || (event.charCode >= 95 && event.charCode <= 122) || (event.charCode >= 45 && event.charCode <= 57)">
                 </div>
             </div>
             <div class="row">
@@ -246,15 +270,13 @@
             <div class="row">
                 <div class="column is-6">
                     <label>เลขประจำตัวประชาชน หรือ เลขหนังสือเดินทาง</label>
-                    <input class="input is-2" type="text" placeholder="ตัวอย่าง : 1000020202020" id="textID"
-                        maxlength="13" onkeypress="return isNumber(event)">
+                    <input class="input is-2" type="text" placeholder="ตัวอย่าง : 1000020202020" id="textID" maxlength="13" onkeypress="return isNumber(event)">
                 </div>
             </div>
             <div class="row">
                 <div class="column is-6">
                     <label>เบอร์โทรศัพท์</label>
-                    <input class="input is-2" type="text" placeholder="ตัวอย่าง : 0911111111" id="call" maxlength="10"
-                        onkeypress="return isNumber(event)">
+                    <input class="input is-2" type="text" placeholder="ตัวอย่าง : 0911111111" id="call" maxlength="10" onkeypress="return isNumber(event)">
                 </div>
             </div>
         </div>

@@ -2,161 +2,185 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
-    integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
-  <link rel="stylesheet" type="text/css" href="../node_modules/bulma/css/bulma.css">
-  <link href="../node_modules/please-wait/build/please-wait.css" rel="stylesheet">
-  <link href="../node_modules/spinkit/css/spinkit.css" rel="stylesheet">
-  <link rel="shortcut icon" href="../img/logo.png" />
-  <title>ค้นหาพนักงาน</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="../node_modules/bulma/css/bulma.css">
+    <link href="../node_modules/please-wait/build/please-wait.css" rel="stylesheet">
+    <link href="../node_modules/spinkit/css/spinkit.css" rel="stylesheet">
+    <link rel="shortcut icon" href="../img/logo.png" />
+    <title>ค้นหาพนักงาน</title>
 </head>
 
 <body onload="getTRNSell()">
-  <script src="../node_modules/axios/dist/axios.min.js"></script>
-  <script type="text/javascript" src="../node_modules/jquery/dist/jquery.min.js"></script>
-  <script src="../node_modules/please-wait/build/please-wait.js"></script>
+    <script src="../node_modules/axios/dist/axios.min.js"></script>
+    <script type="text/javascript" src="../node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="../node_modules/please-wait/build/please-wait.js"></script>
+    <script>
+        var arraybrand = []
+        var arraymodel = []
+        var arraygenerateYear = []
+        var arraygear = []
+        var arraySalePrice = []
+        var data = []
+        var count = 0;
+        var delayInMilliseconds = 2000;
+        var loading_screen = pleaseWait({
+            backgroundColor: 'rgb(240, 240, 240)',
+            loadingHtml: "<div class='sk-spinner sk-spinner-double-bounce'><div class='sk-wandering-cubes'><div class='sk-cube sk-cube1'></div><div class='sk-cube sk-cube2'></div></div></div></div>",
+            template: "<div class='pg-loading-inner'><div class='pg-loading-center-outer'><div class='pg-loading-center-middle'><div class='pg-loading-html'></div></div></div></div>"
+        })
 
-  <script>
+        function getTRNSell() {
+            loadScreen("load")
+            var getName = localStorage.getItem("storageName");
+            var getLastName = localStorage.getItem("storageLastName");
+            var getDepartment = localStorage.getItem("storageDepartment");
+            document.getElementById("name").innerHTML = `<i class="fa fa-fw fa-user"></i> &nbsp;` + getName + " " + getLastName;
+            employee = getName + " " + getLastName;
+            if (getDepartment === "ซื้อ") {
+                document.getElementById("nav2").style.display = "none"
+                document.getElementById("nav3").style.display = "none"
+                document.getElementById("nav4").style.display = "none"
+                document.getElementById("nav6").style.display = "none"
+            } else if (getDepartment === "ขาย") {
+                document.getElementById("nav1").style.display = "none"
+                document.getElementById("nav3").style.display = "none"
+                document.getElementById("nav4").style.display = "none"
+                document.getElementById("nav6").style.display = "none"
+            } else if (getDepartment === "เดินทะเบียน") {
+                document.getElementById("nav1").style.display = "none"
+                document.getElementById("nav2").style.display = "none"
+                document.getElementById("nav4").style.display = "none"
+                document.getElementById("nav6").style.display = "none"
+            } else if (getDepartment === "ช่าง") {
+                document.getElementById("nav1").style.display = "none"
+                document.getElementById("nav2").style.display = "none"
+                document.getElementById("nav3").style.display = "none"
+                document.getElementById("nav6").style.display = "none"
+            } else if (getDepartment === "ประชาสัมพันธ์") {
+                document.getElementById("nav3").style.display = "none"
+                document.getElementById("nav4").style.display = "none"
+                document.getElementById("nav6").style.display = "none"
+            }
+            var dataCheck = {
+                type: "TRN_Sell"
+            }
+            axios.post("http://localhost:4001/get", dataCheck).then((res) => {
+                if (res.data) {
+                    for (i = 0; i < res.data.data.length; i++) {
+                        data = res.data.data
+                    }
+                    data.forEach(function(item, i) {
+                        cards = cards.add(createCard(item));
+                        count++
+                        loadScreen("loadSuc")
+                    });
+                }
+                if (count === res.data.data.length) {
 
-    var arraybrand = []
-    var arraymodel = []
-    var arraygenerateYear = []
-    var arraygear = []
-    var arraySalePrice = []
-    var data = []
-    var count = 0;
-    var delayInMilliseconds = 2000;
-    var loading_screen = pleaseWait({
-      backgroundColor: 'rgb(240, 240, 240)',
-      loadingHtml: "<div class='sk-spinner sk-spinner-double-bounce'><div class='sk-wandering-cubes'><div class='sk-cube sk-cube1'></div><div class='sk-cube sk-cube2'></div></div></div></div>",
-      template: "<div class='pg-loading-inner'><div class='pg-loading-center-outer'><div class='pg-loading-center-middle'><div class='pg-loading-html'></div></div></div></div>"
-    })
-    function getTRNSell() {
-      loadScreen("load")
-      var getName = localStorage.getItem("storageName");
-      var getLastName = localStorage.getItem("storageLastName");
-      var getDepartment = localStorage.getItem("storageDepartment");
-      document.getElementById("name").innerHTML = `<i class="fa fa-fw fa-user"></i> &nbsp;` + getName + " " + getLastName;
-      employee = getName + " " + getLastName;
-      var dataCheck = { type: "TRN_Sell" }
-      axios.post("http://localhost:4001/get", dataCheck).then((res) => {
-        if (res.data) {
-          for (i = 0; i < res.data.data.length; i++) {
-            data = res.data.data
-          }
-          data.forEach(function (item, i) {
-            cards = cards.add(createCard(item));
-            count++
-            loadScreen("loadSuc")
-          });
+                }
+            });
         }
-        if (count === res.data.data.length) {
-          
+
+        function createCard(cardData) {
+            var cardTemplate = [
+                '<div class="card">',
+                '<div class="card-content">',
+                '<p class="title">',
+                '<div class="columns">',
+                '<div class="column is-3">',
+                '<figure class="image is-256x256">',
+                '<img src=', cardData.picture.pic2, ' width="50">',
+                '</figure>',
+                '</div>',
+                '<div class="column is-two-fifths">',
+                '<p class="title is-3">แบรนด์:  ',
+                cardData.brand || 'No data provided', '</p>',
+                '<p class="title is-3">รุ่น: ',
+                cardData.model || 'No data provided', '</p>',
+                '<p class="title is-3">ราคา:  ',
+                cardData.salePrice || 'No data provided', '</p>',
+                ' </div >',
+                '<div class="column is-two-fifths">',
+                '<p class="title is-3">ปี:  ',
+                cardData.generateYear || 'No data provided', '</p>',
+                '<p class="title is-3">เกียร์: ',
+                cardData.gear || 'No data provided', '</p>',
+                '<button class="button is-info is-large" id=' + cardData.ID_TRN_Sell, ' onclick="loadPage(event)">ซื้อ</button>',
+                '</div >',
+                '</div >',
+                '</p >',
+                '</div >',
+                '</div >',
+                '<br>',
+            ];
+
+            return $(cardTemplate.join(''));
         }
-      });
-    }
+        var cards = $();
 
-    function createCard(cardData) {
-      var cardTemplate = [
-        '<div class="card">',
-        '<div class="card-content">',
-        '<p class="title">',
-        '<div class="columns">',
-        '<div class="column is-3">',
-        '<figure class="image is-256x256">',
-        '<img src=', cardData.picture.pic2, ' width="50">',
-        '</figure>',
-        '</div>',
-        '<div class="column is-two-fifths">',
-        '<p class="title is-3">แบรนด์:  ',
-        cardData.brand || 'No data provided', '</p>',
-        '<p class="title is-3">รุ่น: ',
-        cardData.model || 'No data provided', '</p>',
-        '<p class="title is-3">ราคา:  ',
-        cardData.salePrice || 'No data provided', '</p>',
-        ' </div >',
-        '<div class="column is-two-fifths">',
-        '<p class="title is-3">ปี:  ',
-        cardData.generateYear || 'No data provided', '</p>',
-        '<p class="title is-3">เกียร์: ',
-        cardData.gear || 'No data provided', '</p>',
-        '<button class="button is-info is-large" id=' + cardData.ID_TRN_Sell, ' onclick="loadPage(event)">ซื้อ</button>',
-        '</div >',
-        '</div >',
-        '</p >',
-        '</div >',
-        '</div >',
-        '<br>',
-      ];
+        setTimeout(function() {
+            $(function() {
+                $('#show').append(cards);
+            });
+        }, delayInMilliseconds);
 
-      return $(cardTemplate.join(''));
-    }
-    var cards = $();
+        function loadPage(e) {
+            var idCheck = e.path[0].id
+            localStorage.setItem("sendID", idCheck);
+            console.log(idCheck)
+            window.location.href = "./ข้อมูลรถ.html"
+        }
 
-    setTimeout(function () {
-      $(function () {
-        $('#show').append(cards);
-      });
-    }, delayInMilliseconds);
+        function loadScreen(a) {
+            if (a === "loadSuc") {
+                loading_screen.finish()
+            }
+        }
+    </script>
+    <nav class="navbar is-info" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+            <a class="navbar-item" href="./หน้าหลัก.html">
+                <img src="../img/logo.png" width="112" height="28" />
+            </a>
 
-    function loadPage(e) {
-      var idCheck = e.path[0].id
-      localStorage.setItem("sendID", idCheck);
-      console.log(idCheck)
-      window.location.href = "./ข้อมูลรถ.html"
-    }
-    function loadScreen(a) {
-      if (a === "loadSuc") {
-        loading_screen.finish()
-      }
-    }
-
-  </script>
-  <nav class="navbar is-info" role="navigation" aria-label="main navigation">
-    <div class="navbar-brand">
-      <a class="navbar-item" href="./หน้าหลัก.html">
-        <img src="../img/logo.png" width="112" height="28" />
-      </a>
-
-      <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
-        data-target="navbarBasicExample">
-        <span aria-hidden="true"></span> <span aria-hidden="true"></span>
-        <span aria-hidden="true"></span>
-      </a>
-    </div>
-
-    <div id="navbarBasicExample" class="navbar-menu">
-      <div class="navbar-start">
-        <a class="navbar-item" href="./หน้าหลัก.html">หน้าหลัก</a>
-        <a class="navbar-item is-active" href="./ค้นหารถ.html">ซื้อรถ</a>
-        <a class="navbar-item" href="./หน้าขาย1.html">ขายรถ</a>
-        <a class="navbar-item" href="./เดินทะเบียน.html">เดินทะเบียน</a>
-        <a class="navbar-item" href="./ซ่อมรถ.html">ซ่อม</a>
-        <a class="navbar-item" href="./ข้อมูลลูกค้า.html">ข้อมูลลูกค้า</a>
-        <a class="navbar-item" href="./จัดการพนักงาน.html">จัดการพนักงาน</a>
-      </div>
-      <div class="navbar-end">
-        <div class="navbar-item has-dropdown is-hoverable">
-          <a class="navbar-link" id="name">
-            <i class="fa fa-fw fa-user"></i> &nbsp; ชื่อผู้ใช้
-          </a>
-
-          <div class="navbar-dropdown">
-            <a class="navbar-item" href="../ล็อกอิน.html"> ออกจากระบบ </a>
-          </div>
+            <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+                <span aria-hidden="true"></span> <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
         </div>
-      </div>
-    </div>
-  </nav>
 
-  <br>
-  <div class="container">
-    <h1 class="title is-1">รายการรถ</h1>
-    <div id="show"></div>
-  </div>
+        <div id="navbarBasicExample" class="navbar-menu">
+            <div class="navbar-start">
+                <a class="navbar-item" href="./หน้าหลัก.html">หน้าหลัก</a>
+                <a class="navbar-item is-active" id="nav1" href="./ค้นหารถ.html">ซื้อรถ</a>
+                <a class="navbar-item" id="nav2" href="./หน้าขาย1.html">ขายรถ</a>
+                <a class="navbar-item" id="nav3" href="./เดินทะเบียน.html">เดินทะเบียน</a>
+                <a class="navbar-item" id="nav4" href="./ซ่อมรถ.html">ซ่อม</a>
+                <a class="navbar-item" id="nav5" href="./ข้อมูลลูกค้า.html">ข้อมูลลูกค้า</a>
+                <a class="navbar-item" id="nav6" href="./จัดการพนักงาน.html">จัดการพนักงาน</a>
+            </div>
+            <div class="navbar-end">
+                <div class="navbar-item has-dropdown is-hoverable">
+                    <a class="navbar-link" id="name">
+                        <i class="fa fa-fw fa-user"></i> &nbsp; ชื่อผู้ใช้
+                    </a>
+
+                    <div class="navbar-dropdown">
+                        <a class="navbar-item" href="../ล็อกอิน.html"> ออกจากระบบ </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <br>
+    <div class="container">
+        <h1 class="title is-1">รายการรถ</h1>
+        <div id="show"></div>
+    </div>
 </body>
 
 </html>
